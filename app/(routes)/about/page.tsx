@@ -21,20 +21,20 @@ const AboutUs = () => {
     {
       id: 1,
       name: "Nigel Nunoo",
-      title: "Chief Executive Officer",
+      title: "Founder & CEO",
       image: "/new_images/image 19.png",
       credentials: "MBA, CFA, CFE",
       imageAlt: "Nigel Nunoo",
       description: `Over 20 years of experience in global financial services and investment strategy.`,
       bio1: `Nigel Nunoo is an entrepreneurial international business executive with over 20 years of experience driving profitable growth and transformation in the global financial services industry. A proven strategist and visionary, Nigel has designed and implemented corporate, business, investment, and risk management strategies that have delivered measurable success across the U.S., Africa, and Europe.`,
       bio2: "Over 20 years of experience in global financial services and investment strategy.\n\nNigel has pioneered the institutionalization process with over 25 years of experience in middle-market M&A, private equity and investment banking. Through his career, he has closed hundreds of transactions with a particular focus on cross-border M&A, Africa, minerals, resources, business franchises, and agri-businesses.",
-      bio3: `As Chief Executive Officer of African Aspirations, Nigel provides overall vision and leadership for the Group and its three subsidiaries; Business Brokerage, Business Consulting, and Business Funding. His mission is to position African Aspirations as a premier Pan-African business development platform that empowers entrepreneurs, investors, and corporations to grow and thrive across markets.`,
+      bio3: `As Founder of African Aspirations, Nigel provides overall vision and leadership for the Group and its three subsidiaries; Business Brokerage, Business Consulting, and Business Funding. His mission is to position African Aspirations as a premier Pan-African business development platform that empowers entrepreneurs, investors, and corporations to grow and thrive across markets.`,
       bio4: `Respected for his professional rigor and global credentials; MBA, Chartered Financial Analyst (CFA), and Fellow of the Society of Actuaries (FSA), Nigel ensures that African Aspirations operates with world-class standards of excellence. Above all, his goal is to ensure that every SME achieves its aspirations through transformative, professional, and impactful partnerships.`,
     },
     {
       id: 2,
       name: "Richard Osei",
-      title: "Chief Operations Officer",
+      title: "COO",
       image: "/new_images/image 22.png",
       credentials: "MBA, CPA, CIA",
       imageAlt: "Richard Osei",
@@ -69,20 +69,19 @@ const AboutUs = () => {
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, ease: "easeOut" }}
-        className="pt-40"
+        className="pt-28 md:pt-24"
       >
         <Breadcrumbs />
 
         <div className="w-full">
-          <div className="flex w-full items-center justify-center border-[#CCCCCCB2] border-b py-4 md:py-[67px]">
-            <p
-              className="font-bold text-2xl text-[#739F46] md:text-[85px]"
-              style={{
-                fontFamily: "Inter",
-              }}
-            >
-              About African Aspirations
-            </p>
+          <div className="flex w-full items-center justify-center border-[#CCCCCCB2] border-b py-10 md:py-[67px]">
+            <Image
+              src="/new_images/image 14.svg"
+              alt="African Aspirations"
+              width={424}
+              height={206}
+              className="h-24 w-auto md:h-48"
+            />
           </div>
         </div>
 
@@ -118,38 +117,29 @@ const AboutUs = () => {
                   className="font-semibold text-[#000000] text-xl md:text-2xl"
                   style={{ fontFamily: "Inter" }}
                 >
-                  African Aspirations was founded on the belief that{" "}
-                  <span
-                    className="text-[#739F46]"
-                    style={{ fontFamily: "Inter" }}
-                  >
-                    Africa's full potential will be realized when all of its
-                    people achieve their individual and collective aspirations.
-                  </span>
+                  African Aspirations exists to help business owners turn their
+                  life’s work into lasting value.
                 </h2>
 
                 <div className="space-y-4 text-[#000] leading-relaxed">
                   <p className="font-normal text-[#000] text-base md:text-xl">
-                    Inspired by Dr. Kwame Nkrumah's vision of{" "}
-                    <strong>a united and empowered Africa</strong>, our founders
-                    set out to bridge the gap between African enterprises and
-                    global opportunity.
+                    Every business owner faces a journey: build, grow, strengthen,
+                    and eventually decide what happens next. We believe the most
+                    important objective is to maximize return on investment when
+                    the time comes to exit.
                   </p>
 
                   <p className="font-normal text-[#000] text-base md:text-xl">
-                    Through our three integrated divisions:
-                  </p>
-
-                  <p className="font-semibold text-[#739F46] text-base md:text-xl">
-                    Business Consulting | Business Funding | Business Brokerage
+                    Through our integrated approach to consulting, funding,
+                    valuation, and brokerage, we help founders create businesses
+                    that are institution-ready, fundable, valuable, and ready for
+                    a successful transition.
                   </p>
 
                   <p className="font-normal text-[#636466] text-base md:text-xl">
-                    We connect business owners, investors, and advisors across
-                    Africa and the world. Rooted in Ghana and expanding across
-                    the continent. African Aspirations is redefining what it
-                    means to build, grow, and scale African businesses with
-                    structure, strategy, and sustainable value.
+                    Rooted in Ghana and connected to global opportunity, African
+                    Aspirations helps entrepreneurs build enterprises that can
+                    thrive in the present and endure beyond the founder.
                   </p>
                 </div>
               </div>

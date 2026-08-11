@@ -4,9 +4,7 @@ import * as motion from "motion/react-client";
 import Image from "next/image";
 import { useEffect } from "react";
 import BottomHero from "@/components/BottomHero";
-import Breadcrumbs from "@/components/bread-crumbs";
 import ClientNavbar from "@/components/client-navbar";
-import FloatingArrow from "@/components/floating-arrow";
 import Footer from "@/components/footer";
 import HeroSection from "@/components/HeroSection";
 
@@ -81,12 +79,10 @@ export default function BusinessBrokeragePage() {
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, ease: "easeOut" }}
-        className="pt-40"
+        className="pt-24 md:pt-20"
       >
-        <Breadcrumbs />
         <HeroSection title="Risk Management" img="/new_images/image 16.png" />
       </motion.div>
-      <FloatingArrow />
 
       {/* <div className="w-full -mt-32 hidden md:flex">
         <Image
@@ -103,10 +99,9 @@ export default function BusinessBrokeragePage() {
         <div className="mx-auto max-w-[90rem] px-4 md:px-8">
           <div className="mx-auto">
             <p className="font-thin text-3xl text-[#1E1E1E] leading-relaxed">
-              Our Risk Management practice helps organizations view risk as both
-              a defensive and offensive tool for growth. We implement frameworks
-              that balance protection and performance through robust governance
-              and analytical rigor.
+              Good risk management enables growth rather than slowing it down. It
+              helps owners protect what they have built while creating the
+              discipline needed to scale with confidence.
             </p>
           </div>
         </div>

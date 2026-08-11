@@ -2,13 +2,12 @@
 
 import * as motion from "motion/react-client";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import BottomCTASection from "@/components/bottom-cta-section";
-import Breadcrumbs from "@/components/bread-crumbs";
 import ClientNavbar from "@/components/client-navbar";
-import FloatingArrow from "@/components/floating-arrow";
 import Footer from "@/components/footer";
 import PuzzleHeroSection from "@/components/PuzzleHeroSection";
+import { cn } from "@/lib/utils";
 
 const _businessBrokerageServices = [
   {
@@ -56,7 +55,9 @@ out to serious investors and buyers.`,
 
 const services = [
   {
+    eyebrow: "For Sellers",
     title: "For African Business Sellers",
+    body: "An African marketplace for business owners to sell their business, or a stake in it, to serious investors. Through our relationship with Transworld Business Advisors — the world's largest business brokerage network — we connect African owners with buyers across the globe.",
     image: "/new_images/image 25.png",
     items: [
       "Reach vetted, capital-ready buyers in global markets",
@@ -67,9 +68,10 @@ const services = [
     ],
   },
   {
+    eyebrow: "For Buyers",
     title: "For Buyers of African Businesses",
+    body: "We provide access to vetted, cash-flowing African businesses across multiple sectors. Our buyer clients benefit from proprietary listings, verified seller information, and expert guidance through due diligence and negotiations.",
     image: "/new_images/image 25.png",
-
     items: [
       "Access curated, high-potential ventures",
       "Get support for due diligence & financing",
@@ -79,9 +81,10 @@ const services = [
     ],
   },
   {
+    eyebrow: "For Global Investors",
     title: "Africans Looking to Invest Globally",
+    body: "We help African investors diversify their portfolios internationally through franchise opportunities, business acquisitions, and cross-border partnerships, with exposure to stable, high-growth markets.",
     image: "/new_images/image 25.png",
-
     items: [
       "Invest in vetted international businesses",
       "Enter global markets through secure pathways",
@@ -92,30 +95,13 @@ const services = [
   },
 ];
 
-const reports = [
-  {
-    title: "Expert Valuation Reports",
-    image: "/new_images/freepik__talk.png",
-    heading: "You’ve built a great business. Find out what it’s really worth.",
-    content: `
-Understanding what your business is truly worth is essential for raising capital, negotiating with investors, or preparing for a sale. African Aspirations provides a clear, defensible valuation that removes guesswork and gives you the confidence to make informed decisions.
-Why it matters: Most African business owners rely on informal estimates, often leading to poor negotiations, undervalued sales, or missed investment opportunities. A professional valuation changes that by providing clarity and credibility buyers and investors trust.`,
-  },
-  {
-    title: "Pitch Book / Confidential Information Memorandum (CIM)",
-    image: "/new_images/freepik__talk__94008.png",
-    heading: `Let us prepare a Pitch Book that sells your business with clarity, confidence, and professionalism.`,
-    content: `
-Preparing to sell your business shouldn’t be stressful. African Aspirations creates professional, investor-ready CIMs that present your company’s true value and attract serious local and international buyers. Each Pitch Book is crafted to highlight your strengths, communicate your numbers clearly, and position your business competitively in the market.`,
-  },
+const brokerageStats = [
+  { value: "250", label: "Global Offices" },
+  { value: "600,000+", label: "Active Investor Network" },
+  { value: "1,000+", label: "Global Active Agents" },
 ];
 
 export default function BusinessBrokeragePage() {
-  const [openItem, setOpenItem] = useState<number | null>(null);
-  const toggleItem = (index: number) => {
-    setOpenItem(openItem === index ? null : index);
-  };
-
   useEffect(() => {
     // Scroll to specific section if hash is present
     const hash = window.location.hash.replace("#", "");
@@ -129,53 +115,6 @@ export default function BusinessBrokeragePage() {
     }
   }, []);
 
-  const slideInRight = {
-    hidden: { opacity: 0, x: 50 },
-    visible: {
-      opacity: 1,
-      x: 0,
-      transition: {
-        duration: 0.8,
-        ease: "easeOut",
-      },
-    },
-  };
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.2,
-        delayChildren: 0.3,
-      },
-    },
-  };
-
-  const _itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.6,
-        ease: "easeOut",
-      },
-    },
-  };
-
-  const slideInLeft = {
-    hidden: { opacity: 0, x: -50 },
-    visible: {
-      opacity: 1,
-      x: 0,
-      transition: {
-        duration: 0.8,
-        ease: "easeOut",
-      },
-    },
-  };
-
   return (
     <div className="min-h-screen bg-white">
       <ClientNavbar />
@@ -184,153 +123,113 @@ export default function BusinessBrokeragePage() {
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, ease: "easeOut" }}
-        className="pt-40"
+        className="pt-24 md:pt-20"
       >
-        <Breadcrumbs />
-
         <PuzzleHeroSection
           title="Business Brokerage"
+          subtitle="Have you ever considered selling your business?"
           img="/new_images/Union.png"
         />
       </motion.div>
-      <FloatingArrow />
 
-      <motion.div
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true }}
-        variants={containerVariants}
-        className="relative h-[580px] w-full overflow-hidden bg-gradient-to-r from-[#000000] via-[#000] to-[#739F46]"
-      >
-        <div className="mx-auto grid h-full max-w-[90rem] grid-cols-1 px-4 md:grid-cols-2 md:px-8">
-          {/* Left Section with Curved Edge */}
-          <motion.div
-            variants={slideInLeft as any}
-            className="relative flex h-full items-center justify-center"
-          >
-            <motion.img
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.7, delay: 0.2 }}
-              src="/new_images/Group.png"
-              alt="Transworld Logo"
-              className="z-10 h-full w-full object-contain"
-            />
-          </motion.div>
-
-          {/* Right Section */}
-          <motion.div
-            variants={slideInRight as any}
-            className="flex max-w-[580px] flex-col justify-center text-white"
-          >
-            <h2
-              className="font-bold text-xl leading-snug md:text-[30px]"
-              style={{
-                fontFamily: "Inter",
-              }}
-            >
-              We are building a{" "}
-              <span className="font-medium text-[#8FDC40B2]">
-                Pan-African marketplace{" "}
-              </span>
-              for businesses, connected to the rest of the world{" "}
-              {/* world’s largest business brokerage{" "}
-            <span className="underline decoration-[#F2BA00] decoration-[0.8px] font-bold">
-              Transworld Business Advisors (TBA)
-            </span> */}
-            </h2>
-            <motion.p
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.4 }}
-              className="mt-4 font-light text-[#FFFFFF] text-base leading-relaxed md:text-[24px]"
-            >
-              African Aspirations helps you understand your company’s true
-              value, connect with serious investors, and navigate the process
-              with confidence, so you can make informed decisions and unlock the
-              full potential of your business.
-            </motion.p>
-          </motion.div>
-        </div>
-      </motion.div>
-      <div className="w-full bg-[#F1FBE6] py-7 md:py-24">
-        <div className="mx-auto flex max-w-[90rem] flex-col items-center justify-center px-4 md:px-8">
-          <h1
-            className="text-center text-[#000000] text-xl md:text-[40px]"
-            style={{
-              fontFamily: "Inter",
-            }}
-          >
-            Our Simple, Confidential Brokerage process
-          </h1>
+      <div className="w-full bg-white py-16">
+        <div className="mx-auto flex max-w-[90rem] flex-col items-center px-4 text-center md:px-8">
+          <p className="mb-3 font-semibold text-[#739F46] text-sm uppercase tracking-[0.25em]">
+            Our Simple, Confidential Brokerage Process
+          </p>
+          <h2 className="max-w-3xl font-bold text-2xl text-black leading-snug md:text-4xl">
+            Every business owner eventually faces a defining question: what
+            comes next?
+          </h2>
+          <p className="mt-4 max-w-2xl text-[#444] text-base leading-relaxed md:text-lg">
+            We help owners prepare for that moment with clarity, positioning,
+            and access to serious buyers so that the exit is not rushed,
+            reactive, or undervalued.
+          </p>
           <motion.img
             initial={{ opacity: 0, scale: 0.9 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.7, delay: 0.2 }}
             src="/new_images/bbn1.png"
-            alt="Transworld Logo"
-            className="z-10 h-full w-full object-contain"
+            alt="Diagram of the brokerage process"
+            className="z-10 mt-10 h-auto w-full max-w-4xl object-contain"
           />
         </div>
       </div>
 
-      <section className="bg-white py-16">
+      <section className="bg-white py-20">
         <div className="mx-auto max-w-[90rem] px-4 md:px-8">
-          <div className="space-y-12">
-            {services.map((service, index) => (
-              <div key={index}>
-                <h3
-                  className="mb-8 w-full font-semibold text-2xl text-[#739F46] md:mb-14 md:text-6xl"
-                  style={{ fontFamily: "Inter" }}
+          <div className="mx-auto mb-16 max-w-2xl text-center">
+            <h2 className="font-bold text-3xl text-black md:text-5xl">
+              Built for every side of the deal
+            </h2>
+            <p className="mt-4 text-[#636466] text-lg leading-relaxed">
+              Whether you're selling, buying, or investing across borders, we
+              bring the same rigor and the same network to every transaction.
+            </p>
+          </div>
+
+          <div className="space-y-16 md:space-y-24">
+            {services.map((service, index) => {
+              const isDark = index % 2 === 0;
+              return (
+                <div
+                  key={service.title}
+                  className={cn(
+                    "flex flex-col items-center gap-10 rounded-[32px] p-6 md:gap-16 md:p-12 lg:flex-row",
+                    index % 2 === 1 && "lg:flex-row-reverse",
+                    isDark ? "bg-[#015A1A]" : "bg-white",
+                  )}
                 >
-                  <span
-                    className="font-semibold text-2xl text-[#739F46] md:text-6xl"
-                    style={{ fontFamily: "Inter" }}
-                  >
-                    {index + 1}.
-                  </span>{" "}
-                  {service.title}
-                </h3>
-                {/* Left Side - Image */}
-                <div className="flex flex-col items-stretch overflow-hidden bg-white transition-all duration-300 hover:translate-y-[-2px] md:gap-20 lg:flex-row">
-                  <div className="relative h-56 lg:w-2/5">
+                  <div className="relative h-64 w-full overflow-hidden rounded-3xl lg:h-[380px] lg:w-1/2">
                     <Image
                       src={service.image || "/placeholder.svg"}
                       alt={service.title}
                       fill
-                      className="h-full rounded-3xl object-cover"
+                      className="object-cover"
                     />
                   </div>
 
-                  {/* Right Side - Content */}
-                  <div className="flex flex-1 flex-col justify-center px-8 lg:px-10">
-                    <div className="space-y-4">
-                      {service.items.map((item, itemIndex) => (
-                        <div key={itemIndex} className="flex items-start">
-                          <div>
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              width="24"
-                              height="24"
-                              viewBox="0 0 24 24"
-                            >
-                              <title>information_line</title>
-                              <g id="information_line" fill="none">
-                                <path d="M24 0v24H0V0zM12.593 23.258l-.011.002-.071.035-.02.004-.014-.004-.071-.035c-.01-.004-.019-.001-.024.005l-.004.01-.017.428.005.02.01.013.104.074.015.004.012-.004.104-.074.012-.016.004-.017-.017-.427c-.002-.01-.009-.017-.017-.018m.265-.113-.013.002-.185.093-.01.01-.003.011.018.43.005.012.008.007.201.093c.012.004.023 0 .029-.008l.004-.014-.034-.614c-.003-.012-.01-.02-.02-.022m-.715.002a.023.023 0 0 0-.027.006l-.006.014-.034.614c0 .012.007.02.017.024l.015-.002.201-.093.01-.008.004-.011.017-.43-.003-.012-.01-.01z" />
-                                <path
-                                  fill="#000000"
-                                  d="M12 2c5.523 0 10 4.477 10 10s-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2m0 2a8 8 0 1 0 0 16 8 8 0 0 0 0-16m-.01 6c.558 0 1.01.452 1.01 1.01v5.124A1 1 0 0 1 12.5 18h-.49A1.01 1.01 0 0 1 11 16.99V12a1 1 0 1 1 0-2zM12 7a1 1 0 1 1 0 2 1 1 0 0 1 0-2"
-                                />
-                              </g>
-                            </svg>
-                          </div>
-
+                  <div className="w-full lg:w-1/2">
+                    <p
+                      className={cn(
+                        "mb-3 font-semibold text-sm uppercase tracking-[0.25em]",
+                        isDark ? "text-[#A9D48C]" : "text-[#739F46]",
+                      )}
+                    >
+                      {service.eyebrow}
+                    </p>
+                    <h3
+                      className={cn(
+                        "mb-4 font-bold text-2xl md:text-3xl",
+                        isDark ? "text-white" : "text-black",
+                      )}
+                    >
+                      {service.title}
+                    </h3>
+                    <p
+                      className={cn(
+                        "mb-6 text-base leading-relaxed md:text-lg",
+                        isDark ? "text-white/80" : "text-[#444]",
+                      )}
+                    >
+                      {service.body}
+                    </p>
+                    <div className="space-y-3">
+                      {service.items.map((item) => (
+                        <div key={item} className="flex items-start gap-3">
                           <span
-                            className="ml-4 text-[#000000] text-lg leading-relaxed"
-                            style={{ fontFamily: "Inter" }}
+                            className={cn(
+                              "mt-2 h-1.5 w-1.5 shrink-0 rounded-full",
+                              isDark ? "bg-[#A9D48C]" : "bg-[#739F46]",
+                            )}
+                          />
+                          <span
+                            className={cn(
+                              "text-base leading-relaxed",
+                              isDark ? "text-white/90" : "text-[#333]",
+                            )}
                           >
                             {item}
                           </span>
@@ -339,119 +238,44 @@ export default function BusinessBrokeragePage() {
                     </div>
                   </div>
                 </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-[90rem] px-4 pb-20 md:px-8">
+        <div className="rounded-[32px] border border-[#DCEBC8] bg-white p-10 md:p-16">
+          <div className="mx-auto flex max-w-2xl flex-col items-center text-center">
+            <Image
+              src="/new_images/TBALogo_origin.webp"
+              alt="Transworld Business Advisors logo"
+              width={200}
+              height={60}
+              className="mb-6 w-[160px] object-contain md:w-[200px]"
+            />
+            <h3 className="font-bold text-2xl text-black md:text-4xl">
+              Backed by the world's largest business brokerage network
+            </h3>
+            <p className="mt-4 text-[#636466] leading-relaxed">
+              We operate Transworld Business Advisors Ghana — the Master
+              Franchise for Africa.
+            </p>
+          </div>
+          <div className="mt-10 grid grid-cols-1 gap-8 sm:grid-cols-3">
+            {brokerageStats.map((stat) => (
+              <div key={stat.label} className="text-center">
+                <p className="font-bold text-4xl text-[#015A1A] md:text-5xl">
+                  {stat.value}
+                </p>
+                <p className="mt-2 text-[#636466] text-sm uppercase tracking-[0.15em]">
+                  {stat.label}
+                </p>
               </div>
             ))}
           </div>
         </div>
       </section>
-      <section className="bg-[#015A1A] py-16" id="pitch-books">
-        <div
-          className="mx-auto max-w-[90rem] px-4 md:px-8"
-          id="business-valuation"
-        >
-          <div className="mx-auto max-w-4xl">
-            {/* Accordion */}
-            <div className="space-y-4">
-              {reports.map((service, index) => (
-                <div
-                  key={index}
-                  className="overflow-hidden border-b transition-all duration-300"
-                >
-                  {/* Accordion Header */}
-                  <button
-                    onClick={() => toggleItem(index)}
-                    className="flex w-full items-center py-4 text-left transition-all duration-300 hover:text-[#C4FFDA]"
-                  >
-                    <h3
-                      className="font-bold text-[#FFFFFF] text-xl"
-                      style={{
-                        fontFamily: "Inter",
-                      }}
-                    >
-                      {service.title}
-                    </h3>
-                    <div className="ml-4 flex-shrink-0">
-                      {openItem === index ? (
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="24"
-                          height="24"
-                          viewBox="0 0 24 24"
-                        >
-                          <title>arrow_up_line</title>
-                          <g id="arrow_up_line" fill="none" fill-rule="nonzero">
-                            <path d="M24 0v24H0V0h24ZM12.593 23.258l-.011.002-.071.035-.02.004-.014-.004-.071-.035c-.01-.004-.019-.001-.024.005l-.004.01-.017.428.005.02.01.013.104.074.015.004.012-.004.104-.074.012-.016.004-.017-.017-.427c-.002-.01-.009-.017-.017-.018Zm.265-.113-.013.002-.185.093-.01.01-.003.011.018.43.005.012.008.007.201.093c.012.004.023 0 .029-.008l.004-.014-.034-.614c-.003-.012-.01-.02-.02-.022Zm-.715.002a.023.023 0 0 0-.027.006l-.006.014-.034.614c0 .012.007.02.017.024l.015-.002.201-.093.01-.008.004-.011.017-.43-.003-.012-.01-.01-.184-.092Z" />
-                            <path
-                              fill="#739F46"
-                              d="M12.707 3.636a1 1 0 0 0-1.414 0L5.636 9.293a1 1 0 1 0 1.414 1.414L11 6.757V20a1 1 0 1 0 2 0V6.757l3.95 3.95a1 1 0 0 0 1.414-1.414l-5.657-5.657Z"
-                            />
-                          </g>
-                        </svg>
-                      ) : (
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="24"
-                          height="24"
-                          viewBox="0 0 24 24"
-                        >
-                          <title>arrow_down_fill</title>
-                          <g
-                            id="arrow_down_fill"
-                            fill="none"
-                            fill-rule="nonzero"
-                          >
-                            <path d="M24 0v24H0V0h24ZM12.593 23.258l-.011.002-.071.035-.02.004-.014-.004-.071-.035c-.01-.004-.019-.001-.024.005l-.004.01-.017.428.005.02.01.013.104.074.015.004.012-.004.104-.074.012-.016.004-.017-.017-.427c-.002-.01-.009-.017-.017-.018Zm.265-.113-.013.002-.185.093-.01.01-.003.011.018.43.005.012.008.007.201.093c.012.004.023 0 .029-.008l.004-.014-.034-.614c-.003-.012-.01-.02-.02-.022Zm-.715.002a.023.023 0 0 0-.027.006l-.006.014-.034.614c0 .012.007.02.017.024l.015-.002.201-.093.01-.008.004-.011.017-.43-.003-.012-.01-.01-.184-.092Z" />
-                            <path
-                              fill="#739F46"
-                              d="M10.5 16.035 7.404 12.94a1.5 1.5 0 1 0-2.122 2.121l5.657 5.657a1.5 1.5 0 0 0 2.122 0l5.657-5.656a1.5 1.5 0 1 0-2.122-2.122L13.5 16.035V4.5a1.5 1.5 0 0 0-3 0v11.535Z"
-                            />
-                          </g>
-                        </svg>
-                      )}
-                    </div>
-                  </button>
-
-                  <div
-                    className={`flex flex-col items-center overflow-hidden bg-white px-4 transition-all duration-500 ease-in-out md:flex-row ${
-                      openItem === index
-                        ? "max-h-[2000px] opacity-100"
-                        : "max-h-0 opacity-0"
-                    }`}
-                  >
-                    <div className="h-full w-full md:w-[999px]">
-                      <img
-                        src={service?.image}
-                        alt="Diagram showing the African Aspirations 'plug' connecting to 100+ vetted world-class solution providers for business institutionalization, including Accounting, HR, Marketing, Legal, and Franchising."
-                        className="h-full w-full object-contain"
-                      />
-                    </div>
-                    <div className="p-6">
-                      <p
-                        className="mb-4 font-light text-[#739F46] text-base leading-relaxed md:text-4xl"
-                        style={{
-                          fontFamily: "Inter",
-                        }}
-                      >
-                        {service.heading}
-                      </p>
-
-                      {/* Content */}
-                      <div className="space-y-2">
-                        <div className="flex items-center">
-                          <span className="text-[#81878A] text-sm">
-                            {service.content}
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* <div className="w-full -mt-32 hidden md:flex">
         <Image
           src={"/new_images/Meliuk-liuk.svg"}

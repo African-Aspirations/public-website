@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 
-import { CreateBillBoardModal } from "../modals/create-billboad-modal";
 import { CreateCategoryModal } from "../modals/create-category-modal";
 import { CreateProductModal } from "../modals/create-product-modal";
 import { EditProductModal } from "../modals/edit-product-modal";
@@ -20,7 +19,6 @@ export const ModalProvider = () => {
 
   return (
     <>
-      <CreateBillBoardModal />
       <CreateProductModal />
       <EditProductModal />
       <CreateCategoryModal />

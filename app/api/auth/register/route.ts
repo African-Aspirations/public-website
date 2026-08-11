@@ -1,8 +1,12 @@
 import bcrypt from "bcrypt";
 import { NextResponse } from "next/server";
+import { requireSession } from "@/lib/auth-session";
 import { db } from "@/utils/turso";
 
 export const POST = async (req: Request, _res: Response) => {
+  const { response: unauthorized } = await requireSession();
+  if (unauthorized) return unauthorized;
+
   try {
     const { name, email, password } = await req.json();
 

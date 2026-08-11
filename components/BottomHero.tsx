@@ -5,6 +5,7 @@ const BottomHero = ({
   title,
   buttonTitle,
   backgroundImage,
+  backgroundPosition = "center",
   titleContainerClass,
   link,
 }: any) => {
@@ -26,29 +27,26 @@ const BottomHero = ({
       whileInView="visible"
       viewport={{ once: true }}
       variants={fadeInUp as any}
-      className="relative flex h-[633px] items-end md:items-center"
+      className="relative flex h-[300px] items-center justify-center overflow-hidden"
       style={{
         backgroundImage: `url(${backgroundImage})`,
         backgroundSize: "cover",
-        backgroundPosition: "center",
+        backgroundPosition,
       }}
       href={link}
       target="_blank"
       rel="noopener"
     >
       {/* Black fading gradient overlay */}
-      <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/50 to-transparent" />
+      <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/60 to-black/10" />
 
       {/* Content */}
-      <div className="mx-auto w-full max-w-[90rem] px-4 md:px-8">
+      <div className="relative z-10 mx-auto flex w-full max-w-[90rem] flex-col items-start px-4 md:px-8">
         <div
-          className={cn(
-            "relative z-10 max-w-[471px] space-y-8",
-            titleContainerClass,
-          )}
+          className={cn("flex max-w-2xl flex-col items-start gap-6", titleContainerClass)}
         >
           <p
-            className="font-bold text-3xl text-white leading-snug md:text-[54px]"
+            className="font-bold text-3xl text-white leading-snug md:text-[42px]"
             style={{
               fontFamily: "Inter",
             }}

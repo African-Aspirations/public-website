@@ -35,7 +35,7 @@ const Footer = () => {
                 href="tel: +233030 398 2318"
                 className="font-extralight text-[15px] text-white hover:text-inherit hover:no-underline"
               >
-                030 398 2318
+                +233 030 398 2318
                 {/* +233-505-099427 | +1-973-204-5796 */}
               </a>
             </div>
@@ -56,7 +56,7 @@ const Footer = () => {
         {/* Links */}
         <div>
           <Link
-            href="/our-specialties"
+            href="#footer"
             className="group relative mb-4 inline-block font-bold text-[15px] text-white hover:text-[#007426]"
           >
             Stakeholders
@@ -79,15 +79,15 @@ const Footer = () => {
               { name: "For Sellers", href: "/business-brokerage" },
               {
                 name: "For Buyers",
-                href: "/business-brokerage",
+                href: "/listings",
               },
               {
                 name: "For Investors",
-                href: "/investment-and-asset-liability-management",
+                href: "/business-funding",
               },
               {
                 name: "Business Advisors",
-                href: "/investment-and-asset-liability-management",
+                href: "/business-consulting",
               },
             ].map((link) => (
               <li key={link.name} className="text-[15px]">
@@ -114,16 +114,16 @@ const Footer = () => {
             {[
               {
                 name: "Valuation Report",
-                href: "/business-brokerage#business-valuation",
+                href: "/business-valuation",
               },
-              { name: "Pitch Books", href: "/business-brokerage#pitch-books" },
+              { name: "Pitch Books", href: "/business-brokerage" },
               {
                 name: "CIM",
-                // href: "/about",
+                href: "/business-brokerage",
               },
               {
                 name: "Industry Research Report",
-                href: "/business-brokerage#research-report",
+                href: "/business-brokerage",
               },
               // { name: "Media & insights", href: "/media-and-insights" },
               // { name: "Refer a Business" },
@@ -155,8 +155,11 @@ const Footer = () => {
                 name: "TBA Ghana",
                 href: "https://tworld.com.gh/",
               },
-              { name: "Services Providers" },
-              { name: "Refer a business" },
+              { name: "Services Providers", href: "/business-consulting" },
+              {
+                name: "Refer a business",
+                href: "https://forms.fillout.com/t/oEtePaNuxSus",
+              },
             ].map((link) => (
               <li key={link.name}>
                 <a
@@ -288,6 +291,13 @@ const Footer = () => {
           >
             Terms of Use
           </span>
+          <Link
+            href="/auth/login"
+            className="font-normal text-[#81878A] text-[15px] transition hover:text-white"
+            style={{ fontFamily: "Inter" }}
+          >
+            Admin
+          </Link>
         </div>
       </div>
     </footer>

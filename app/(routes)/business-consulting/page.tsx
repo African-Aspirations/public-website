@@ -3,12 +3,10 @@
 import * as motion from "motion/react-client";
 import { useEffect, useState } from "react";
 import BottomHero from "@/components/BottomHero";
-import Breadcrumbs from "@/components/bread-crumbs";
 import ClientNavbar from "@/components/client-navbar";
 import ConsultingCard, {
   type ConsultingCardProps,
 } from "@/components/consulting-card";
-import FloatingArrow from "@/components/floating-arrow";
 import Footer from "@/components/footer";
 import HeroSection from "@/components/HeroSection";
 
@@ -123,6 +121,7 @@ const consultingCards: Omit<ConsultingCardProps, "isExpanded" | "onToggle">[] =
     {
       id: 0,
       title: "Generalized Consulting",
+      href: "/business-consulting#institutionalization",
       description:
         "Build strong systems and structures with access to trusted partners and expert guidance (institutionalization)",
       image: "/new_images/68adea73590669a19f87111d_biz-img-1.webp.png",
@@ -156,36 +155,9 @@ const consultingCards: Omit<ConsultingCardProps, "isExpanded" | "onToggle">[] =
       ],
     },
     {
-      id: 1,
-      title: "M&A Support",
-      description:
-        "Navigate mergers, acquisitions, and business transitions with clarity and confidence.",
-      image: "/new_images/2.jpg",
-      imageAlt: "Business professional",
-      expandedDescription:
-        "Navigate mergers, acquisitions, and business transitions with clarity and confidence. Our expert advisors guide you through every step of the process.",
-      details: [
-        {
-          title: "Transaction Support:",
-          description: "Comprehensive support throughout the M&A lifecycle.",
-          color: "green",
-        },
-        {
-          title: "Due Diligence:",
-          description: "Thorough analysis to identify risks and opportunities.",
-          color: "gray",
-        },
-        {
-          title: "Valuation Services:",
-          description:
-            "Accurate business valuation for informed decision-making.",
-          color: "gold",
-        },
-      ],
-    },
-    {
       id: 2,
-      title: "Specialized Consulting",
+      title: "Advisory",
+      href: "/business-consulting/advisory",
       description:
         "Get expert advice in finance, risk, compliance, and investment to solve complex challenges.",
       image: "/new_images/14.jpg",
@@ -212,6 +184,37 @@ const consultingCards: Omit<ConsultingCardProps, "isExpanded" | "onToggle">[] =
           title: "Investment Strategy:",
           description: "Developing strategic investment approaches for growth.",
           color: "green",
+        },
+      ],
+    },
+    {
+      id: 1,
+      title: "Exit & Succession",
+      href: "/exit-and-succession",
+      description:
+        "Plan a business exit or succession with clarity — whether that means selling to a buyer or handing over to family.",
+      image: "/new_images/2.jpg",
+      imageAlt: "Business professional",
+      expandedDescription:
+        "Plan a business exit or succession with clarity — whether that means selling to a buyer or handing over to family or a trusted successor. The best transitions are prepared for early, not improvised at the last minute.",
+      details: [
+        {
+          title: "Succession Planning:",
+          description:
+            "Preparing the business and a successor for a family or internal handover.",
+          color: "green",
+        },
+        {
+          title: "Exit Readiness:",
+          description:
+            "Building the systems and governance that hold value beyond the founder.",
+          color: "gray",
+        },
+        {
+          title: "Valuation Baseline:",
+          description:
+            "Establishing a clear valuation so everyone knows what's being transferred.",
+          color: "gold",
         },
       ],
     },
@@ -246,16 +249,15 @@ export default function BusinessBrokeragePage() {
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, ease: "easeOut" }}
-        className="pt-40"
+        className="pt-24 md:pt-20"
       >
-        <Breadcrumbs />
 
         <HeroSection
           title="Business Consulting"
+          subtitle="One place for everything your business needs to operate, scale, and outlast its founder."
           img="/new_images/image 16.png"
         />
       </motion.div>
-      <FloatingArrow />
 
       {/* <div className="w-full -mt-32 hidden md:flex">
         <Image
@@ -267,25 +269,27 @@ export default function BusinessBrokeragePage() {
         />
       </div> */}
 
-      <section className="bg-[#015A1A] py-16">
+      <section className="bg-white py-16">
         <div className="mx-auto max-w-[90rem] px-4 md:px-8">
           {/* Header */}
           <div className="mb-12">
             <h2
-              className="mb-3 font-bold text-3xl text-white md:text-4xl"
+              className="mb-3 max-w-3xl font-bold text-3xl text-black md:text-4xl"
               style={{
                 fontFamily: "Inter",
               }}
             >
-              Vetted consulting expertise for all your aspirations
+              We help founders build businesses that can grow without depending on them.
             </h2>
             <p
-              className="text-2xl text-white/90 md:text-lg"
+              className="max-w-2xl text-lg text-[#636466] md:text-base"
               style={{
                 fontFamily: "Inter",
               }}
             >
-              Let's help you find the most ideal support.
+              Strategic consulting helps owners strengthen governance, systems,
+              and leadership so the business becomes more valuable, resilient,
+              and ready for the future.
             </p>
           </div>
 
@@ -301,9 +305,12 @@ export default function BusinessBrokeragePage() {
           </div>
         </div>
       </section>
-      <section className="relative bg-[#F5F5F5] p-4 py-24 pb-16 md:h-[945px]">
+      <section
+        id="institutionalization"
+        className="relative bg-[#F5F5F5] p-4 py-24 pb-16 md:h-[560px]"
+      >
         <div className="mx-auto max-w-[90rem] px-4 md:px-8">
-          <div className="flex flex-col items-start lg:flex-row lg:items-center">
+          <div className="flex flex-col items-start lg:flex-row">
             <div className="mb-10 md:pt-32 lg:mb-0 lg:w-1/2">
               <p
                 className="mb-2 max-w-xl font-semibold text-[#739F46] text-lg leading-snug tracking-tighter sm:text-xl lg:text-2xl"
@@ -322,11 +329,11 @@ export default function BusinessBrokeragePage() {
               </p>
             </div>
 
-            <div className="inset-0 h-full w-full md:absolute md:p-[89px]">
+            <div className="inset-y-0 right-0 left-1/2 h-full w-full md:absolute md:w-auto md:p-6">
               <img
                 src="/new_images/bc1.png"
                 alt="Diagram showing the African Aspirations 'plug' connecting to 100+ vetted world-class solution providers for business institutionalization, including Accounting, HR, Marketing, Legal, and Franchising."
-                className="h-auto w-full max-w-none object-contain lg:max-w-full"
+                className="h-full w-full object-contain"
               />
             </div>
           </div>

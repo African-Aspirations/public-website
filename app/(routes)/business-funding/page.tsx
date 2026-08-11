@@ -3,12 +3,10 @@
 import * as motion from "motion/react-client";
 import { useEffect, useState } from "react";
 import BottomHero from "@/components/BottomHero";
-import Breadcrumbs from "@/components/bread-crumbs";
 import ClientNavbar from "@/components/client-navbar";
 import ConsultingCard, {
   type ConsultingCardProps,
 } from "@/components/consulting-card";
-import FloatingArrow from "@/components/floating-arrow";
 import Footer from "@/components/footer";
 import HeroSection from "@/components/HeroSection";
 
@@ -72,67 +70,74 @@ protection, and clear communication of the business case.`,
   },
 ];
 
+const fundingPhases = [
+  {
+    title: "Investor Readiness",
+    copy: "If you're not yet ready to raise, we work directly with your leadership team to strengthen investment readiness — sharpening financial clarity, business structure, and positioning until you meet investor expectations.",
+  },
+  {
+    title: "Capital Raise",
+    copy: "Once you're investment-ready, we facilitate targeted engagement with the capital providers who actually fit your mandate, sector, and transaction requirements — not a mass mailout to whoever will listen.",
+  },
+];
+
 const fundingCards: Omit<ConsultingCardProps, "isExpanded" | "onToggle">[] = [
   {
     id: 0,
     title: "Private Equity",
-    description: `We arrange flexible debt instruments tailored to the borrower’s cash flow and growth
-plans. By working closely with private lenders and debt funds, we secure financing that
-balances capital efficiency with sustainability.`,
+    description: `We connect established African businesses with private equity investors seeking
+scalable opportunities. Our team supports the entire process, from deal preparation
+and structuring to negotiation and closing, to ensure mutually beneficial outcomes.`,
     image: "/new_images/68adea73590669a19f87111d_biz-img-1.webp.png",
     imageAlt: "Team collaboration",
     expandedDescription:
-      "Our plug-and-play model connects clients to 100+ service providers with trusted expertise, everything needed to institutionalize your business and operate at global standards.",
+      "We work with established, cash-generative businesses ready to bring in an institutional partner for growth capital or a partial exit.",
     details: [
       {
-        title: "Management Consulting:",
-        description: "Strengthening governance, structure, and systems.",
+        title: "Deal Preparation:",
+        description:
+          "Structuring your business and materials for institutional investors.",
         color: "green",
       },
       {
-        title: "Strategy:",
+        title: "Investor Matching:",
         description:
-          "Developing clear, forward-looking roadmaps for growth and market positioning.",
+          "Connecting you with PE investors aligned to your sector and stage.",
         color: "gray",
       },
       {
-        title: "Revenue Maximization:",
-        description:
-          "Identifying new revenue streams, optimizing margins, and driving profitability.",
+        title: "Negotiation & Closing:",
+        description: "Guiding terms through to a mutually beneficial close.",
         color: "gold",
-      },
-      {
-        title: "Franchise Consulting:",
-        description:
-          "Structuring and scaling businesses through strategic franchise development.",
-        color: "green",
       },
     ],
   },
   {
     id: 1,
     title: "Private Debt",
-    description:
-      "Navigate mergers, acquisitions, and business transitions with clarity and confidence.",
+    description: `We arrange flexible debt instruments tailored to the borrower’s cash flow and growth
+plans. By working closely with private lenders and debt funds, we secure financing that
+balances capital efficiency with sustainability.`,
     image: "/new_images/2.jpg",
     imageAlt: "Business professional",
     expandedDescription:
-      "Navigate mergers, acquisitions, and business transitions with clarity and confidence. Our expert advisors guide you through every step of the process.",
+      "We structure debt facilities that fund growth without giving up equity, matched to lenders who understand African markets.",
     details: [
       {
-        title: "Transaction Support:",
-        description: "Comprehensive support throughout the M&A lifecycle.",
+        title: "Instrument Structuring:",
+        description:
+          "Designing debt terms that match your cash flow and growth plans.",
         color: "green",
       },
       {
-        title: "Due Diligence:",
-        description: "Thorough analysis to identify risks and opportunities.",
+        title: "Lender Access:",
+        description:
+          "Connections to private lenders and debt funds across the region.",
         color: "gray",
       },
       {
-        title: "Valuation Services:",
-        description:
-          "Accurate business valuation for informed decision-making.",
+        title: "Capital Efficiency:",
+        description: "Balancing leverage with long-term sustainability.",
         color: "gold",
       },
     ],
@@ -146,27 +151,25 @@ preparation, and deal structuring to position startups for success.`,
     image: "/new_images/14.jpg",
     imageAlt: "Construction professional",
     expandedDescription:
-      "Get expert advice in finance, risk, compliance, and investment to solve complex challenges. Our specialized team brings deep industry knowledge and practical solutions.",
+      "We help founders raise from investors who back early and growth-stage companies, from first pitch through to a signed term sheet.",
     details: [
       {
-        title: "Financial Advisory:",
-        description: "Strategic financial planning and optimization.",
+        title: "Investor Matching:",
+        description:
+          "Connecting founders to VCs aligned with their stage and sector.",
         color: "green",
       },
       {
-        title: "Risk Management:",
-        description: "Identifying and mitigating business risks effectively.",
+        title: "Pitch Preparation:",
+        description:
+          "Sharpening your story and materials for investor scrutiny.",
         color: "gray",
       },
       {
-        title: "Compliance Consulting:",
-        description: "Ensuring regulatory compliance across all operations.",
+        title: "Deal Structuring:",
+        description:
+          "Structuring terms that protect founders and attract capital.",
         color: "gold",
-      },
-      {
-        title: "Investment Strategy:",
-        description: "Developing strategic investment approaches for growth.",
-        color: "green",
       },
     ],
   },
@@ -179,27 +182,24 @@ investment horizons, and strategic interests.`,
     image: "/new_images/8.jpg",
     imageAlt: "Construction professional",
     expandedDescription:
-      "Get expert advice in finance, risk, compliance, and investment to solve complex challenges. Our specialized team brings deep industry knowledge and practical solutions.",
+      "We connect businesses with family offices looking for long-term, values-aligned investments rather than a quick exit.",
     details: [
       {
-        title: "Financial Advisory:",
-        description: "Strategic financial planning and optimization.",
+        title: "Patient Capital:",
+        description:
+          "Access to long-term funding without short exit pressure.",
         color: "green",
       },
       {
-        title: "Risk Management:",
-        description: "Identifying and mitigating business risks effectively.",
+        title: "Values Alignment:",
+        description: "Matched with family investors who share your outlook.",
         color: "gray",
       },
       {
-        title: "Compliance Consulting:",
-        description: "Ensuring regulatory compliance across all operations.",
+        title: "Global Reach:",
+        description:
+          "Relationships spanning family offices across multiple regions.",
         color: "gold",
-      },
-      {
-        title: "Investment Strategy:",
-        description: "Developing strategic investment approaches for growth.",
-        color: "green",
       },
     ],
   },
@@ -212,60 +212,54 @@ preparation, compliance, and investment readiness.`,
     image: "/new_images/16.jpg",
     imageAlt: "Construction professional",
     expandedDescription:
-      "Get expert advice in finance, risk, compliance, and investment to solve complex challenges. Our specialized team brings deep industry knowledge and practical solutions.",
+      "We help businesses with a clear development or impact case access funding from DFIs and impact investors.",
     details: [
       {
-        title: "Financial Advisory:",
-        description: "Strategic financial planning and optimization.",
+        title: "DFI Access:",
+        description:
+          "Direct relationships with Development Finance Institutions and impact funds.",
         color: "green",
       },
       {
-        title: "Risk Management:",
-        description: "Identifying and mitigating business risks effectively.",
+        title: "Proposal Preparation:",
+        description: "Building the case your funder needs to see.",
         color: "gray",
       },
       {
-        title: "Compliance Consulting:",
-        description: "Ensuring regulatory compliance across all operations.",
+        title: "Compliance & Readiness:",
+        description: "Meeting the governance standards DFIs require.",
         color: "gold",
-      },
-      {
-        title: "Investment Strategy:",
-        description: "Developing strategic investment approaches for growth.",
-        color: "green",
       },
     ],
   },
   {
     id: 5,
-    title: "Public sector",
+    title: "Public Sector",
     description: `We collaborate with government agencies and public-private partnership (PPP)
 programs to design and finance large-scale infrastructure and social projects. Our
 experience ensures transparency, efficiency, and developmental impact.`,
     image: "/new_images/17.jpg",
     imageAlt: "Construction professional",
     expandedDescription:
-      "Get expert advice in finance, risk, compliance, and investment to solve complex challenges. Our specialized team brings deep industry knowledge and practical solutions.",
+      "We help structure and finance projects that combine public agency backing with private capital.",
     details: [
       {
-        title: "Financial Advisory:",
-        description: "Strategic financial planning and optimization.",
+        title: "PPP Structuring:",
+        description:
+          "Designing partnerships between public agencies and private capital.",
         color: "green",
       },
       {
-        title: "Risk Management:",
-        description: "Identifying and mitigating business risks effectively.",
+        title: "Transparency & Governance:",
+        description:
+          "Meeting the accountability standards public funding requires.",
         color: "gray",
       },
       {
-        title: "Compliance Consulting:",
-        description: "Ensuring regulatory compliance across all operations.",
+        title: "Developmental Impact:",
+        description:
+          "Financing structured around measurable public benefit.",
         color: "gold",
-      },
-      {
-        title: "Investment Strategy:",
-        description: "Developing strategic investment approaches for growth.",
-        color: "green",
       },
     ],
   },
@@ -278,27 +272,23 @@ protection, and clear communication of the business case.`,
     image: "/new_images/13.jpg",
     imageAlt: "Construction professional",
     expandedDescription:
-      "Get expert advice in finance, risk, compliance, and investment to solve complex challenges. Our specialized team brings deep industry knowledge and practical solutions.",
+      "We help businesses raise from the crowd the right way, on platforms that are actually credible and compliant.",
     details: [
       {
-        title: "Financial Advisory:",
-        description: "Strategic financial planning and optimization.",
+        title: "Platform Access:",
+        description: "Connections to credible, vetted crowdfunding platforms.",
         color: "green",
       },
       {
-        title: "Risk Management:",
-        description: "Identifying and mitigating business risks effectively.",
+        title: "Investor Protection:",
+        description:
+          "Compliance built in to protect backers and the business.",
         color: "gray",
       },
       {
-        title: "Compliance Consulting:",
-        description: "Ensuring regulatory compliance across all operations.",
+        title: "Clear Communication:",
+        description: "A business case investors can understand and trust.",
         color: "gold",
-      },
-      {
-        title: "Investment Strategy:",
-        description: "Developing strategic investment approaches for growth.",
-        color: "green",
       },
     ],
   },
@@ -332,37 +322,70 @@ export default function BusinessBrokeragePage() {
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, ease: "easeOut" }}
-        className="pt-40"
+        className="pt-24 md:pt-20"
       >
-        <Breadcrumbs />
 
-        <HeroSection title="Business Funding" img="/new_images/image 16.png" />
+        <HeroSection
+          title="Business Funding"
+          subtitle="Capital matched to businesses that are actually ready for it."
+          img="/new_images/image 16.png"
+        />
       </motion.div>
-      <FloatingArrow />
 
-      <section className="bg-[#015A1A] py-16">
+      <section className="mx-auto max-w-[90rem] px-4 py-16 md:px-8">
+        <div className="mb-10 max-w-2xl">
+          <p className="mb-3 font-semibold text-[#739F46] text-sm uppercase tracking-[0.25em]">
+            How we support you
+          </p>
+          <h2 className="font-bold text-3xl text-black md:text-4xl">
+            We only make the introduction when there's real alignment.
+          </h2>
+          <p className="mt-4 text-[#636466] text-lg leading-relaxed">
+            We improve the odds of a successful raise by matching capital to
+            businesses that actually meet investor criteria — not before.
+            Our logic is simple: we win only when you win.
+          </p>
+        </div>
+        <div className="rounded-[32px] bg-[#015A1A] p-8 text-white md:p-12">
+          <div className="grid gap-6 md:grid-cols-2">
+            {fundingPhases.map((phase, index) => (
+              <div
+                key={phase.title}
+                className="rounded-[24px] border border-white/20 bg-white/10 p-6"
+              >
+                <p className="mb-3 font-semibold text-[#DCEBC8] text-sm uppercase tracking-[0.25em]">
+                  Phase {index + 1}
+                </p>
+                <h4 className="mb-3 font-semibold text-xl">{phase.title}</h4>
+                <p className="font-normal text-white/90 leading-relaxed">
+                  {phase.copy}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-white py-16">
         <div className="mx-auto max-w-[90rem] px-4 md:px-8">
           {/* Header */}
           <div className="mb-12">
             <h2
-              className="mb-3 font-bold text-3xl text-white md:text-4xl"
+              className="mb-3 font-bold text-3xl text-black md:text-4xl"
               style={{
                 fontFamily: "Inter",
               }}
             >
-              Our funding platform bridges the gap between capital providers and
-              investment-ready businesses.
+              Capital raised the right way doesn't just fund growth — it maximizes what your business is worth the day you exit.
             </h2>
             <p
-              className="text-2xl text-white/90 md:text-lg"
+              className="text-2xl text-[#636466] md:text-lg"
               style={{
                 fontFamily: "Inter",
               }}
             >
-              We start by understanding investors’ and financiers’ criteria,
-              then match them with qualified businesses that meet those
-              requirements, increasing the likelihood of successful funding and
-              long-term partnerships.
+              We work across seven types of capital, matched to what your
+              business and its stage actually call for.
             </p>
           </div>
 

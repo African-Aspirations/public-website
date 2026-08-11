@@ -30,27 +30,16 @@ export function getBreadcrumbTrail(pathname: string): Breadcrumb[] {
         },
       ];
 
-      // exact match (including top-level pages)
+      // descend into children first so a more specific (deeper) match wins
+      // over a parent whose own href happens to collide with a child's
+      if (item.subItems && item.subItems.length > 0) {
+        const childResult = findPath(item.subItems, currentTrail);
+        if (childResult) return childResult;
+      }
+
+      // exact match (including top-level pages with no matching child)
       if (itemHrefBase && itemHrefBase === normalizedPath) {
         return currentTrail;
-      }
-
-      // if the pathname starts with this item's href base, try descend
-      if (item.subItems && item.subItems.length > 0) {
-        // search children
-        const childResult = findPath(item.subItems, currentTrail);
-        if (childResult) return childResult;
-      }
-
-      // also handle when the pathname equals a hash target under this item's href
-      // e.g. pathname '/our-specialties#something' OR pathname startsWith('/our-specialties')
-      if (
-        itemHrefBase &&
-        normalizedPath.startsWith(itemHrefBase) &&
-        item.subItems
-      ) {
-        const childResult = findPath(item.subItems, currentTrail);
-        if (childResult) return childResult;
       }
     }
     return null;

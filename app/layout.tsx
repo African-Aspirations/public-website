@@ -2,6 +2,7 @@ import { Analytics } from "@vercel/analytics/react";
 import { Agentation } from "agentation";
 import type { Metadata } from "next";
 import { ModalProvider } from "@/components/providers/modal-provider";
+import { ScrollToTop } from "@/components/scroll-to-top";
 import { ReactLenis } from "@/hooks/lenis";
 import { cn } from "@/lib/utils";
 import "./globals.css";
@@ -20,6 +21,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <ReactLenis root>
         <body className={cn("w-full")}>
+          <ScrollToTop />
           {children}
 
           <Analytics />

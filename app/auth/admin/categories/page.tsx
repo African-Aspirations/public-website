@@ -1,7 +1,7 @@
 "use client";
 
 import axios from "axios";
-import { MoreVertical, Pencil, Plus, Trash2 } from "lucide-react";
+import { Pencil, Plus, Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Toaster, toast } from "sonner";
 import { AlertModal } from "@/components/alert";
@@ -10,118 +10,77 @@ import EmptyState from "@/components/empty-state";
 import { Heading } from "@/components/heading";
 import Loader from "@/components/loader";
 import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
+import { Textarea } from "@/components/ui/textarea";
 import { useModal } from "@/hooks/use-modal-store";
 
-const Billboards = () => {
+type Category = {
+  id: string;
+  label: string;
+  desc?: string | null;
+  products?: unknown[];
+};
+
+const CategoriesAdmin = () => {
   const { onOpen } = useModal();
   const [loading, setLoading] = useState(false);
   const [delLoading, setDelLoading] = useState(false);
   const [editLoading, setEditLoading] = useState(false);
-  const [CatNo, setCatNo] = useState(0);
-  const [categories, setCategories] = useState<any>([]);
-  const [_category, setCategory] = useState(null);
+  const [categories, setCategories] = useState<Category[]>([]);
   const [openEdit, setOpenEdit] = useState(false);
   const [openDel, setOpenDel] = useState(false);
   const [getCatId, setGetCatId] = useState("");
-  const [file, _setFile] = useState("");
+  const [labelInput, setLabelInput] = useState("");
+  const [descInput, setDescInput] = useState("");
 
-  const [textInput, setTextInput] = useState("");
-
-  const handleInputChange = (e: any) => {
-    setTextInput(e.target.value);
-  };
-
-  // get all categories
   const getCategories = async () => {
     try {
       setLoading(true);
-
-      const response = await axios.get("/api/categories/", {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-
-      setCategories(response.data);
-      setCatNo(response.data.length);
+      const response = await axios.get("/api/categories/");
+      setCategories(response.data ?? []);
     } catch (error: any) {
-      console.error(error.response.data);
-      // toast.error("Something went wrong!!");
+      console.error(error.response?.data ?? error);
     } finally {
       setLoading(false);
     }
   };
 
-  // get a category
-  const getCategory = async (id: any) => {
-    try {
-      const response = await axios.get(`/api/categories/${id}`, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-
-      setCategory(response.data);
-      setTextInput(response.data.label);
-    } catch (error: any) {
-      console.error(error.response.data);
-      // toast.error("Something went wrong!!");
-    } finally {
-    }
+  const openEditModal = (category: Category) => {
+    setGetCatId(category.id);
+    setLabelInput(category.label ?? "");
+    setDescInput(category.desc ?? "");
+    setOpenEdit(true);
   };
 
-  // edit category
-  const EditCategory = async (id: any) => {
+  const editCategory = async (id: string) => {
     try {
       setEditLoading(true);
-
-      const _response = await axios.patch(
-        `/api/categories/${id}`,
-        {
-          label: textInput,
-          imageUrl: file,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        },
-      );
-
-      toast.success("Updated Succesfully!!");
+      await axios.patch(`/api/categories/${id}`, {
+        label: labelInput,
+        desc: descInput,
+      });
+      toast.success("Category updated successfully");
       setOpenEdit(false);
+      await getCategories();
     } catch (error: any) {
-      console.error(error.response.data);
-      toast.error(error.response.data);
+      console.error(error.response?.data ?? error);
+      toast.error("Something went wrong!!");
     } finally {
       setEditLoading(false);
     }
   };
 
-  // delete category
-  const deleteCategory = async (id: any) => {
+  const deleteCategory = async (id: string) => {
     try {
       setDelLoading(true);
-
-      const _response = await axios.delete(`/api/categories/${id}`, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-
-      toast.success("deleted successfully");
+      await axios.delete(`/api/categories/${id}`);
+      toast.success("Category deleted successfully");
       setOpenDel(false);
+      await getCategories();
     } catch (error: any) {
-      console.error(error.response.data);
-      toast.error(error.response.data);
+      console.error(error.response?.data ?? error);
+      toast.error("Something went wrong!!");
     } finally {
       setDelLoading(false);
     }
@@ -129,121 +88,107 @@ const Billboards = () => {
 
   useEffect(() => {
     getCategories();
-  }, [getCategories]);
+  }, []);
 
   const bodyContent = (
     <div className="flex flex-col gap-4">
       <Input
         className="border-0 bg-zinc-300/50 text-black focus-visible:ring-0 focus-visible:ring-offset-0"
-        placeholder="Enter text"
-        value={textInput}
-        onChange={handleInputChange}
+        placeholder="Category name"
+        value={labelInput}
+        onChange={(e) => setLabelInput(e.target.value)}
+      />
+      <Textarea
+        className="border-0 bg-zinc-300/50 text-black focus-visible:ring-0 focus-visible:ring-offset-0"
+        placeholder="Short description"
+        value={descInput}
+        onChange={(e) => setDescInput(e.target.value)}
       />
     </div>
   );
 
   return (
-    <div className="flex-col">
+    <div className="p-8">
       <Toaster position="top-center" />
-      <div className="flex-1 space-y-4 p-8 pt-6">
-        <div className="flex items-center justify-between">
-          <Heading
-            title={`Categories (${CatNo})`}
-            description="Manage categories on your app"
-          />
-          {/* <Button onClick={() => router.push(`/${params.storeId}/billboards/new`)}> */}
-          <Button onClick={() => onOpen("createCategory")}>
-            <Plus className="mr-2 h-4 w-4" /> Add Category
-          </Button>
-        </div>
+      <div className="flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
+        <Heading
+          title={`Categories (${categories.length})`}
+          description="Manage the business types listings can be tagged with"
+        />
+        <Button onClick={() => onOpen("createCategory", { onSuccess: getCategories })}>
+          <Plus className="mr-2 h-4 w-4" /> Add Category
+        </Button>
       </div>
-      <Separator />
-      <div className="flex w-full flex-wrap items-start justify-start p-5">
-        {loading && (
-          <div className="flex w-full items-center justify-center p-5">
-            <Loader />
-          </div>
-        )}
-        {!loading && categories.length === 0 ? (
-          <div className="flex w-full items-center justify-center p-5">
-            <EmptyState title="Uh Oh" subtitle="No billboards!" />
-          </div>
-        ) : null}
-        {!loading &&
-          categories?.map((categories: any, index: number) => (
-            <div className="m-4 h-32 w-[400px]" key={categories._id}>
-              <div className="flex h-full cursor-pointer items-center justify-between rounded-xl border-2 border-transparent bg-white px-2 py-4 shadow">
-                <div className="flex items-center gap-1">
-                  <p>{index + 1}.</p>
-                  {/* <Image
-                    src={billboard.imageUrl}
-                    alt={billboard.label}
-                    width={100}
-                    height={100}
-                  /> */}
-                  <div className="flex flex-col items-start">
-                    {/* <h2 className="font-medium text-neutral-700 sm:text-xl">
-                    {billboard.label}
-                  </h2> */}
-                    <p className="w-36 overflow-hidden truncate text-neutral-500 text-sm">
-                      {categories.label}
-                    </p>
-                  </div>
-                </div>
+      <Separator className="mt-4" />
 
-                <p
-                  className="font-semibold text-neutral-900 text-xl sm:text-2xl"
-                  onClick={() => {
-                    setGetCatId(categories._id);
-                    getCategory(categories?._id);
-                  }}
-                >
-                  <DropdownMenu>
-                    <DropdownMenuTrigger>
-                      <MoreVertical />
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent className="mr-4">
-                      <DropdownMenuItem
-                        className="flex w-full cursor-pointer justify-between"
-                        onClick={() => setOpenEdit(true)}
-                      >
-                        Edit
-                        <Pencil size={16} />
-                      </DropdownMenuItem>
-                      <DropdownMenuItem
-                        className="flex w-full cursor-pointer justify-between"
-                        onClick={() => setOpenDel(true)}
-                      >
-                        Delete
-                        <Trash2 size={16} color="red" />
-                      </DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
+      {loading ? (
+        <div className="flex w-full items-center justify-center p-10">
+          <Loader />
+        </div>
+      ) : categories.length === 0 ? (
+        <div className="flex w-full items-center justify-center p-10">
+          <EmptyState title="No categories yet" subtitle="Add a category to start tagging listings." />
+        </div>
+      ) : (
+        <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {categories.map((category) => (
+            <div
+              key={category.id}
+              className="flex items-start justify-between gap-3 rounded-2xl border border-stone-200 bg-white p-5"
+            >
+              <div className="min-w-0">
+                <p className="truncate font-medium text-stone-900">
+                  {category.label}
+                </p>
+                <p className="mt-1 line-clamp-2 text-stone-500 text-sm">
+                  {category.desc || "No description"}
+                </p>
+                <p className="mt-2 text-stone-400 text-xs">
+                  {category.products?.length ?? 0} listing
+                  {(category.products?.length ?? 0) === 1 ? "" : "s"}
                 </p>
               </div>
-              <AlertModal
-                isOpen={openDel}
-                onClose={() => setOpenDel(false)}
-                loading={delLoading}
-                onConfirm={() => {
-                  deleteCategory(getCatId);
-                }}
-              />
-              <EditModal
-                title={"Edit"}
-                isOpen={openEdit}
-                onClose={() => setOpenEdit(false)}
-                loading={editLoading}
-                body={bodyContent}
-                onConfirm={() => {
-                  EditCategory(getCatId);
-                }}
-              />
+              <div className="flex shrink-0 flex-col gap-2">
+                <Button
+                  size="sm"
+                  variant="outline"
+                  className="border-stone-300 text-stone-700 hover:bg-stone-100 hover:text-stone-900"
+                  onClick={() => openEditModal(category)}
+                >
+                  <Pencil size={14} />
+                </Button>
+                <Button
+                  size="sm"
+                  className="bg-red-500 hover:bg-red-400"
+                  onClick={() => {
+                    setGetCatId(category.id);
+                    setOpenDel(true);
+                  }}
+                >
+                  <Trash2 size={14} />
+                </Button>
+              </div>
             </div>
           ))}
-      </div>
+        </div>
+      )}
+
+      <AlertModal
+        isOpen={openDel}
+        onClose={() => setOpenDel(false)}
+        loading={delLoading}
+        onConfirm={() => deleteCategory(getCatId)}
+      />
+      <EditModal
+        title="Edit Category"
+        isOpen={openEdit}
+        onClose={() => setOpenEdit(false)}
+        loading={editLoading}
+        body={bodyContent}
+        onConfirm={() => editCategory(getCatId)}
+      />
     </div>
   );
 };
 
-export default Billboards;
+export default CategoriesAdmin;

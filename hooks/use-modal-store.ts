@@ -1,10 +1,6 @@
 import { create } from "zustand";
 
-export type ModalType =
-  | "createBillboard"
-  | "createProduct"
-  | "editProduct"
-  | "createCategory";
+export type ModalType = "createProduct" | "editProduct" | "createCategory";
 
 interface ModalStore {
   type: ModalType | null;

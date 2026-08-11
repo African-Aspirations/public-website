@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { requireSession } from "@/lib/auth-session";
 import { db } from "@/utils/turso";
 
 export async function GET(
@@ -31,6 +32,9 @@ export async function PATCH(
   req: Request,
   { params }: { params: { id: string } },
 ) {
+  const { response: unauthorized } = await requireSession();
+  if (unauthorized) return unauthorized;
+
   const { id } = params;
 
   if (!id) {
@@ -65,6 +69,9 @@ export async function DELETE(
   _req: Request,
   { params }: { params: { id: string } },
 ) {
+  const { response: unauthorized } = await requireSession();
+  if (unauthorized) return unauthorized;
+
   const { id } = params;
 
   if (!id) {

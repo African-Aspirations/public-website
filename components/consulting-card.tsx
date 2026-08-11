@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
 
 export interface ConsultingCardProps {
@@ -18,6 +19,81 @@ export interface ConsultingCardProps {
   isExpanded: boolean;
   onToggle: () => void;
   visible?: boolean;
+  href?: string;
+}
+
+function CollapsedCardBody({
+  href,
+  image,
+  imageAlt,
+  title,
+  description,
+  visible,
+  onToggle,
+}: {
+  href?: string;
+  image: string;
+  imageAlt: string;
+  title: string;
+  description: string;
+  visible: boolean;
+  onToggle: () => void;
+}) {
+  const media = (
+    <div className="group relative h-48 w-full overflow-hidden">
+      <Image
+        src={image || "/placeholder.svg"}
+        alt={imageAlt}
+        fill
+        className="object-cover transition-transform duration-700 group-hover:scale-105"
+      />
+    </div>
+  );
+
+  const body = (
+    <div className="flex flex-1 flex-col bg-[#026B20] p-6 transition-all duration-300 hover:scale-[1.01]">
+      <h3
+        className="mb-3 font-bold text-[#fff] text-xl md:text-2xl"
+        style={{ fontFamily: "Inter" }}
+      >
+        {title}
+      </h3>
+      <p
+        className="mb-6 flex-1 font-normal text-[#F7FAFE] text-sm md:text-base"
+        style={{ fontFamily: "Inter" }}
+      >
+        {description}
+      </p>
+      {visible && (
+        <span
+          style={{ fontFamily: "Inter" }}
+          className="w-fit rounded-full border-2 border-[#fff] bg-transparent px-8 py-2 text-[#fff] text-sm transition-colors duration-300 group-hover:bg-white group-hover:text-[#026B20]"
+        >
+          Learn more
+        </span>
+      )}
+    </div>
+  );
+
+  if (href) {
+    return (
+      <Link href={href} className="group flex flex-1 flex-col">
+        {media}
+        {body}
+      </Link>
+    );
+  }
+
+  return (
+    <button
+      type="button"
+      onClick={onToggle}
+      className="group flex flex-1 flex-col text-left"
+    >
+      {media}
+      {body}
+    </button>
+  );
 }
 
 export default function ConsultingCard({
@@ -30,6 +106,7 @@ export default function ConsultingCard({
   isExpanded,
   onToggle,
   visible = true,
+  href,
 }: ConsultingCardProps) {
   const _getColorClass = (color?: "green" | "gray" | "gold") => {
     switch (color) {
@@ -73,26 +150,24 @@ export default function ConsultingCard({
               >
                 {description}
               </p>
-              <div className="flex w-full items-center justify-center">
-                {isExpanded ? (
-                  <Button
+              <div className="flex w-full flex-wrap items-center justify-center gap-3">
+                {href && (
+                  <Link
+                    href={href}
                     style={{ fontFamily: "Inter" }}
-                    onClick={onToggle}
-                    variant="outline"
-                    className="w-fit rounded-full border-2 border-[#fff] bg-transparent px-8 py-2 text-[#fff] hover:bg-[#026B20] hover:text-white"
+                    className="flex w-fit items-center justify-center rounded-full border-2 border-[#fff] bg-white px-8 py-2 font-medium text-[#026B20] text-sm transition hover:bg-white/90"
                   >
-                    Close
-                  </Button>
-                ) : (
-                  <Button
-                    style={{ fontFamily: "Inter" }}
-                    onClick={onToggle}
-                    variant="outline"
-                    className="w-fit rounded-full border-2 border-[#fff] bg-transparent px-8 py-2 text-[#fff] hover:bg-[#026B20] hover:text-white"
-                  >
-                    Read More
-                  </Button>
+                    Visit page
+                  </Link>
                 )}
+                <Button
+                  style={{ fontFamily: "Inter" }}
+                  onClick={onToggle}
+                  variant="outline"
+                  className="w-fit rounded-full border-2 border-[#fff] bg-transparent px-8 py-2 text-[#fff] hover:bg-[#026B20] hover:text-white"
+                >
+                  Close
+                </Button>
               </div>
             </div>
           </div>
@@ -128,41 +203,18 @@ export default function ConsultingCard({
           </div>
         </div>
       ) : (
-        // Collapsed State
-        <>
-          <div className="group relative h-48 w-full overflow-hidden">
-            <Image
-              src={image || "/placeholder.svg"}
-              alt={imageAlt}
-              fill
-              className="object-cover transition-transform duration-700 group-hover:scale-105"
-            />
-          </div>
-          <div className="flex flex-1 flex-col bg-[#026B20] p-6 transition-all duration-300 hover:scale-[1.01]">
-            <h3
-              className="mb-3 font-bold text-[#fff] text-xl md:text-2xl"
-              style={{ fontFamily: "Inter" }}
-            >
-              {title}
-            </h3>
-            <p
-              className="mb-6 flex-1 font-normal text-[#F7FAFE] text-sm md:text-base"
-              style={{ fontFamily: "Inter" }}
-            >
-              {description}
-            </p>
-            {visible && (
-              <Button
-                style={{ fontFamily: "Inter" }}
-                onClick={onToggle}
-                variant="outline"
-                className="w-fit rounded-full border-2 border-[#fff] bg-transparent px-8 py-2 text-[#fff] hover:bg-[#026B20] hover:text-white"
-              >
-                Read More
-              </Button>
-            )}
-          </div>
-        </>
+        // Collapsed State — cards with a destination page navigate straight
+        // there; cards without one (e.g. funding types with no sub-page)
+        // fall back to expanding in place.
+        <CollapsedCardBody
+          href={href}
+          image={image}
+          imageAlt={imageAlt}
+          title={title}
+          description={description}
+          visible={visible}
+          onToggle={onToggle}
+        />
       )}
     </div>
   );

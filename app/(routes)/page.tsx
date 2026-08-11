@@ -103,9 +103,9 @@ export default function Home() {
             className="font-bold text-3xl text-black leading-tight md:text-[70px]"
             style={{ fontFamily: "Inter" }}
           >
-            <span className="block">Realising the Global</span>
+            <span className="block">Build value today.</span>
             <span className="block">
-              <span className="text-[#739F46]">Aspirations</span> of Africans.
+              <span className="text-[#739F46]">Exit stronger tomorrow.</span>
             </span>
           </h1>
 
@@ -113,8 +113,9 @@ export default function Home() {
             className="font-normal text-black text-xl md:text-2xl"
             style={{ fontFamily: "Inter" }}
           >
-            Whether you're building, scaling, or preparing to exit, we empower
-            you to achieve your aspirations
+            African Aspirations helps founders, owners, and investors build
+            businesses that are resilient, fundable, and ready to create
+            maximum value when the time comes to grow, transition, or exit.
           </span>
 
           <Button
@@ -122,7 +123,7 @@ export default function Home() {
             className="w-fit rounded-full border-2 border-[#015A1A] bg-white px-8 py-2 font-bold text-base text-black hover:bg-white"
             style={{ fontFamily: "Inter" }}
           >
-            Learn more
+            Discover our approach
           </Button>
         </div>
 
@@ -138,163 +139,68 @@ export default function Home() {
       </div>
       <FloatingArrow />
 
-      <motion.div
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, margin: "-50px" }}
-        variants={containerVariants}
-        className="relative mx-auto mt-[125px] flex max-w-[90rem] flex-wrap items-center gap-6 px-4 md:mt-0 md:flex-nowrap md:gap-[68px] md:px-8"
-      >
+      <div className="bg-white py-16">
         <motion.div
-          variants={scaleUp as any}
-          className="w-full md:h-[548px] md:max-w-[1100px]"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          variants={fadeInUp as any}
+          className="mx-auto mb-10 max-w-[90rem] px-4 md:px-8"
         >
-          <Image
-            src={"/new_images/The-Republic-Cover-Landscape-Image-Card-5 1.svg"}
-            width={235}
-            height={235}
-            alt="AA globe"
-            className="h-full w-[788px]"
-          />
-        </motion.div>
-
-        <div className="right-0 left-0 flex w-full flex-wrap items-start justify-between px-4 md:absolute md:top-5 md:flex-nowrap md:px-8">
-          <div className="absolute top-0 left-4 z-10 mt-2 h-[4px] w-[286px] rounded-r-full bg-gradient-to-r from-[#739F46] to-[#739F46] md:left-8"></div>
-
-          <p
-            className="mb-2 pt-5 font-bold text-[#000000] text-[50px]"
+          <h2
+            className="mb-3 font-bold text-3xl text-black md:text-4xl"
             style={{
               fontFamily: "Inter",
             }}
           >
-            Why African Aspirations Matters
-          </p>
-          <div className="flex flex-col md:w-[669px]">
-            {[
-              {
-                id: 1,
-                text: "80% of African SMEs never reach their full growth potential due to lack of access to capital and advisory support.",
-              },
-              {
-                id: 1,
-                text: "Businesses that engage professional advisory are 3x more likely to attract investors and close deals successfully.",
-              },
-              {
-                id: 1,
-                text: "Proper valuation and exit planning can increase business sale value by up to 40%.",
-              },
-            ].map((item) => (
-              <div
-                key={item?.id}
-                className="flex items-start gap-2 transition duration-300"
-              >
-                <div>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                  >
-                    <title>information_line</title>
-                    <g id="information_line" fill="none">
-                      <path d="M24 0v24H0V0zM12.593 23.258l-.011.002-.071.035-.02.004-.014-.004-.071-.035c-.01-.004-.019-.001-.024.005l-.004.01-.017.428.005.02.01.013.104.074.015.004.012-.004.104-.074.012-.016.004-.017-.017-.427c-.002-.01-.009-.017-.017-.018m.265-.113-.013.002-.185.093-.01.01-.003.011.018.43.005.012.008.007.201.093c.012.004.023 0 .029-.008l.004-.014-.034-.614c-.003-.012-.01-.02-.02-.022m-.715.002a.023.023 0 0 0-.027.006l-.006.014-.034.614c0 .012.007.02.017.024l.015-.002.201-.093.01-.008.004-.011.017-.43-.003-.012-.01-.01z" />
-                      <path
-                        fill="#1E1E1E"
-                        d="M12 2c5.523 0 10 4.477 10 10s-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2m0 2a8 8 0 1 0 0 16 8 8 0 0 0 0-16m-.01 6c.558 0 1.01.452 1.01 1.01v5.124A1 1 0 0 1 12.5 18h-.49A1.01 1.01 0 0 1 11 16.99V12a1 1 0 1 1 0-2zM12 7a1 1 0 1 1 0 2 1 1 0 0 1 0-2"
-                      />
-                    </g>
-                  </svg>
-                </div>
-
-                <div className="mb-4 w-full">
-                  <p
-                    className="mb-4 border-[#CCCCCC] border-b pb-4 font-medium text-[#000000] text-base leading-relaxed"
-                    style={{ fontFamily: "Inter" }}
-                    dangerouslySetInnerHTML={{
-                      __html: highlightPercentages(item.text),
-                    }}
-                  />
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </motion.div>
-      <div className="mt-20 bg-[#F1FBE6] md:-mt-20 md:py-20">
-        <div className="gap-2 bg-[#F1FBE6] md:gap-[68px]">
-          {/* <div className="w-full -mb-32 hidden md:flex">
-          <Image
-            src={"/new_images/Meliuk-liuk.svg"}
-            width={235}
-            height={235}
-            alt="AA line"
-            className="w-full "
-          />
-        </div> */}
-
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={fadeInUp as any}
-            className="mx-auto mb-4 max-w-[90rem] px-4 md:px-8"
+            We help owners at every stage of the journey
+          </h2>
+          <p
+            className="text-2xl text-[#636466] md:text-lg"
+            style={{
+              fontFamily: "Inter",
+            }}
           >
-            <div>
-              <p
-                className="font-bold text-[#000000] text-[50px]"
-                style={{
-                  fontFamily: "Inter",
-                }}
-              >
-                How we are enabling this
-              </p>
-            </div>
-            <div className="mt-1">
-              <p
-                className="Inter-font font-normal text-3xl text-black md:text-[32px]"
-                style={{
-                  fontFamily: "Inter",
-                }}
-              >
-                Our <span className="text-[#739F46]">3</span> complementary
-                services
-              </p>
-            </div>
-          </motion.div>
-        </div>
+            From growth to value creation to exit
+          </p>
+        </motion.div>
         <motion.div
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-50px" }}
           variants={containerVariants}
-          className="mx-auto flex w-full max-w-[90rem] flex-wrap items-baseline justify-center gap-14 px-4 sm:flex-nowrap md:px-8"
+          className="mx-auto grid w-full max-w-[90rem] grid-cols-1 gap-10 px-4 sm:grid-cols-2 md:px-8 lg:grid-cols-3 xl:grid-cols-4"
         >
           {[
             {
               id: 1,
               img: "/new_images/15.jpg",
               title: "Business Consulting",
-              desc: "Strategy & support to build, institutionalize, and grow businesses",
+              desc: "Strategic advice to strengthen governance, scale with discipline, and build a business that can outlast its founder.",
               link: "/business-consulting",
             },
             {
               id: 2,
               img: "/new_images/8.jpg",
               title: "Business Funding",
-              desc: "Access to aligned investors and favourable funding options.",
+              desc: "Access to capital that supports expansion, resilience, and long-term value creation.",
               link: "/business-funding",
             },
             {
               id: 3,
+              img: "/new_images/16.jpg",
+              title: "Business Valuation",
+              desc: "Independent valuation support that clarifies enterprise value for fundraising, negotiations, and strategic planning.",
+              link: "/business-valuation",
+            },
+            {
+              id: 4,
               img: "/new_images/13.jpg",
               title: "Business Brokerage",
-              desc: "A confidential global marketplace to connect business sellers with buyers.",
-              link: "business-brokerage",
+              desc: "A trusted path to buyer matching, negotiation, and a smooth exit when the time is right.",
+              link: "/business-brokerage",
             },
           ]?.map((item) => {
-            const [firstWord, ...rest] = item.title.split(" ");
-            const secondPart = rest.join(" ");
-
             return (
               <motion.div
                 key={item?.id}
@@ -303,39 +209,40 @@ export default function Home() {
                   y: -8,
                   transition: { duration: 0.3, ease: "easeOut" },
                 }}
-                className="w-96"
+                className="h-full w-full"
               >
-                <Link href={item.link} className="max-w-[384px]">
-                  <div className="mb-9 rounded-e-[84px]">
-                    <Image
-                      src={item.img}
-                      width={235}
-                      height={235}
-                      alt="AA globe"
-                      className="h-full w-full rounded-ss-[84px] rounded-ee-[84px]"
-                    />
+                <Link href={item.link} className="flex h-full flex-col">
+                  <div className="flex h-full flex-col overflow-hidden rounded-[20px]">
+                    <div className="group relative h-48 w-full overflow-hidden">
+                      <Image
+                        src={item.img}
+                        alt={item.title}
+                        fill
+                        sizes="(min-width: 1280px) 25vw, (min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+                        className="object-cover transition-transform duration-700 group-hover:scale-105"
+                      />
+                    </div>
+                    <div className="flex flex-1 flex-col bg-[#026B20] p-6 transition-all duration-300 hover:scale-[1.01]">
+                      <h3
+                        className="mb-3 font-bold text-white text-xl md:text-2xl"
+                        style={{ fontFamily: "Inter" }}
+                      >
+                        {item.title}
+                      </h3>
+                      <p
+                        className="mb-6 flex-1 font-normal text-[#F7FAFE] text-sm md:text-base"
+                        style={{ fontFamily: "Inter" }}
+                      >
+                        {item.desc}
+                      </p>
+                      <span
+                        style={{ fontFamily: "Inter" }}
+                        className="w-fit rounded-full border-2 border-white bg-transparent px-8 py-2 font-medium text-sm text-white transition hover:bg-white hover:text-[#026B20]"
+                      >
+                        Learn more
+                      </span>
+                    </div>
                   </div>
-                  <p className="mb-[14px] font-bold text-[#1E1E1E] text-[34px]">
-                    <span
-                      className="text-[#1E1E1E]"
-                      style={{
-                        fontFamily: "Inter",
-                      }}
-                    >
-                      {firstWord}
-                    </span>{" "}
-                    <span
-                      className="text-[#A6A6A6]"
-                      style={{
-                        fontFamily: "Inter",
-                      }}
-                    >
-                      {secondPart}
-                    </span>
-                  </p>
-                  <p className="font-light text-2xl text-[#A6A6A6]">
-                    {item.desc}
-                  </p>
                 </Link>
               </motion.div>
             );
@@ -343,18 +250,132 @@ export default function Home() {
         </motion.div>
       </div>
 
+      <section className="bg-white py-16">
+        <div className="mx-auto max-w-[90rem] px-4 md:px-8">
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-50px" }}
+            variants={containerVariants}
+            className="flex flex-col items-center gap-10 rounded-[32px] bg-white p-6 md:gap-16 md:p-12 lg:flex-row"
+          >
+            <div className="relative h-64 w-full overflow-hidden rounded-3xl bg-[#F7FBEF] lg:h-[380px] lg:w-1/2">
+              <Image
+                src={"/new_images/The-Republic-Cover-Landscape-Image-Card-5 1.svg"}
+                alt="AA globe"
+                fill
+                className="mix-blend-multiply object-contain -scale-x-100"
+              />
+            </div>
+
+            <div className="w-full lg:w-1/2">
+              <p className="mb-3 font-semibold text-[#739F46] text-sm uppercase tracking-[0.25em]">
+                Why timing matters
+              </p>
+              <h3 className="mb-4 font-bold text-black text-2xl md:text-3xl">
+                The value of planning early
+              </h3>
+              <p className="mb-6 text-[#444] text-base leading-relaxed md:text-lg">
+                Most founders wait until they're ready to exit before
+                thinking about value — by then, it's often too late to
+                change the outcome.
+              </p>
+              <div className="space-y-3">
+                {[
+                  {
+                    id: 1,
+                    text: "Most businesses are built around the founder. That can limit growth, reduce resilience, and weaken value at exit.",
+                  },
+                  {
+                    id: 2,
+                    text: "Businesses with clear strategy, strong governance, and credible financials attract better capital and stronger buyers.",
+                  },
+                  {
+                    id: 3,
+                    text: "When value is understood early and prepared intentionally, owners are better positioned to exit on their terms and at a premium.",
+                  },
+                ].map((item) => (
+                  <div key={item.id} className="flex items-start gap-3">
+                    <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-[#739F46]" />
+                    <span
+                      className="text-[#333] text-base leading-relaxed"
+                      dangerouslySetInnerHTML={{
+                        __html: highlightPercentages(item.text),
+                      }}
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      <motion.section
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        variants={containerVariants}
+        className="bg-[#F7FBEF] py-20"
+      >
+        <div className="mx-auto flex max-w-[90rem] flex-col items-center gap-10 px-4 md:flex-row md:justify-between md:px-8">
+          <div>
+            <h3 className="max-w-3xl font-bold text-black text-3xl leading-snug md:text-4xl">
+              We help you build a business that can grow, endure, and be
+              sold on your terms — whether you’re strengthening governance,
+              raising capital, or planning an exit.
+            </h3>
+            <Button
+              onClick={() => router.push("https://forms.fillout.com/t/oEtePaNuxSus")}
+              className="mt-8 w-fit rounded-full border-2 border-[#015A1A] bg-[#015A1A] px-8 py-2 font-bold text-base text-white hover:bg-[#014214]"
+              style={{ fontFamily: "Inter" }}
+            >
+              Book a consultation
+            </Button>
+          </div>
+          <motion.div
+            variants={scaleUp as any}
+            className="w-full max-w-[768px] shrink-0 md:w-auto"
+          >
+            <Image
+              src={"/new_images/The-Republic-Cover-Landscape-Image-Card-5 1.svg"}
+              width={235}
+              height={235}
+              alt="AA globe"
+              className="mix-blend-multiply h-auto w-full max-w-[900px] -scale-x-100"
+            />
+          </motion.div>
+        </div>
+      </motion.section>
+
       <motion.div
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true }}
         variants={containerVariants}
-        className="relative h-[500px] w-full overflow-hidden bg-[#004714] md:h-[369px]"
+        className="relative h-auto w-full overflow-hidden bg-[#004714] md:h-[440px]"
       >
-        <div className="mx-auto grid h-full max-w-[90rem] grid-cols-1 px-4 md:grid-cols-2 md:px-6">
-          {/* Left Section with Curved Edge */}
+        {/* Trapezoid logo panel — desktop, fills the entire left region */}
+        <motion.div
+          variants={slideInLeft as any}
+          className="absolute inset-y-0 left-0 hidden w-[54%] items-center justify-center bg-white p-16 [clip-path:polygon(0_0,100%_0,82%_100%,0_100%)] md:flex"
+        >
+          <motion.img
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7, delay: 0.2 }}
+            src="/new_images/TBALogo_origin.webp"
+            alt="Transworld Logo"
+            className="w-[340px] object-contain lg:w-[400px]"
+          />
+        </motion.div>
+
+        <div className="relative mx-auto flex h-full max-w-[90rem] flex-col items-stretch gap-6 px-4 py-8 md:flex-row md:items-center md:gap-10 md:px-6 md:py-0">
+          {/* Logo panel — mobile only */}
           <motion.div
             variants={slideInLeft as any}
-            className="relative flex items-center justify-center"
+            className="flex items-center justify-center rounded-2xl bg-white p-10 md:hidden"
           >
             <motion.img
               initial={{ opacity: 0, scale: 0.9 }}
@@ -363,23 +384,14 @@ export default function Home() {
               transition={{ duration: 0.7, delay: 0.2 }}
               src="/new_images/TBALogo_origin.webp"
               alt="Transworld Logo"
-              className="z-10 w-[260px] object-contain md:w-[400px]"
-            />
-            <motion.img
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.7, delay: 0.2 }}
-              src="/new_images/Rectangle 151.png"
-              alt="Transworld Logo"
-              className="absolute z-0 h-[253px] object-contain p-6 md:left-4 md:w-[794px] md:p-0"
+              className="w-[280px] object-contain"
             />
           </motion.div>
 
           {/* Right Section */}
           <motion.div
             variants={slideInRight as any}
-            className="flex flex-col justify-center bg-[#004714] text-white"
+            className="flex flex-col justify-center text-white md:ml-[56%] md:w-1/2"
           >
             <h2
               className="font-bold text-xl leading-snug md:text-xl"
@@ -397,8 +409,7 @@ export default function Home() {
               transition={{ duration: 0.6, delay: 0.4 }}
               className="mt-4 font-light text-[#F5F5F5A6] text-base leading-relaxed md:text-[20px]"
             >
-              We operate Transworld Business Advisors Ghana to connect African
-              enterprises with global opportunity.
+              Our partnership with Transworld Business Advisors gives African owners access to a global marketplace of serious buyers, investors, and strategic opportunities.
             </motion.p>
           </motion.div>
         </div>
@@ -406,7 +417,7 @@ export default function Home() {
 
       <BottomHero
         backgroundImage="/new_images/16.jpg"
-        title="Expert support at every stage of the business lifecycle"
+        title="Ready to build, grow, and exit well?"
         buttonTitle="Speak with our team"
         link={"https://forms.fillout.com/t/oEtePaNuxSus"}
       />

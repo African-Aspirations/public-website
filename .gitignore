@@ -32,6 +32,15 @@ Thumbs.db
 # Vercel
 .vercel
 
+# Local SQLite fallback DB
+.data/
+
+# TypeScript incremental build cache
+tsconfig.tsbuildinfo
+
+# Raw source images not referenced by the app (curated copies live in public/listings/)
+/images/
+
 # Claude
 CLAUDE.md
 .claude/

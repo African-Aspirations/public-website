@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { requireSession } from "@/lib/auth-session";
 import { db } from "@/utils/turso";
 
 export const GET = async (_req: Request, _res: Response) => {
@@ -24,6 +25,9 @@ export const GET = async (_req: Request, _res: Response) => {
 };
 
 export const POST = async (req: Request, _res: Response) => {
+  const { response: unauthorized } = await requireSession();
+  if (unauthorized) return unauthorized;
+
   const { label, desc } = await req.json();
 
   if (!label) {

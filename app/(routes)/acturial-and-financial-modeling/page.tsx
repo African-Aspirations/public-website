@@ -3,9 +3,7 @@
 import * as motion from "motion/react-client";
 import { useEffect } from "react";
 import BottomHero from "@/components/BottomHero";
-import Breadcrumbs from "@/components/bread-crumbs";
 import ClientNavbar from "@/components/client-navbar";
-import FloatingArrow from "@/components/floating-arrow";
 import Footer from "@/components/footer";
 import HeroSection from "@/components/HeroSection";
 
@@ -111,16 +109,14 @@ export default function BusinessBrokeragePage() {
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, ease: "easeOut" }}
-        className="pt-40"
+        className="pt-24 md:pt-20"
       >
-        <Breadcrumbs />
 
         <HeroSection
           title="Acturial & Financial Modeling"
           img="/new_images/image 16.png"
         />
       </motion.div>
-      <FloatingArrow />
 
       {/* <div className="w-full -mt-32 hidden md:flex">
         <Image
@@ -137,10 +133,9 @@ export default function BusinessBrokeragePage() {
         <div className="mx-auto max-w-[90rem] px-4 md:px-8">
           <div className="mx-auto">
             <p className="font-thin text-3xl text-[#1E1E1E] leading-relaxed">
-              Our actuarial practice combines international experience with
-              local market knowledge to deliver insights that drive strategic,
-              financial, and regulatory outcomes. We support clients in product
-              development, pricing, valuation, and risk modeling.
+              Clear financial insight strengthens every strategic decision. We
+              help clients model value, understand risk, and make better choices
+              that support growth, funding, and long-term exit readiness.
             </p>
           </div>
         </div>

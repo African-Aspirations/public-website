@@ -3,9 +3,7 @@
 import * as motion from "motion/react-client";
 import { useEffect } from "react";
 import BottomHero from "@/components/BottomHero";
-import Breadcrumbs from "@/components/bread-crumbs";
 import ClientNavbar from "@/components/client-navbar";
-import FloatingArrow from "@/components/floating-arrow";
 import Footer from "@/components/footer";
 import HeroSection from "@/components/HeroSection";
 
@@ -97,16 +95,14 @@ export default function BusinessBrokeragePage() {
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, ease: "easeOut" }}
-        className="pt-40"
+        className="pt-24 md:pt-20"
       >
-        <Breadcrumbs />
 
         <HeroSection
           title="Investment & Asset Liability Management"
           img="/new_images/image 16.png"
         />
       </motion.div>
-      <FloatingArrow />
 
       {/* <div className="w-full -mt-32 hidden md:flex">
         <Image
@@ -123,10 +119,9 @@ export default function BusinessBrokeragePage() {
         <div className="mx-auto max-w-[90rem] px-4 md:px-8">
           <div className="mx-auto">
             <p className="font-thin text-3xl text-[#1E1E1E] leading-relaxed">
-              We advise clients on aligning investments with liabilities through
-              Liability-Driven Investment (LDI) strategies. Our approach
-              integrates risk analytics, governance, and market insight to
-              protect capital and enhance returns.
+              Strong asset-liability management protects capital and improves
+              resilience. It gives business owners and institutions the clarity
+              to make disciplined decisions in complex markets.
             </p>
           </div>
         </div>

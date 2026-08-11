@@ -1,30 +1,57 @@
 "use client";
 
-import Cookies from "js-cookie";
-import { redirect, usePathname } from "next/navigation";
-import { useEffect } from "react";
-import Footer from "@/components/footer";
-import Navbar from "@/components/navbar";
+import axios from "axios";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { AdminSidebar } from "@/components/admin/admin-sidebar";
+import { useAuth } from "@/hooks/use-auth-store";
 
 export default function DashboardLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const pathname = usePathname();
-  const status = Cookies.get("isAuth");
+  const router = useRouter();
+  const { onLogin, onLogout } = useAuth();
+  const [checked, setChecked] = useState(false);
 
   useEffect(() => {
-    if (status === undefined || (false && pathname.startsWith("/auth/admin"))) {
-      redirect("/");
-    }
-  });
+    let active = true;
+
+    // Middleware already blocks unauthenticated requests to this route at
+    // the edge; this call exists to (a) hydrate the signed-in user's info
+    // client-side after a hard refresh, since the session cookie is
+    // httpOnly and unreadable from JS, and (b) act as a second check in
+    // case that ever changes.
+    const verify = async () => {
+      try {
+        const response = await axios.get("/api/auth/me");
+        if (!active) return;
+        onLogin(response.data.user);
+      } catch {
+        if (!active) return;
+        onLogout();
+        router.replace("/auth/login");
+      } finally {
+        if (active) setChecked(true);
+      }
+    };
+
+    void verify();
+    return () => {
+      active = false;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  if (!checked) {
+    return null;
+  }
 
   return (
-    <>
-      <Navbar />
-      <div className="mt-20">{children}</div>
-      <Footer />
-    </>
+    <div className="flex min-h-screen bg-[#f7f8f4]">
+      <AdminSidebar />
+      <main className="min-w-0 flex-1 overflow-y-auto">{children}</main>
+    </div>
   );
 }

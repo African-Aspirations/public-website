@@ -17,7 +17,7 @@ import { Input } from "@/components/ui/input";
 import { useModal } from "@/hooks/use-modal-store";
 
 export const CreateCategoryModal = () => {
-  const { isOpen, onClose, type } = useModal();
+  const { isOpen, onClose, type, data } = useModal();
   const [_file, _setFile] = useState("");
   const [loading, setLoading] = useState(false);
   const [nameInput, setNameInput] = useState("");
@@ -59,6 +59,7 @@ export const CreateCategoryModal = () => {
       setDescInput("");
       setNameInput("");
       handleClose();
+      data?.onSuccess?.();
       router.refresh();
     } catch (error: any) {
       console.error(error.response.data);

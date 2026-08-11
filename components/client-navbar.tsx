@@ -17,29 +17,31 @@ export type NavItem = {
   href?: string;
   subItems?: NavItem[];
   isDropdown?: boolean;
+  description?: string;
+  featured?: boolean;
 };
 
 export const navigationItems: NavItem[] = [
   {
     id: "about-us",
-    title: "About Us",
+    title: "Why AA",
     href: "/about",
     isDropdown: true,
     subItems: [
       {
-        title: "Our Story",
-        href: "/about#our-story",
+        title: "Our philosophy",
+        href: "/about",
+        description: "The thinking behind how we work",
+        featured: true,
       },
       {
-        title: "Leadership Team",
+        title: "Leadership",
         href: "/about#our-team",
+        description: "Meet the team",
+        featured: true,
       },
       {
-        title: "Values & Impact",
-        href: "/about#our-global-partner",
-      },
-      {
-        title: "Transworld Business Advisory",
+        title: "Our network",
         href: "/about#our-global-partner",
       },
     ],
@@ -47,20 +49,30 @@ export const navigationItems: NavItem[] = [
   {
     id: "services",
     title: "Services",
-    href: "/services",
+    href: "/business-consulting",
     isDropdown: true,
     subItems: [
       {
         title: "Business Consulting",
         href: "/business-consulting",
+        description: "Build an institution, not just a business",
+        featured: true,
       },
       {
         title: "Business Funding",
         href: "/business-funding",
+        description: "Capital matched to businesses that are ready",
+        featured: true,
       },
       {
         title: "Business Brokerage",
         href: "/business-brokerage",
+        description: "Sell to a serious, qualified buyer",
+        featured: true,
+      },
+      {
+        title: "Business Valuation",
+        href: "/business-valuation",
       },
     ],
   },
@@ -68,69 +80,13 @@ export const navigationItems: NavItem[] = [
     id: "listings",
     title: "Listings",
     href: "/listings",
-    isDropdown: true,
-    subItems: [
-      {
-        title: "Businesses",
-        href: "#",
-      },
-      {
-        title: "Real Estate",
-        href: "#",
-      },
-      {
-        title: "Featured Listings",
-        href: "#",
-      },
-    ],
+    isDropdown: false,
   },
   {
-    id: "products",
-    title: "Our products",
-    href: "/products",
-    isDropdown: true,
-    subItems: [
-      {
-        title: "Valuation reports",
-        href: "/business-brokerage#business-valuation",
-      },
-      {
-        title: "Pitch books",
-        href: "/business-brokerage#pitch-books",
-      },
-      {
-        title: "CIM",
-        href: "#",
-      },
-      {
-        title: "Industry Research Report",
-        href: "#",
-      },
-    ],
-  },
-  {
-    id: "resources",
-    title: "Resources",
-    href: "/resources",
-    isDropdown: true,
-    subItems: [
-      {
-        title: "Industry blog",
-        href: "#",
-      },
-      {
-        title: "Case study",
-        href: "#",
-      },
-      {
-        title: "Newsletter",
-        href: "#",
-      },
-      {
-        title: "Industry Research Report",
-        href: "#",
-      },
-    ],
+    id: "insights",
+    title: "Insights",
+    href: "/media-and-insights",
+    isDropdown: false,
   },
   // {
   //   id: "funding",
@@ -1043,9 +999,6 @@ const ClientNavbar = () => {
                         href={child.href as string}
                         className="group/item flex items-center gap-3 rounded-lg border border-transparent p-3 transition-all hover:border-gray-100 hover:bg-gray-50"
                       >
-                        {/* <div className="p-2 bg-gray-100 rounded group-hover/item:bg-white transition-colors">
-                          {child.icon}
-                        </div> */}
                         <span className="font-medium text-[13px] text-gray-600 group-hover/item:text-black">
                           {child.title}
                         </span>

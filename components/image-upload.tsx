@@ -1,69 +1,52 @@
 "use client";
 
-import { ImagePlus, Trash } from "lucide-react";
+import axios from "axios";
+import { ImagePlus, Loader2, Trash } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
-import firebase from "@/firebase/firebase";
-import "firebase/compat/storage";
 
 interface ImageUploadProps {
-  setFile: any;
-  file?: any;
+  setFile: (url: string) => void;
+  file?: string;
 }
 
 const ImageUpload: React.FC<ImageUploadProps> = ({ setFile, file }) => {
   const [isMounted, setIsMounted] = useState(false);
-  const [selectedFile, setSelectedFile] = useState("");
-  const [loading, setLoading] = useState("");
+  const [uploading, setUploading] = useState(false);
 
-  const fileInputRef = useRef<any>("");
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     setIsMounted(true);
   }, []);
 
-  const onFileSelected = (e: any) => {
-    const file = e.target.files[0];
-    var storageRef = firebase.storage().ref(`/billboards/${file.name}`);
+  const onFileSelected = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const selected = e.target.files?.[0];
+    e.target.value = "";
+    if (!selected) return;
 
-    const uploadTask = storageRef.put(file);
-    uploadTask.on(
-      "state_changed",
-      (snapshot) => {
-        var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        setLoading(`Upload is ${progress}% done`);
-        console.log(`Upload is ${progress}% done`);
-        switch (snapshot.state) {
-          case firebase.storage.TaskState.PAUSED: // or 'paused'
-            console.log("Upload is paused");
-            setLoading("Upload is paused");
-            break;
-          case firebase.storage.TaskState.RUNNING: // or 'running'
-            console.log("Upload is running");
-            setLoading("Upload is running");
-            break;
-        }
-      },
-      (error) => {
-        // Handle unsuccessful uploads
-        console.log(error);
-      },
-      () => {
-        // Handle successful uploads on complete
-        // For instance, get the download URL: https://firebasestorage.googleapis.com/...
-        uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
-          setLoading("");
-          setSelectedFile(downloadURL);
-          setFile(downloadURL);
-        });
-      },
-    );
+    const formData = new FormData();
+    formData.append("file", selected);
+
+    try {
+      setUploading(true);
+      const response = await axios.post("/api/upload", formData);
+      setFile(response.data.url);
+    } catch (error: any) {
+      const message =
+        typeof error.response?.data === "string"
+          ? error.response.data
+          : "Failed to upload image.";
+      toast.error(message);
+    } finally {
+      setUploading(false);
+    }
   };
 
   const handleUploadButtonClick = () => {
-    // Trigger the file input click when the button is clicked
-    fileInputRef.current.click();
+    fileInputRef.current?.click();
   };
 
   if (!isMounted) {
@@ -73,15 +56,12 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ setFile, file }) => {
   return (
     <div>
       <div className="mb-4 flex items-center gap-4">
-        {selectedFile.length > 0 || file?.length > 0 ? (
+        {file ? (
           <div className="relative h-[200px] w-[200px] overflow-hidden rounded-md">
             <div className="absolute top-2 right-2 z-10">
               <Button
                 type="button"
-                onClick={() => {
-                  setSelectedFile("");
-                  setFile("");
-                }}
+                onClick={() => setFile("")}
                 variant="destructive"
                 size="sm"
               >
@@ -92,22 +72,25 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ setFile, file }) => {
             <Image
               fill
               className="object-cover"
-              alt="Image"
-              src={selectedFile || file}
+              alt="Listing image"
+              src={file}
               sizes="(max-width: 640px) 100vw, (max-width: 1024px) 80vw, 1200px"
             />
           </div>
         ) : null}
       </div>
-      <p className="mb-4 text-black text-xs">{loading}</p>
       <Button
         type="button"
-        disabled={false}
+        disabled={uploading}
         onClick={handleUploadButtonClick}
         className="mb-4 bg-black text-white"
       >
-        <ImagePlus className="mr-2 h-4 w-4" />
-        Upload an Image
+        {uploading ? (
+          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+        ) : (
+          <ImagePlus className="mr-2 h-4 w-4" />
+        )}
+        {uploading ? "Uploading…" : "Upload an Image"}
       </Button>
       <input
         type="file"

@@ -9,14 +9,14 @@ interface BottomCTASectionProps {
 }
 
 export default function BottomCTASection({
-  question = "What are your Aspirations?",
-  buttonText = "Come talk to Us",
+  question = "What does your next chapter look like?",
+  buttonText = "Book a consultation",
   buttonLink = "#contact",
   backgroundImage = "/images/cta-background.jpg",
   link,
 }: BottomCTASectionProps) {
   return (
-    <section className="relative flex h-[550px] items-center justify-center overflow-hidden bg-gray-900">
+    <section className="relative flex h-[300px] items-center overflow-hidden bg-gray-900">
       {/* Background Image with Overlay */}
       <div
         className="absolute inset-0 bg-center bg-cover opacity-30"
@@ -29,9 +29,9 @@ export default function BottomCTASection({
       <div className="absolute inset-0 bg-gradient-to-r from-gray-900/80 to-gray-900/60" />
 
       {/* Content */}
-      <div className="relative mx-auto flex max-w-[90rem] flex-col items-center justify-center px-4 text-center md:px-8">
+      <div className="relative z-10 mx-auto flex w-full max-w-[90rem] flex-col items-start px-4 md:px-8">
         <h2
-          className="mb-8 font-bold text-3xl text-white md:text-4xl lg:text-7xl"
+          className="mb-6 max-w-2xl font-bold text-3xl text-white leading-snug md:text-[42px]"
           style={{ fontFamily: "Inter" }}
         >
           {question}
