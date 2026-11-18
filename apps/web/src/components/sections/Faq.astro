@@ -1,6 +1,8 @@
 ---
 import type { SectionData } from "@aa/db";
 import { getContent } from "../../lib/content";
+import Accordion from "../ui/Accordion.astro";
+import Section from "../ui/Section.astro";
 
 interface Props {
   data: SectionData<"faq">;
@@ -19,17 +21,11 @@ const jsonLd = {
 };
 ---
 {faqs.length > 0 && (
-  <section class="layout section">
-    <div class="faq">
-      <h2>{data.heading ?? "Frequently asked questions"}</h2>
-      {faqs.map((f) => <details name="faq"><summary>{f.question}</summary><p>{f.answer}</p></details>)}
+  <Section>
+    <div class="max-w-narrow">
+      <h2 class="mb-4 text-title">{data.heading ?? "Frequently asked questions"}</h2>
+      {faqs.map((f) => <Accordion title={f.question} name="faq"><p>{f.answer}</p></Accordion>)}
     </div>
     <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
-  </section>
+  </Section>
 )}
-<style>
-  .faq { max-width: var(--content-narrow); }
-  details { border-bottom: 1px solid var(--line); padding-block: var(--space-4); }
-  summary { cursor: pointer; font-weight: 600; }
-  details p { margin: var(--space-3) 0 0; color: var(--color-muted); }
-</style>

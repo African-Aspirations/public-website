@@ -14,7 +14,8 @@ Monorepo for the public site and the private admin.
 apps/web         Astro public site — every page's first HTML response ≤ 14 KB compressed
 apps/admin       Next.js admin on a private subdomain (coming in phase 5)
 packages/db      Drizzle schema, SQL migrations, least-privilege roles, section schemas
-packages/config  Design tokens and the shared layout grid (one content width everywhere)
+packages/ui      Design system: shadcn theme tokens (brand colours), shadcn class recipes, layout grid
+packages/config  Shared tsconfig
 scripts/         check-budget.ts (14 KB gate)
 ```
 
@@ -55,6 +56,7 @@ bun --cwd packages/db run seed               # DATABASE_MIGRATION_URL=…; --for
 `seed/REVIEW.md` is the checklist of problems found in the old copy for the team to fix.
 
 ## Forms and email (Phase 4)
+
 `apps/web/src/pages/api/*` — contact, listing inquiry, newsletter (+ confirm). Each: honeypot → zod validation → Turnstile →
 rate limit (Postgres) → save lead (insert-only `web_forms` role) → email via Resend (`packages/emails`).
 Leads are saved before email is sent, so an email outage never loses an enquiry. Without `RESEND_API_KEY`

@@ -1,22 +1,21 @@
 ---
 import type { SectionData } from "@aa/db";
+import Section from "../ui/Section.astro";
+import SectionHeader from "../ui/SectionHeader.astro";
 
 interface Props {
   data: SectionData<"stats">;
 }
 const { data } = Astro.props;
 ---
-<section class="layout section">
-  <div>
-    {data.heading && <h2>{data.heading}</h2>}
-    <dl class="stats">
-      {data.stats.map((s) => <div><dt>{s.label}</dt><dd>{s.value}</dd></div>)}
-    </dl>
-  </div>
-</section>
-<style>
-  .stats { display: grid; gap: var(--gutter); grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr)); margin: 0; }
-  .stats div { display: flex; flex-direction: column-reverse; border-left: 3px solid var(--color-accent); padding-left: var(--space-4); }
-  dd { margin: 0; font-size: var(--text-2xl); font-weight: 650; color: var(--color-primary); }
-  dt { color: var(--color-muted); }
-</style>
+<Section>
+  <SectionHeader heading={data.heading} />
+  <dl class="grid gap-gutter sm:grid-cols-[repeat(auto-fit,minmax(12rem,1fr))]">
+    {data.stats.map((s) => (
+      <div class="flex flex-col-reverse border-l-3 border-gold pl-4">
+        <dt class="text-muted-foreground">{s.label}</dt>
+        <dd class="text-title font-semibold text-primary">{s.value}</dd>
+      </div>
+    ))}
+  </dl>
+</Section>

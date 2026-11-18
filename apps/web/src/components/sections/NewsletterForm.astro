@@ -1,37 +1,30 @@
 ---
 import type { SectionData } from "@aa/db";
-import FormStatus from "../FormStatus.astro";
 import Turnstile from "../Turnstile.astro";
+import Alert from "../ui/Alert.astro";
+import Button from "../ui/Button.astro";
+import Input from "../ui/Input.astro";
+import Section from "../ui/Section.astro";
+import SectionHeader from "../ui/SectionHeader.astro";
 
 interface Props {
   data: SectionData<"newsletter_form">;
 }
 const { data } = Astro.props;
 ---
-<section class="layout section">
-  <div class="wrap">
-    <h2>{data.heading ?? "Subscribe to our newsletter"}</h2>
-    {data.intro && <p class="lead">{data.intro}</p>}
-    <FormStatus sent="Almost done — check your inbox and click the link to confirm your subscription." />
-    <p id="confirmed" class="note ok" role="status">You're subscribed. Thank you for confirming!</p>
-    <p id="confirm-error" class="note err" role="alert">This confirmation link is invalid or has already been used.</p>
-    <form method="post" action="/api/newsletter" class="form">
-      <label class="visually-hidden" for="nl-email">Email address</label>
-      <input id="nl-email" name="email" type="email" required autocomplete="email" placeholder="you@company.com" maxlength="200" />
-      <input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" />
-      <Turnstile />
-      <button class="btn" type="submit">Subscribe</button>
+<Section>
+  <div class="max-w-narrow">
+    <SectionHeader heading={data.heading ?? "Subscribe to our newsletter"} intro={data.intro} />
+    <Alert id="sent" variant="success" class="mb-6">Almost done — check your inbox and click the link to confirm your subscription.</Alert>
+    <Alert id="error" variant="destructive" class="mb-6">Something went wrong. Please try again.</Alert>
+    <Alert id="confirmed" variant="success" class="mb-6">You're subscribed. Thank you for confirming!</Alert>
+    <Alert id="confirm-error" variant="destructive" class="mb-6">This confirmation link is invalid or has already been used.</Alert>
+    <form method="post" action="/api/newsletter" class="flex flex-wrap gap-2">
+      <label class="sr-only" for="nl-email">Email address</label>
+      <Input id="nl-email" name="email" type="email" required autocomplete="email" placeholder="you@company.com" maxlength={200} class="flex-[1_1_16rem]" />
+      <input class="absolute -left-[9999px]" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" />
+      <Button type="submit" size="lg">Subscribe</Button>
+      <div class="basis-full"><Turnstile /></div>
     </form>
   </div>
-</section>
-<style>
-  .wrap { max-width: var(--content-narrow); }
-  .form { display: flex; gap: var(--space-2); flex-wrap: wrap; }
-  input { flex: 1 1 16rem; font: inherit; padding: 0.7rem 0.85rem; border: 1px solid #c9cfc4; border-radius: var(--radius); }
-  .hp { position: absolute; left: -9999px; }
-  .note { display: none; padding: var(--space-3) var(--space-4); border-radius: var(--radius); }
-  .note:target { display: block; }
-  .ok { background: var(--color-band); color: var(--green-900); }
-  .err { background: #fdecea; color: #8a1c13; }
-  .form :global(.cf-turnstile) { flex-basis: 100%; }
-</style>
+</Section>

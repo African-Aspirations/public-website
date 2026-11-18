@@ -1,0 +1,8 @@
+---
+import { cn, inputClass } from "@aa/ui/recipes";
+import type { HTMLAttributes } from "astro/types";
+
+type Props = HTMLAttributes<"input">;
+const { class: cls, ...rest } = Astro.props;
+---
+<input class={cn(inputClass, cls as string)} {...rest} />

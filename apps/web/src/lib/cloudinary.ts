@@ -4,12 +4,19 @@
  */
 const cloud = import.meta.env.PUBLIC_CLOUDINARY_CLOUD_NAME as string | undefined;
 
-export const cloudinaryEnabled = Boolean(cloud);
+/** In `astro dev` without Cloudinary, images come from the dev-only /__dev-media server (integrations/dev-media.ts). */
+const devMedia = !cloud && import.meta.env.DEV;
+
+export const cloudinaryEnabled = Boolean(cloud) || devMedia;
 
 export function cldUrl(
   publicId: string,
   opts: { width: number; height?: number; crop?: "fill" | "limit"; rasterize?: boolean },
 ) {
+  if (devMedia) {
+    const h = opts.height ? `&h=${Math.round(opts.height)}` : "";
+    return `/__dev-media/${encodeURIComponent(publicId)}?w=${Math.round(opts.width)}${h}`;
+  }
   const t = [
     // SVG sources (some legacy "SVGs" are wrapped PNGs) are rasterized to WebP at the requested width.
     opts.rasterize ? "f_webp" : "f_auto",

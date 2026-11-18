@@ -1,0 +1,30 @@
+---
+/**
+ * Every page section. Owns vertical rhythm and the layout grid, so no section
+ * sets its own width or side padding. tone="band"/"dark" paints a full-width
+ * background while the content stays in the shared content column.
+ */
+import { cn } from "@aa/ui/recipes";
+
+interface Props {
+  tone?: "none" | "band" | "dark";
+  id?: string;
+  class?: string;
+  tight?: boolean;
+}
+const { tone = "none", id, class: cls, tight = false } = Astro.props;
+---
+<section
+  id={id}
+  data-tone={tone}
+  class={cn(
+    "layout py-section",
+    tone === "none" && !tight && "[[data-tone=none]+&]:pt-0",
+    tight && "pt-0",
+    tone === "band" && "bg-secondary",
+    tone === "dark" && "bg-primary text-primary-foreground",
+    cls,
+  )}
+>
+  <div><slot /></div>
+</section>

@@ -1,0 +1,14 @@
+---
+/** shadcn Button. Renders <a> when href is set, otherwise <button>. */
+import { type ButtonVariants, buttonVariants, cn } from "@aa/ui/recipes";
+import type { HTMLAttributes } from "astro/types";
+
+type Props = ButtonVariants & {
+  href?: string;
+  class?: string;
+  type?: "button" | "submit";
+} & HTMLAttributes<"a">;
+const { href, variant, size, class: cls, type = "button", ...rest } = Astro.props;
+const classes = cn(buttonVariants({ variant, size }), cls);
+---
+{href ? <a href={href} class={classes} {...rest}><slot /></a> : <button type={type} class={classes}><slot /></button>}

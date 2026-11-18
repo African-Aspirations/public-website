@@ -1,8 +1,10 @@
 import { existsSync } from "node:fs";
 import sitemap from "@astrojs/sitemap";
 import vercel from "@astrojs/vercel";
+import tailwindcss from "@tailwindcss/vite";
 import { defineConfig } from "astro/config";
 import postgres from "postgres";
+import devMedia from "./integrations/dev-media";
 
 // The config runs before Astro loads .env, so read it here (Vercel sets real env vars instead).
 if (existsSync(".env")) process.loadEnvFile(".env");
@@ -28,6 +30,7 @@ export default defineConfig({
   output: "static",
   adapter: vercel(),
   integrations: [
+    devMedia(),
     sitemap({
       filter: (page) => !/\/(404|privacy-policy|terms-of-use)\/?$/.test(page),
     }),
@@ -37,6 +40,7 @@ export default defineConfig({
     // One HTML request per page: CSS is inlined, so it must stay tiny (14 KB budget).
     inlineStylesheets: "always",
   },
+  vite: { plugins: [tailwindcss()] },
   compressHTML: true,
   trailingSlash: "never",
 });

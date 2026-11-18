@@ -1,32 +1,41 @@
 ---
 import { getContent } from "../lib/content";
 import Img from "./Img.astro";
+import Button from "./ui/Button.astro";
 
 const c = await getContent();
 const { settings, header } = c;
 const logo = c.media(settings.logoId);
 const path = Astro.url.pathname.replace(/\/$/, "") || "/";
 const isCurrent = (href: string) => href === path || (href !== "/" && path.startsWith(`${href}/`));
+const link =
+  "font-medium text-foreground no-underline hover:text-primary aria-[current=page]:text-primary aria-[current=page]:underline";
 ---
-<header class="layout site-header">
-  <div class="bar">
-    <a href="/" class="logo" aria-label={`${settings.orgName} home`}>
+<header class="site-header layout sticky top-0 z-40 border-b bg-background">
+  <div class="relative flex min-h-18 items-center gap-6">
+    <a href="/" class="logo w-30 shrink-0" aria-label={`${settings.orgName} home`}>
       <Img media={logo} sizes="120px" priority alt={settings.orgName} />
     </a>
-    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
-    <nav id="site-nav" class="site-nav" aria-label="Main">
-      <ul>
+    <button class="menu-toggle ml-auto rounded-md border px-4 py-2 font-semibold lg:hidden" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
+    <nav
+      id="site-nav"
+      class="absolute inset-x-[calc(-1*var(--gutter))] top-full hidden max-h-[calc(100dvh-4.5rem)] flex-col gap-4 overflow-y-auto border-b bg-background px-gutter pb-8 pt-4 in-[.nav-open]:flex lg:static lg:ml-auto lg:flex lg:max-h-none lg:flex-row lg:items-center lg:gap-6 lg:overflow-visible lg:border-0 lg:bg-transparent lg:p-0"
+      aria-label="Main"
+    >
+      <ul class="flex flex-col gap-4 lg:flex-row lg:items-center lg:gap-6">
         {header.map((item) =>
           item.children.length ? (
             <li>
-              <details name="nav">
-                <summary>{item.label}</summary>
-                <ul class="sub">
+              <details name="nav" class="group relative">
+                <summary class={`${link} cursor-pointer list-none [&::-webkit-details-marker]:hidden`}>
+                  {item.label}<span class="ml-1 inline-block text-xs group-open:rotate-180" aria-hidden="true">▾</span>
+                </summary>
+                <ul class="mt-2 grid gap-1 lg:absolute lg:-left-4 lg:top-full lg:mt-3 lg:w-80 lg:rounded-lg lg:border lg:bg-popover lg:p-2 lg:shadow-popover">
                   {item.children.map((child) => (
                     <li>
-                      <a href={child.href} aria-current={isCurrent(child.href) ? "page" : undefined}>
-                        <strong>{child.label}</strong>
-                        {child.description && <span>{child.description}</span>}
+                      <a href={child.href} aria-current={isCurrent(child.href) ? "page" : undefined} class="block rounded-md px-3 py-2 no-underline hover:bg-accent">
+                        <span class="block font-medium text-foreground">{child.label}</span>
+                        {child.description && <span class="block text-sm text-muted-foreground">{child.description}</span>}
                       </a>
                     </li>
                   ))}
@@ -34,15 +43,15 @@ const isCurrent = (href: string) => href === path || (href !== "/" && path.start
               </details>
             </li>
           ) : (
-            <li><a href={item.href} aria-current={isCurrent(item.href) ? "page" : undefined}>{item.label}</a></li>
+            <li><a href={item.href} class={link} aria-current={isCurrent(item.href) ? "page" : undefined}>{item.label}</a></li>
           ),
         )}
       </ul>
-      {settings.ctaUrl && settings.ctaLabel && <a class="btn btn-accent" href={settings.ctaUrl}>{settings.ctaLabel}</a>}
+      {settings.ctaUrl && settings.ctaLabel && <Button href={settings.ctaUrl} variant="gold" class="self-start lg:self-auto">{settings.ctaLabel}</Button>}
     </nav>
   </div>
 </header>
-<noscript><style>.site-nav{display:flex!important}.menu-toggle{display:none}</style></noscript>
+<noscript><style>#site-nav{display:flex}.menu-toggle{display:none}</style></noscript>
 <script is:inline>
   {
     const b = document.querySelector(".menu-toggle");
@@ -52,133 +61,7 @@ const isCurrent = (href: string) => href === path || (href !== "/" && path.start
       document.body.classList.toggle("nav-open", open);
     });
     document.addEventListener("click", (e) => {
-      for (const d of document.querySelectorAll(".site-nav details[open]")) if (!d.contains(e.target)) d.open = false;
+      for (const d of document.querySelectorAll("#site-nav details[open]")) if (!d.contains(e.target)) d.open = false;
     });
   }
 </script>
-<style>
-  .site-header {
-    position: sticky;
-    top: 0;
-    z-index: 5;
-    background: color-mix(in srgb, var(--surface) 94%, transparent);
-    backdrop-filter: blur(8px);
-    border-bottom: 1px solid var(--line);
-  }
-  .bar {
-    display: flex;
-    align-items: center;
-    gap: var(--space-6);
-    min-height: 4.5rem;
-  }
-  .logo :global(img),
-  .logo :global(.img-placeholder) {
-    width: 120px;
-    height: auto;
-  }
-  .site-nav,
-  .site-nav > ul {
-    display: flex;
-    align-items: center;
-    gap: var(--space-6);
-  }
-  .site-nav {
-    margin-left: auto;
-  }
-  ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-  }
-  .site-nav a:not(.btn),
-  summary {
-    color: var(--ink);
-    text-decoration: none;
-    font-weight: 500;
-    cursor: pointer;
-  }
-  .site-nav a[aria-current="page"] {
-    color: var(--color-primary);
-    text-decoration: underline;
-  }
-  summary {
-    list-style: none;
-  }
-  summary::-webkit-details-marker {
-    display: none;
-  }
-  summary::after {
-    content: " ▾";
-    font-size: 0.75em;
-  }
-  details {
-    position: relative;
-  }
-  .sub {
-    position: absolute;
-    top: calc(100% + 0.75rem);
-    left: -1rem;
-    width: 20rem;
-    padding: var(--space-2);
-    background: var(--surface);
-    border: 1px solid var(--line);
-    border-radius: var(--radius);
-    box-shadow: 0 12px 32px rgb(0 0 0 / 0.08);
-  }
-  .sub a {
-    display: block;
-    padding: var(--space-3);
-    border-radius: calc(var(--radius) - 2px);
-  }
-  .sub a:hover {
-    background: var(--color-band);
-  }
-  .sub span {
-    display: block;
-    font-size: var(--text-sm);
-    color: var(--color-muted);
-    font-weight: 400;
-  }
-  .menu-toggle {
-    display: none;
-    margin-left: auto;
-    font: inherit;
-    font-weight: 600;
-    background: none;
-    border: 1px solid var(--line);
-    border-radius: var(--radius);
-    padding: var(--space-2) var(--space-4);
-  }
-  @media (max-width: 63.99rem) {
-    .menu-toggle {
-      display: block;
-    }
-    .site-nav {
-      display: none;
-      position: absolute;
-      inset: 100% 0 auto;
-      flex-direction: column;
-      align-items: stretch;
-      padding: var(--space-4) var(--gutter) var(--space-8);
-      background: var(--surface);
-      border-bottom: 1px solid var(--line);
-      max-height: calc(100dvh - 4.5rem);
-      overflow-y: auto;
-    }
-    :global(.nav-open) .site-nav {
-      display: flex;
-    }
-    .site-nav > ul {
-      flex-direction: column;
-      align-items: stretch;
-      gap: var(--space-4);
-    }
-    .sub {
-      position: static;
-      width: auto;
-      border: 0;
-      box-shadow: none;
-      padding: var(--space-2) 0 0;
-    }
-  }
-</style>

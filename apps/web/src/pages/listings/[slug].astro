@@ -2,6 +2,14 @@
 import { marked } from "marked";
 import Img from "../../components/Img.astro";
 import Turnstile from "../../components/Turnstile.astro";
+import Alert from "../../components/ui/Alert.astro";
+import Badge from "../../components/ui/Badge.astro";
+import Button from "../../components/ui/Button.astro";
+import Card from "../../components/ui/Card.astro";
+import Field from "../../components/ui/Field.astro";
+import Input from "../../components/ui/Input.astro";
+import Section from "../../components/ui/Section.astro";
+import Textarea from "../../components/ui/Textarea.astro";
 import Base from "../../layouts/Base.astro";
 import { cloudinaryEnabled, responsive } from "../../lib/cloudinary";
 import { getContent } from "../../lib/content";
@@ -53,67 +61,44 @@ const jsonLd = [
   preload={l.cover && cloudinaryEnabled ? { srcset: responsive(l.cover, 4 / 3).srcset, sizes: SIZES } : null}
   jsonLd={jsonLd}
 >
-  <article class="layout section">
-    <div class="grid-12">
-      <div class="main">
-        <nav class="crumbs" aria-label="Breadcrumb"><a href="/listings">Listings</a> › <span aria-current="page">{l.name}</span></nav>
-        {l.category && <p class="eyebrow">{l.category.label}</p>}
-        <h1>{l.name}</h1>
-        {l.location && <p class="lead">{l.location}</p>}
-        <Img media={l.cover} sizes={SIZES} aspect={4 / 3} priority />
-        <h2>About this business</h2>
+  <Section>
+    <div class="grid gap-gutter lg:grid-cols-[2fr_1fr]">
+      <article>
+        <nav class="mb-4 text-sm text-muted-foreground" aria-label="Breadcrumb"><a href="/listings" class="text-primary">Listings</a> › <span aria-current="page">{l.name}</span></nav>
+        {l.category && <Badge variant="secondary" class="mb-3">{l.category.label}</Badge>}
+        <h1 class="text-display">{l.name}</h1>
+        {l.location && <p class="mt-2 text-lg text-muted-foreground">{l.location}</p>}
+        <Img media={l.cover} sizes={SIZES} aspect={4 / 3} priority class="my-8 w-full rounded-xl" />
+        <h2 class="mb-4 text-2xl">About this business</h2>
         <div class="prose" set:html={description} />
         {l.images.length > 0 && (
-          <ul class="gallery">{l.images.map((m) => <li><Img media={m} sizes="(min-width: 64rem) 330px, 50vw" aspect={4 / 3} /></li>)}</ul>
+          <ul class="mt-8 grid grid-cols-2 gap-4">{l.images.map((m) => <li><Img media={m} sizes="(min-width: 64rem) 330px, 50vw" aspect={4 / 3} class="w-full rounded-lg" /></li>)}</ul>
         )}
-      </div>
-      <aside class="side">
-        <div class="box">
-          <p class="price">{price ?? "Price on request"}</p>
-          <dl>{details.map(([k, v]) => <div><dt>{k}</dt><dd>{v}</dd></div>)}</dl>
-          <a class="btn" href={`#inquire`}>Enquire about this business</a>
-        </div>
+      </article>
+      <aside>
+        <Card class="sticky top-24 gap-4 px-6">
+          <p class="text-2xl font-semibold">{price ?? "Price on request"}</p>
+          <dl class="grid gap-3">{details.map(([k, v]) => <div><dt class="text-sm text-muted-foreground">{k}</dt><dd class="font-semibold">{v}</dd></div>)}</dl>
+          <Button href="#inquire" size="lg">Enquire about this business</Button>
+        </Card>
       </aside>
     </div>
-  </article>
-  <section class="layout section" id="inquire">
-    <div class="form-wrap">
-      <h2>Enquire about {l.name}</h2>
-      <p id="sent" class="status ok" role="status">Thank you — your enquiry has been sent. Our brokerage team will contact you shortly.</p>
-      <p id="error" class="status err" role="alert">Something went wrong. Please try again, or email us directly.</p>
-      <form method="post" action="/api/inquiry" class="form">
+  </Section>
+  <Section id="inquire" tight>
+    <div class="max-w-narrow">
+      <h2 class="mb-6 text-title">Enquire about {l.name}</h2>
+      <Alert id="sent" variant="success" class="mb-6">Thank you — your enquiry has been sent. Our brokerage team will contact you shortly.</Alert>
+      <Alert id="error" variant="destructive" class="mb-6">Something went wrong. Please try again, or email us directly.</Alert>
+      <form method="post" action="/api/inquiry" class="grid gap-5">
         <input type="hidden" name="listing" value={l.slug} />
-        <label>Full name<input name="name" required autocomplete="name" maxlength="120" /></label>
-        <label>Email<input name="email" type="email" required autocomplete="email" maxlength="200" /></label>
-        <label>Phone <span>(optional)</span><input name="phone" type="tel" autocomplete="tel" maxlength="40" /></label>
-        <label>Message<textarea name="message" rows="5" required maxlength="5000">{`I'm interested in "${l.name}". Please send me more information.`}</textarea></label>
-        <input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" />
+        <Field label="Full name"><Input name="name" required autocomplete="name" maxlength={120} /></Field>
+        <Field label="Email"><Input name="email" type="email" required autocomplete="email" maxlength={200} /></Field>
+        <Field label="Phone" hint="(optional)"><Input name="phone" type="tel" autocomplete="tel" maxlength={40} /></Field>
+        <Field label="Message"><Textarea name="message" rows={5} required maxlength={5000}>{`I'm interested in "${l.name}". Please send me more information.`}</Textarea></Field>
+        <input class="absolute -left-[9999px]" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" />
         <Turnstile />
-        <button class="btn" type="submit">Send enquiry</button>
+        <Button type="submit" size="lg" class="justify-self-start">Send enquiry</Button>
       </form>
     </div>
-  </section>
+  </Section>
 </Base>
-<style>
-  .main { grid-column: 1 / span 8; }
-  .side { grid-column: 9 / -1; }
-  .box { position: sticky; top: 6rem; border: 1px solid var(--line); border-radius: var(--radius); padding: var(--space-6); display: grid; gap: var(--space-4); }
-  .price { font-size: var(--text-xl); font-weight: 650; margin: 0; }
-  dl { margin: 0; display: grid; gap: var(--space-3); }
-  dt { font-size: var(--text-sm); color: var(--color-muted); }
-  dd { margin: 0; font-weight: 600; }
-  .crumbs { font-size: var(--text-sm); margin-bottom: var(--space-4); color: var(--color-muted); }
-  .main :global(img), .main :global(.img-placeholder) { border-radius: var(--radius); margin-bottom: var(--space-8); }
-  .gallery { list-style: none; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-4); }
-  .form-wrap { max-width: var(--content-narrow); }
-  .form { display: grid; gap: var(--space-4); }
-  label { display: grid; gap: var(--space-1); font-weight: 600; font-size: var(--text-sm); }
-  label span { font-weight: 400; color: var(--color-muted); }
-  input, textarea { font: inherit; font-weight: 400; padding: 0.7rem 0.85rem; border: 1px solid #c9cfc4; border-radius: var(--radius); width: 100%; }
-  .hp { position: absolute; left: -9999px; }
-  .btn { justify-self: start; text-align: center; }
-  .status { display: none; padding: var(--space-3) var(--space-4); border-radius: var(--radius); }
-  .status:target { display: block; }
-  .ok { background: var(--color-band); }
-  .err { background: #fdecea; color: #8a1c13; }
-</style>

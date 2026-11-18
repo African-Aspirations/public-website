@@ -19,9 +19,9 @@ import { collectAssets } from "./walk";
 export type ManifestEntry = { publicId: string; width: number; height: number; format: string };
 export type Manifest = Record<string, ManifestEntry>;
 
-const MANIFEST = resolvePath(import.meta.dir, "assets.manifest.json");
+const MANIFEST = resolvePath(import.meta.dirname, "assets.manifest.json");
 const LEGACY_PUBLIC = resolvePath(
-  process.env.LEGACY_PUBLIC ?? join(import.meta.dir, "../../../../aa-website-legacy/public"),
+  process.env.LEGACY_PUBLIC ?? join(import.meta.dirname, "../../../../aa-website-legacy/public"),
 );
 const FOLDER = process.env.CLOUDINARY_FOLDER ?? "aa";
 const MAX_UPLOAD_BYTES = 9.5 * 1024 * 1024; // Cloudinary free plan caps images at 10 MB

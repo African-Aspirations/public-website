@@ -1,13 +1,16 @@
 ---
+import Button from "../components/ui/Button.astro";
+import Section from "../components/ui/Section.astro";
 import Base from "../layouts/Base.astro";
 ---
 <Base title="Page not found" noindex>
-  <section class="layout section">
-    <div>
-      <p class="eyebrow">404</p>
-      <h1>We couldn't find that page</h1>
-      <p class="lead">It may have moved, or the link may be out of date.</p>
-      <p><a class="btn" href="/">Go to the homepage</a> &nbsp; <a href="/contact">Contact us</a></p>
+  <Section>
+    <p class="mb-2 text-sm font-semibold uppercase tracking-wider text-brand-leaf">404</p>
+    <h1 class="text-display">We couldn't find that page</h1>
+    <p class="mt-4 text-lg text-muted-foreground">It may have moved, or the link may be out of date.</p>
+    <div class="mt-6 flex flex-wrap gap-3">
+      <Button href="/" size="lg">Go to the homepage</Button>
+      <Button href="/contact" size="lg" variant="outline">Contact us</Button>
     </div>
-  </section>
+  </Section>
 </Base>

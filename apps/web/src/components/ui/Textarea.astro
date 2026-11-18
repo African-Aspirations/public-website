@@ -1,0 +1,8 @@
+---
+import { cn, textareaClass } from "@aa/ui/recipes";
+import type { HTMLAttributes } from "astro/types";
+
+type Props = HTMLAttributes<"textarea">;
+const { class: cls, ...rest } = Astro.props;
+---
+<textarea class={cn(textareaClass, cls as string)} {...rest}><slot /></textarea>

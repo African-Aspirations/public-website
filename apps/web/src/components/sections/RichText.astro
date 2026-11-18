@@ -3,6 +3,8 @@ import type { SectionData } from "@aa/db";
 import { marked } from "marked";
 import { getContent } from "../../lib/content";
 import Img from "../Img.astro";
+import Section from "../ui/Section.astro";
+import SectionHeader from "../ui/SectionHeader.astro";
 
 interface Props {
   data: SectionData<"rich_text">;
@@ -12,20 +14,12 @@ const c = await getContent();
 const image = c.media(data.imageId);
 const html = await marked.parse(data.body);
 ---
-<section class="layout section">
-  <div class:list={["grid-12", { "img-left": data.imageSide === "left" }]}>
-    <div class="text" style={image ? undefined : "grid-column: 1 / span 8"}>
-      {data.eyebrow && <p class="eyebrow">{data.eyebrow}</p>}
-      {data.heading && <h2>{data.heading}</h2>}
+<Section>
+  <div class:list={["grid items-center gap-gutter", image && "md:grid-cols-2"]}>
+    <div class:list={["max-w-narrow", image && data.imageSide === "left" && "md:order-2"]}>
+      <SectionHeader eyebrow={data.eyebrow} heading={data.heading} />
       <div class="prose" set:html={html} />
     </div>
-    {image && <div class="media"><Img media={image} sizes="(min-width: 64rem) 520px, 100vw" /></div>}
+    {image && <Img media={image} sizes="(min-width: 64rem) 520px, 100vw" class="w-full rounded-xl" />}
   </div>
-</section>
-<style>
-  .text { grid-column: 1 / span 6; align-self: center; }
-  .media { grid-column: 8 / -1; }
-  .img-left .text { grid-column: 7 / -1; grid-row: 1; }
-  .img-left .media { grid-column: 1 / span 5; grid-row: 1; }
-  .media :global(img) { border-radius: var(--radius); width: 100%; }
-</style>
+</Section>

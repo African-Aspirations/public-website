@@ -2,6 +2,7 @@
 import type { SectionData } from "@aa/db";
 import { getContent } from "../../lib/content";
 import Img from "../Img.astro";
+import Section from "../ui/Section.astro";
 
 interface Props {
   data: SectionData<"partner">;
@@ -11,30 +12,21 @@ const p = c.partner(Astro.props.data.partnerId);
 const logo = p ? c.media(p.logoId) : null;
 ---
 {p && (
-  <section class="layout section tone band" id="our-global-partner">
-    <div class="grid-12">
-      <div class="text">
-        <p class="eyebrow">Global partner</p>
-        <h2>{p.url ? <a href={p.url} rel="noopener">{p.name}</a> : p.name}</h2>
-        {p.description && <p>{p.description}</p>}
+  <Section tone="band" id="our-global-partner">
+    <div class="grid items-center gap-gutter lg:grid-cols-[7fr_5fr]">
+      <div>
+        <p class="mb-2 text-sm font-semibold uppercase tracking-wider text-brand-leaf">Global partner</p>
+        <h2 class="text-title">{p.url ? <a href={p.url} rel="noopener" class="text-inherit">{p.name}</a> : p.name}</h2>
+        {p.description && <p class="mt-4">{p.description}</p>}
       </div>
-      <div class="side">
-        {logo && <div class="logo"><Img media={logo} sizes="200px" /></div>}
+      <div class="grid gap-6">
+        {logo && <Img media={logo} sizes="200px" class="w-50" />}
         {p.stats.length > 0 && (
-          <dl>{p.stats.map((s) => <div><dt>{s.label}</dt><dd>{s.value}</dd></div>)}</dl>
+          <dl class="grid grid-cols-[repeat(auto-fit,minmax(8rem,1fr))] gap-4">
+            {p.stats.map((s) => <div class="flex flex-col-reverse"><dt class="text-sm text-muted-foreground">{s.label}</dt><dd class="text-xl font-semibold text-primary">{s.value}</dd></div>)}
+          </dl>
         )}
       </div>
     </div>
-  </section>
+  </Section>
 )}
-<style>
-  .band { background: var(--color-band); }
-  .text { grid-column: 1 / span 7; }
-  .side { grid-column: 9 / -1; display: grid; gap: var(--space-6); align-content: center; }
-  .logo :global(img) { width: 200px; }
-  h2 a { color: inherit; }
-  dl { margin: 0; display: grid; gap: var(--space-4); grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr)); }
-  dl div { display: flex; flex-direction: column-reverse; }
-  dd { margin: 0; font-size: var(--text-xl); font-weight: 650; color: var(--color-primary); }
-  dt { font-size: var(--text-sm); color: var(--color-muted); }
-</style>

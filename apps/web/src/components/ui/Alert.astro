@@ -1,0 +1,12 @@
+---
+/**
+ * shadcn Alert. With `id`, it's hidden until the URL fragment targets it
+ * (#sent / #error after a form redirect), so it works without JavaScript.
+ */
+import { type AlertVariants, alertVariants, cn } from "@aa/ui/recipes";
+
+type Props = AlertVariants & { id?: string; class?: string };
+const { variant, id, class: cls } = Astro.props;
+const role = variant === "destructive" ? "alert" : "status";
+---
+<div id={id} role={role} class={cn(alertVariants({ variant }), id && "hidden target:grid", cls)}><slot /></div>

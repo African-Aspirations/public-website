@@ -1,0 +1,8 @@
+/* Scan only markup + the shared recipes (theme.css adds packages/ui/src); scanning
+   lib/tests/integrations creates false-positive utilities (e.g. the word "filter"
+   in a comment) that bloat the CSS inlined on every page. */
+@import "tailwindcss" source(none);
+@import "@aa/ui/theme.css";
+@source "../components";
+@source "../layouts";
+@source "../pages";

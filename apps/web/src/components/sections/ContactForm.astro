@@ -1,44 +1,35 @@
 ---
 import type { SectionData } from "@aa/db";
-import FormStatus from "../FormStatus.astro";
 import Turnstile from "../Turnstile.astro";
+import Alert from "../ui/Alert.astro";
+import Button from "../ui/Button.astro";
+import Field from "../ui/Field.astro";
+import Input from "../ui/Input.astro";
+import Section from "../ui/Section.astro";
+import SectionHeader from "../ui/SectionHeader.astro";
+import Textarea from "../ui/Textarea.astro";
 
 interface Props {
   data: SectionData<"contact_form">;
 }
 const { data } = Astro.props;
 ---
-<section class="layout section">
-  <div class="wrap">
-    {data.heading && <h2>{data.heading}</h2>}
-    {data.intro && <p class="lead">{data.intro}</p>}
-    <FormStatus sent="Thank you — your message has been sent. We'll be in touch shortly." />
-    <form method="post" action="/api/contact" class="form">
-      <div class="row">
-        <label>Full name<input name="name" required autocomplete="name" maxlength="120" /></label>
-        <label>Email<input name="email" type="email" required autocomplete="email" maxlength="200" /></label>
+<Section>
+  <div class="max-w-narrow">
+    <SectionHeader heading={data.heading} intro={data.intro} />
+    <Alert id="sent" variant="success" class="mb-6">Thank you — your message has been sent. We'll be in touch shortly.</Alert>
+    <Alert id="error" variant="destructive" class="mb-6">Something went wrong. Please try again, or email us directly.</Alert>
+    <form method="post" action="/api/contact" class="grid gap-5">
+      <div class="grid gap-5 sm:grid-cols-2">
+        <Field label="Full name"><Input name="name" required autocomplete="name" maxlength={120} /></Field>
+        <Field label="Email"><Input name="email" type="email" required autocomplete="email" maxlength={200} /></Field>
+        <Field label="Phone" hint="(optional)"><Input name="phone" type="tel" autocomplete="tel" maxlength={40} /></Field>
+        <Field label="Company" hint="(optional)"><Input name="company" autocomplete="organization" maxlength={160} /></Field>
       </div>
-      <div class="row">
-        <label>Phone <span>(optional)</span><input name="phone" type="tel" autocomplete="tel" maxlength="40" /></label>
-        <label>Company <span>(optional)</span><input name="company" autocomplete="organization" maxlength="160" /></label>
-      </div>
-      <label>How can we help?<textarea name="message" rows="6" required maxlength="5000"></textarea></label>
-      <label class="hp" aria-hidden="true">Leave this empty<input name="website" tabindex="-1" autocomplete="off" /></label>
+      <Field label="How can we help?"><Textarea name="message" rows={6} required maxlength={5000} /></Field>
+      <input class="absolute -left-[9999px]" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" />
       <Turnstile />
-      <button class="btn" type="submit">Send message</button>
+      <Button type="submit" size="lg" class="justify-self-start">Send message</Button>
     </form>
   </div>
-</section>
-<style>
-  .wrap { max-width: var(--content-narrow); }
-  .form { display: grid; gap: var(--space-4); }
-  .row { display: grid; gap: var(--space-4); grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr)); }
-  label { display: grid; gap: var(--space-1); font-weight: 600; font-size: var(--text-sm); }
-  label span { font-weight: 400; color: var(--color-muted); }
-  input, textarea {
-    font: inherit; font-weight: 400; padding: 0.7rem 0.85rem; border: 1px solid #c9cfc4; border-radius: var(--radius); background: #fff; width: 100%;
-  }
-  input:focus, textarea:focus { outline: 2px solid var(--green-500); outline-offset: 0; border-color: transparent; }
-  .hp { position: absolute; left: -9999px; }
-  .btn { justify-self: start; }
-</style>
+</Section>

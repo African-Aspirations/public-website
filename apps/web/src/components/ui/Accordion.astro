@@ -1,0 +1,18 @@
+---
+/** shadcn Accordion item on native <details>: zero JS. Items sharing `name` close each other. */
+import { accordion, cn } from "@aa/ui/recipes";
+
+interface Props {
+  title: string;
+  name?: string;
+  class?: string;
+}
+const { title, name, class: cls } = Astro.props;
+---
+<details name={name} class={cn("group", accordion.item, cls)}>
+  <summary class={accordion.trigger}>
+    {title}
+    <svg class={accordion.chevron} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m6 9 6 6 6-6" /></svg>
+  </summary>
+  <div class={accordion.content}><slot /></div>
+</details>

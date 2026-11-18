@@ -1,0 +1,7 @@
+---
+import { type BadgeVariants, badgeVariants, cn } from "@aa/ui/recipes";
+
+type Props = BadgeVariants & { class?: string };
+const { variant, class: cls } = Astro.props;
+---
+<span class={cn(badgeVariants({ variant }), cls)}><slot /></span>

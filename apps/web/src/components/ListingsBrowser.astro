@@ -1,55 +1,57 @@
 ---
+import { inputClass } from "@aa/ui/recipes";
 import { getContent } from "../lib/content";
 import ListingCard from "./ListingCard.astro";
+import Field from "./ui/Field.astro";
+import Input from "./ui/Input.astro";
+import Section from "./ui/Section.astro";
 
 const c = await getContent();
 const { listings, categories } = c;
 const usedCats = categories.filter((cat) => listings.some((l) => l.categoryId === cat.id));
 ---
-<section class="layout section browser">
-  <div>
-    {listings.length === 0 ? (
-      <div class="empty">
-        <h2>No businesses are listed right now</h2>
-        <p>New opportunities are added regularly. <a href="/contact">Tell us what you're looking for</a> and we'll reach out when something fits.</p>
-      </div>
-    ) : (
-      <>
-        <form class="filters" role="search" aria-label="Filter listings">
-          <label>Search<input type="search" name="q" placeholder="Name, sector or region" /></label>
-          {usedCats.length > 0 && (
-            <label>Sector
-              <select name="cat"><option value="">All sectors</option>{usedCats.map((cat) => <option value={cat.slug}>{cat.label}</option>)}</select>
-            </label>
-          )}
-          <label>Min price<input type="number" name="min" min="0" step="1000" inputmode="numeric" /></label>
-          <label>Max price<input type="number" name="max" min="0" step="1000" inputmode="numeric" /></label>
-          <label>Sort
-            <select name="sort">
-              <option value="new">Newest</option>
-              <option value="price-asc">Price: low to high</option>
-              <option value="price-desc">Price: high to low</option>
-            </select>
-          </label>
-        </form>
-        <p class="count" aria-live="polite"><span data-count>{listings.length}</span> of {listings.length} listings</p>
-        <ul class="grid" data-listings>
-          {listings.map((l, i) => (
-            <li
-              data-text={[l.name, l.summary, l.location, l.region, l.category?.label].filter(Boolean).join(" ").toLowerCase()}
-              data-cat={l.category?.slug ?? ""}
-              data-price={l.price ?? ""}
-              data-order={i}
-            >
-              <ListingCard listing={l} />
-            </li>
-          ))}
-        </ul>
-        <p class="none" hidden>No listings match these filters.</p>
-      </>
-    )}
-  </div>
-</section>
+<Section tight>
+  {listings.length === 0 ? (
+    <div class="max-w-narrow">
+      <h2 class="text-title">No businesses are listed right now</h2>
+      <p class="mt-3">New opportunities are added regularly. <a href="/contact" class="text-primary">Tell us what you're looking for</a> and we'll reach out when something fits.</p>
+    </div>
+  ) : (
+    <>
+      <form class="filters mb-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-5" role="search" aria-label="Filter listings">
+        <Field label="Search"><Input type="search" name="q" placeholder="Name, sector or region" /></Field>
+        {usedCats.length > 0 && (
+          <Field label="Sector">
+            <select name="cat" class={inputClass}><option value="">All sectors</option>{usedCats.map((cat) => <option value={cat.slug}>{cat.label}</option>)}</select>
+          </Field>
+        )}
+        <Field label="Min price"><Input type="number" name="min" min="0" step="1000" inputmode="numeric" /></Field>
+        <Field label="Max price"><Input type="number" name="max" min="0" step="1000" inputmode="numeric" /></Field>
+        <Field label="Sort">
+          <select name="sort" class={inputClass}>
+            <option value="new">Newest</option>
+            <option value="price-asc">Price: low to high</option>
+            <option value="price-desc">Price: high to low</option>
+          </select>
+        </Field>
+      </form>
+      <p class="mb-6 text-sm text-muted-foreground" aria-live="polite"><span data-count>{listings.length}</span> of {listings.length} listings</p>
+      <ul class="grid gap-x-gutter gap-y-8 sm:grid-cols-2 lg:grid-cols-3 [&>[hidden]]:hidden" data-listings>
+        {listings.map((l, i) => (
+          <li
+            data-text={[l.name, l.summary, l.location, l.region, l.category?.label].filter(Boolean).join(" ").toLowerCase()}
+            data-cat={l.category?.slug ?? ""}
+            data-price={l.price ?? ""}
+            data-order={i}
+          >
+            <ListingCard listing={l} />
+          </li>
+        ))}
+      </ul>
+      <p class="none [&[hidden]]:hidden" hidden>No listings match these filters.</p>
+    </>
+  )}
+</Section>
 <script is:inline>
   {
     const f = document.querySelector(".filters");
@@ -94,13 +96,3 @@ const usedCats = categories.filter((cat) => listings.some((l) => l.categoryId ==
     }
   }
 </script>
-<style>
-  .browser { padding-top: 0; }
-  .filters { display: grid; gap: var(--space-4); grid-template-columns: repeat(auto-fit, minmax(min(100%, 10rem), 1fr)); margin-bottom: var(--space-4); }
-  .filters label { display: grid; gap: var(--space-1); font-size: var(--text-sm); font-weight: 600; }
-  input, select { font: inherit; font-weight: 400; padding: 0.6rem 0.75rem; border: 1px solid #c9cfc4; border-radius: var(--radius); background: #fff; width: 100%; }
-  .count { color: var(--color-muted); font-size: var(--text-sm); }
-  .grid { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--space-8) var(--gutter); grid-template-columns: repeat(auto-fill, minmax(min(100%, 16rem), 1fr)); }
-  .grid [hidden], .none[hidden] { display: none; }
-  .empty { max-width: var(--content-narrow); }
-</style>

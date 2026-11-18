@@ -1,6 +1,5 @@
 ---
-import "@aa/config/tokens.css";
-import "../styles/base.css";
+import "../styles/global.css";
 import Footer from "../components/Footer.astro";
 import Header from "../components/Header.astro";
 import { cldUrl, cloudinaryEnabled } from "../lib/cloudinary";
@@ -53,7 +52,7 @@ const ogUrl =
     {jsonLd.map((data) => <script type="application/ld+json" set:html={JSON.stringify(data)} />)}
   </head>
   <body>
-    <a class="skip-link" href="#main">Skip to content</a>
+    <a class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-md focus:bg-background focus:px-4 focus:py-2" href="#main">Skip to content</a>
     <Header />
     <main id="main">
       <slot />

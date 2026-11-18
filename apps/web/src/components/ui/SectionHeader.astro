@@ -1,0 +1,16 @@
+---
+interface Props {
+  eyebrow?: string | null;
+  heading?: string | null;
+  intro?: string | null;
+  as?: "h1" | "h2";
+}
+const { eyebrow, heading, intro, as: H = "h2" } = Astro.props;
+---
+{(eyebrow || heading || intro) && (
+  <header class="mb-8 max-w-narrow">
+    {eyebrow && <p class="mb-2 text-sm font-semibold uppercase tracking-wider text-brand-leaf">{eyebrow}</p>}
+    {heading && <H class={H === "h1" ? "text-display" : "text-title"}>{heading}</H>}
+    {intro && <p class="mt-4 text-lg text-muted-foreground">{intro}</p>}
+  </header>
+)}

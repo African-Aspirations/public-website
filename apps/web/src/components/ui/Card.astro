@@ -1,0 +1,11 @@
+---
+/** shadcn Card container. Use the recipe parts (card.header/title/content…) inside. */
+import { card, cn } from "@aa/ui/recipes";
+
+interface Props {
+  class?: string;
+  as?: "div" | "article" | "aside" | "li";
+}
+const { class: cls, as: Tag = "div" } = Astro.props;
+---
+<Tag class={cn(card.root, cls)}><slot /></Tag>

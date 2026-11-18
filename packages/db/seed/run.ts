@@ -25,9 +25,9 @@ import { collectAssets, resolve } from "./walk";
 
 const args = new Set(process.argv.slice(2));
 const LEGACY_PUBLIC = resolvePath(
-  process.env.LEGACY_PUBLIC ?? join(import.meta.dir, "../../../../aa-website-legacy/public"),
+  process.env.LEGACY_PUBLIC ?? join(import.meta.dirname, "../../../../aa-website-legacy/public"),
 );
-const MANIFEST = resolvePath(import.meta.dir, "assets.manifest.json");
+const MANIFEST = resolvePath(import.meta.dirname, "assets.manifest.json");
 
 // ---------- validation (no DB) ----------
 function validate(): string[] {
@@ -111,7 +111,7 @@ function writeReview() {
       "",
     );
   }
-  writeFileSync(join(import.meta.dir, "REVIEW.md"), `${lines.join("\n")}\n`);
+  writeFileSync(join(import.meta.dirname, "REVIEW.md"), `${lines.join("\n")}\n`);
 }
 
 // ---------- seeding ----------

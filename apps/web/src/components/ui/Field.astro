@@ -1,0 +1,15 @@
+---
+/** Label wrapping a control (shadcn Label styling); optional hint after the label text. */
+import { cn, labelClass } from "@aa/ui/recipes";
+
+interface Props {
+  label: string;
+  hint?: string;
+  class?: string;
+}
+const { label, hint, class: cls } = Astro.props;
+---
+<label class={cn(labelClass, cls)}>
+  <span>{label}{hint && <span class="font-normal text-muted-foreground"> {hint}</span>}</span>
+  <slot />
+</label>

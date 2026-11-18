@@ -13,12 +13,15 @@
     "@aa/config": "workspace:*",
     "@aa/db": "workspace:*",
     "@aa/emails": "workspace:*",
+    "@aa/ui": "workspace:*",
     "@astrojs/sitemap": "3.7.5",
     "@astrojs/vercel": "11.0.22",
+    "@tailwindcss/vite": "4.3.5",
     "astro": "7.4.12",
     "drizzle-orm": "0.45.4",
     "marked": "18.2.1",
     "postgres": "4.1.1",
+    "tailwindcss": "4.3.5",
     "zod": "4.6.7"
   },
   "devDependencies": {

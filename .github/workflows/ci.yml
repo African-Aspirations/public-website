@@ -44,6 +44,8 @@ jobs:
         env:
           DATABASE_URL_WEB_BUILD: postgres://web_build:ci@localhost:5432/postgres
           PUBLIC_CLOUDINARY_CLOUD_NAME: ci-placeholder
+      - name: No client JS on the public site
+        run: bun scripts/check-no-client-js.ts
       - name: 14 KB HTML budget
         run: bun scripts/check-budget.ts apps/web/dist/client
       - name: Layout tests (content width, one h1 per page)
