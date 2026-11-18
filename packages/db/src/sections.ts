@@ -30,18 +30,21 @@ export const sectionSchemas = {
     cta: link.optional(),
   }),
   rich_text: z.object({
+    eyebrow: z.string().optional(),
     heading: z.string().optional(),
     body: z.string().min(1), // markdown
     imageId: mediaId.optional(),
     imageSide: z.enum(["left", "right"]).default("right"),
   }),
   card_grid: z.object({
+    eyebrow: z.string().optional(),
     heading: z.string().optional(),
     intro: z.string().optional(),
     columns: z.union([z.literal(2), z.literal(3), z.literal(4)]).default(3),
     cards: z.array(card).min(1),
   }),
   steps: z.object({
+    eyebrow: z.string().optional(),
     heading: z.string().optional(),
     intro: z.string().optional(),
     steps: z.array(z.object({ title: z.string().min(1), body: z.string().optional() })).min(1),

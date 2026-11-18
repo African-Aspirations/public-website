@@ -10,7 +10,11 @@
   "scripts": {
     "generate": "drizzle-kit generate",
     "migrate": "drizzle-kit migrate",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "seed:check": "bun seed/run.ts --check",
+    "seed": "bun seed/run.ts",
+    "assets:migrate": "bun seed/migrate-assets.ts",
+    "test": "bun test test"
   },
   "dependencies": {
     "drizzle-orm": "0.45.4",
@@ -20,6 +24,7 @@
   "devDependencies": {
     "@types/bun": "^1.4.4",
     "@types/node": "^26.6.6",
-    "drizzle-kit": "0.31.11"
+    "drizzle-kit": "0.31.11",
+    "sharp": "^0.35.5"
   }
 }

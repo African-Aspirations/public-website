@@ -29,6 +29,8 @@ jobs:
         run: |
           psql "$DATABASE_MIGRATION_URL" -f packages/db/test/supabase-shim.sql
           bun --cwd packages/db run migrate
+      - name: Seed content is valid
+        run: bun --cwd packages/db run seed:check
       - name: DB role permission tests
         run: bun --cwd packages/db test
       - name: Build public site

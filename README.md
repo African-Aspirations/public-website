@@ -42,6 +42,16 @@ bun --cwd apps/web run dev
   TEST_DATABASE_URL=postgres://postgres:pg@localhost:55432/postgres bun --cwd packages/db test
   ```
 
+## Content seed (Phase 2)
+All copy from the legacy site lives in `packages/db/seed/content/*.ts` (transcribed verbatim; images referenced by legacy path).
+```bash
+bun --cwd packages/db run seed:check        # validate + regenerate seed/REVIEW.md (no DB)
+bun --cwd packages/db run assets:migrate -- --dry-run   # needs the legacy worktree (../aa-website-legacy)
+bun --cwd packages/db run assets:migrate     # uploads to Cloudinary, writes seed/assets.manifest.json (resumable)
+bun --cwd packages/db run seed               # DATABASE_MIGRATION_URL=…; --force replaces content only
+```
+`seed/REVIEW.md` is the checklist of problems found in the old copy for the team to fix.
+
 ## Layout rule
 
 All widths and side margins come from `packages/config/tokens.css` (`.layout`, `--content-max`, `--gutter`).

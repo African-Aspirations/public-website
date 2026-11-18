@@ -15,6 +15,13 @@
       "when": 1794993043199,
       "tag": "0001_roles_and_grants",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1794994516016,
+      "tag": "0002_listings_template",
+      "breakpoints": true
     }
   ]
 }

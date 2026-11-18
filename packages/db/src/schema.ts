@@ -46,7 +46,7 @@ export const sectionType = pgEnum("section_type", [
   "contact_form",
   "newsletter_form",
 ]);
-export const pageTemplate = pgEnum("page_template", ["default", "home", "legal"]);
+export const pageTemplate = pgEnum("page_template", ["default", "home", "legal", "listings"]);
 
 // ---------- media (Cloudinary references — no files stored here) ----------
 export const media = pgTable("media", {
