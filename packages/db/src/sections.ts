@@ -1,0 +1,76 @@
+import { z } from "zod";
+
+/**
+ * The `data` JSON of each `page_sections` row, by section type.
+ * The admin block editor builds its forms from these, and the Astro site
+ * validates with them at build time, so a bad row fails the build instead
+ * of shipping a broken page.
+ *
+ * Images are referenced by `media.id` (uuid) and resolved to Cloudinary URLs.
+ * There is deliberately no width/padding/alignment option anywhere: layout
+ * is owned by the global `.layout` grid (packages/config/tokens.css).
+ */
+
+const mediaId = z.uuid();
+const link = z.object({ label: z.string().min(1), href: z.string().min(1) });
+const card = z.object({
+  title: z.string().min(1),
+  body: z.string().optional(),
+  imageId: mediaId.optional(),
+  href: z.string().optional(),
+  items: z.array(z.object({ title: z.string(), body: z.string().optional() })).optional(),
+});
+
+export const sectionSchemas = {
+  hero: z.object({
+    eyebrow: z.string().optional(),
+    heading: z.string().min(1), // rendered as the page <h1>
+    body: z.string().optional(),
+    imageIds: z.array(mediaId).max(6).default([]), // >1 = scroll-snap carousel
+    cta: link.optional(),
+  }),
+  rich_text: z.object({
+    heading: z.string().optional(),
+    body: z.string().min(1), // markdown
+    imageId: mediaId.optional(),
+    imageSide: z.enum(["left", "right"]).default("right"),
+  }),
+  card_grid: z.object({
+    heading: z.string().optional(),
+    intro: z.string().optional(),
+    columns: z.union([z.literal(2), z.literal(3), z.literal(4)]).default(3),
+    cards: z.array(card).min(1),
+  }),
+  steps: z.object({
+    heading: z.string().optional(),
+    intro: z.string().optional(),
+    steps: z.array(z.object({ title: z.string().min(1), body: z.string().optional() })).min(1),
+  }),
+  stats: z.object({
+    heading: z.string().optional(),
+    stats: z.array(z.object({ value: z.string().min(1), label: z.string().min(1) })).min(1),
+  }),
+  cta: z.object({
+    heading: z.string().min(1),
+    body: z.string().optional(),
+    cta: link,
+    imageId: mediaId.optional(),
+    tone: z.enum(["band", "dark"]).default("band"),
+  }),
+  team: z.object({ heading: z.string().optional(), intro: z.string().optional() }),
+  partner: z.object({ partnerId: z.uuid() }),
+  faq: z.object({ heading: z.string().optional(), topic: z.string().optional() }),
+  listings_teaser: z.object({
+    heading: z.string().optional(),
+    limit: z.number().int().min(1).max(12).default(3),
+  }),
+  contact_form: z.object({ heading: z.string().optional(), intro: z.string().optional() }),
+  newsletter_form: z.object({ heading: z.string().optional(), intro: z.string().optional() }),
+} as const;
+
+export type SectionType = keyof typeof sectionSchemas;
+export type SectionData<T extends SectionType> = z.infer<(typeof sectionSchemas)[T]>;
+
+export function parseSection<T extends SectionType>(type: T, data: unknown): SectionData<T> {
+  return sectionSchemas[type].parse(data) as SectionData<T>;
+}
