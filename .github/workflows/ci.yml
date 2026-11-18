@@ -33,7 +33,18 @@ jobs:
         run: bun --cwd packages/db run seed:check
       - name: DB role permission tests
         run: bun --cwd packages/db test
+      - name: Seed test database
+        run: |
+          bun --cwd packages/db seed/run.ts --allow-missing-images --force
+          psql "$DATABASE_MIGRATION_URL" -c "ALTER ROLE web_build LOGIN PASSWORD 'ci'"
       - name: Build public site
         run: bun --cwd apps/web run build
+        env:
+          DATABASE_URL_WEB_BUILD: postgres://web_build:ci@localhost:5432/postgres
+          PUBLIC_CLOUDINARY_CLOUD_NAME: ci-placeholder
       - name: 14 KB HTML budget
         run: bun scripts/check-budget.ts apps/web/dist
+      - name: Layout tests (content width, one h1 per page)
+        run: |
+          bunx --cwd apps/web playwright install --with-deps chromium
+          bun --cwd apps/web run test:e2e

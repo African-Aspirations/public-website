@@ -1,0 +1,43 @@
+---
+import ListingsBrowser from "../components/ListingsBrowser.astro";
+import Sections from "../components/Sections.astro";
+import Base from "../layouts/Base.astro";
+import { getContent } from "../lib/content";
+import { heroImage, heroPreload } from "../lib/hero";
+import { breadcrumbLd, organizationLd } from "../lib/seo";
+
+export async function getStaticPaths() {
+  const c = await getContent();
+  return c.pages.map((page) => ({
+    params: { slug: page.slug || undefined },
+    props: { pageId: page.id },
+  }));
+}
+
+const c = await getContent();
+const page = c.pages.find((p) => p.id === Astro.props.pageId);
+if (!page) throw new Error(`page ${Astro.props.pageId} not found`);
+const sections = c.sectionsFor(page.id);
+const isListings = page.template === "listings";
+// Listings index: hero, then the listing browser, then any remaining sections.
+const [hero, ...rest] = sections;
+const jsonLd = page.slug === "" ? [organizationLd(c)] : [breadcrumbLd(c, page.slug, page.title)];
+---
+<Base
+  title={page.slug === "" ? null : (page.seoTitle ?? page.title)}
+  description={page.seoDescription}
+  noindex={page.noindex}
+  ogImage={c.media(page.ogImageId) ?? heroImage(c, sections)}
+  preload={heroPreload(c, sections)}
+  jsonLd={jsonLd}
+>
+  {isListings && hero ? (
+    <>
+      <Sections sections={[hero]} />
+      <ListingsBrowser />
+      <Sections sections={rest} />
+    </>
+  ) : (
+    <Sections sections={sections} />
+  )}
+</Base>

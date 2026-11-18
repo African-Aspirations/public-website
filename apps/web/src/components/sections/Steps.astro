@@ -1,0 +1,29 @@
+---
+import type { SectionData } from "@aa/db";
+
+interface Props {
+  data: SectionData<"steps">;
+}
+const { data } = Astro.props;
+---
+<section class="layout section">
+  <div>
+    {(data.eyebrow || data.heading || data.intro) && (
+      <header class="head">
+        {data.eyebrow && <p class="eyebrow">{data.eyebrow}</p>}
+        {data.heading && <h2>{data.heading}</h2>}
+        {data.intro && <p class="lead">{data.intro}</p>}
+      </header>
+    )}
+    <ol class="steps">
+      {data.steps.map((s) => <li><h3>{s.title}</h3>{s.body && <p>{s.body}</p>}</li>)}
+    </ol>
+  </div>
+</section>
+<style>
+  .head { max-width: var(--content-narrow); margin-bottom: var(--space-8); }
+  .steps { list-style: none; margin: 0; padding: 0; counter-reset: step; display: grid; gap: var(--gutter); grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr)); }
+  .steps li { counter-increment: step; border-top: 2px solid var(--color-primary); padding-top: var(--space-4); }
+  .steps li::before { content: counter(step, decimal-leading-zero); display: block; font-weight: 650; color: var(--green-500); margin-bottom: var(--space-2); }
+  .steps p { color: var(--color-muted); margin: 0; }
+</style>

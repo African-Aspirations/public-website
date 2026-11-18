@@ -1,0 +1,35 @@
+---
+import type { SectionData } from "@aa/db";
+import { getContent } from "../../lib/content";
+
+interface Props {
+  data: SectionData<"faq">;
+}
+const { data } = Astro.props;
+const c = await getContent();
+const faqs = c.faqs.filter((f) => !data.topic || f.topic === data.topic);
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqs.map((f) => ({
+    "@type": "Question",
+    name: f.question,
+    acceptedAnswer: { "@type": "Answer", text: f.answer },
+  })),
+};
+---
+{faqs.length > 0 && (
+  <section class="layout section">
+    <div class="faq">
+      <h2>{data.heading ?? "Frequently asked questions"}</h2>
+      {faqs.map((f) => <details name="faq"><summary>{f.question}</summary><p>{f.answer}</p></details>)}
+    </div>
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  </section>
+)}
+<style>
+  .faq { max-width: var(--content-narrow); }
+  details { border-bottom: 1px solid var(--line); padding-block: var(--space-4); }
+  summary { cursor: pointer; font-weight: 600; }
+  details p { margin: var(--space-3) 0 0; color: var(--color-muted); }
+</style>

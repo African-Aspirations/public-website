@@ -1,0 +1,101 @@
+---
+import { getContent } from "../lib/content";
+
+const { settings, footerColumns: allColumns } = await getContent();
+const footerColumns = allColumns.filter((col) => col.items.length > 0);
+const year = new Date().getFullYear();
+const tel = settings.phone?.replace(/[^\d+]/g, "");
+---
+<footer class="layout site-footer full-bleed">
+  <div class="cols" style={`--n:${footerColumns.length}`}>
+    <div class="org">
+      <p class="name">{settings.orgName}</p>
+      {settings.tagline && <p>{settings.tagline}</p>}
+      <address>
+        {settings.address && <span>{settings.address}</span>}
+        {settings.phone && <a href={`tel:${tel}`}>{settings.phone}</a>}
+        {settings.email && <a href={`mailto:${settings.email}`}>{settings.email}</a>}
+      </address>
+    </div>
+    {footerColumns.map((col) => (
+      <nav aria-label={col.heading}>
+        <p class="heading">{col.heading}</p>
+        <ul>{col.items.map((i) => <li><a href={i.href}>{i.label}</a></li>)}</ul>
+      </nav>
+    ))}
+  </div>
+  <div class="base">
+    <p>© {year} {settings.orgName}</p>
+    {settings.socials.length > 0 && (
+      <ul class="socials">
+        {settings.socials.map((s) => <li><a href={s.url} rel="noopener" target="_blank">{s.label}</a></li>)}
+      </ul>
+    )}
+  </div>
+</footer>
+<style>
+  .site-footer {
+    background: var(--green-900);
+    color: #e8f0e0;
+    padding-block: var(--space-12) var(--space-8);
+  }
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+  a:hover {
+    text-decoration: underline;
+  }
+  .cols {
+    display: grid;
+    grid-template-columns: 2fr repeat(var(--n), 1fr);
+    gap: var(--space-8) var(--gutter);
+  }
+  @media (max-width: 63.99rem) {
+    .cols {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .org {
+      grid-column: 1 / -1;
+    }
+  }
+  @media (max-width: 29.99rem) {
+    .cols {
+      grid-template-columns: 1fr;
+    }
+  }
+  .name,
+  .heading {
+    font-weight: 650;
+    color: #fff;
+  }
+  address {
+    font-style: normal;
+    display: grid;
+    gap: var(--space-1);
+  }
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: var(--space-2);
+  }
+  .base {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: var(--space-4);
+    margin-top: var(--space-12);
+    padding-top: var(--space-6);
+    border-top: 1px solid rgb(255 255 255 / 0.15);
+    font-size: var(--text-sm);
+  }
+  .base p {
+    margin: 0;
+  }
+  .socials {
+    display: flex;
+    gap: var(--space-6);
+  }
+</style>

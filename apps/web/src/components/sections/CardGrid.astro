@@ -1,0 +1,60 @@
+---
+import type { SectionData } from "@aa/db";
+import { getContent } from "../../lib/content";
+import Img from "../Img.astro";
+
+interface Props {
+  data: SectionData<"card_grid">;
+}
+const { data } = Astro.props;
+const c = await getContent();
+const sizes =
+  data.columns >= 3
+    ? "(min-width: 64rem) 360px, (min-width: 40rem) 50vw, 100vw"
+    : "(min-width: 64rem) 560px, 100vw";
+---
+<section class="layout section">
+  <div>
+    {(data.eyebrow || data.heading || data.intro) && (
+      <header class="head">
+        {data.eyebrow && <p class="eyebrow">{data.eyebrow}</p>}
+        {data.heading && <h2>{data.heading}</h2>}
+        {data.intro && <p class="lead">{data.intro}</p>}
+      </header>
+    )}
+    <ul class="cards" style={`--cols:${data.columns}`}>
+      {data.cards.map((card) => {
+        const img = c.media(card.imageId);
+        return (
+          <li class="card">
+            {img && <Img media={img} sizes={sizes} aspect={4 / 3} />}
+            <h3>{card.href ? <a href={card.href}>{card.title}</a> : card.title}</h3>
+            {card.body && card.body.split("\n\n").map((p) => <p>{p}</p>)}
+            {card.items && card.items.length > 0 && (
+              <ul class="items">
+                {card.items.map((i) => <li><strong>{i.title}</strong>{i.body && <> — {i.body}</>}</li>)}
+              </ul>
+            )}
+          </li>
+        );
+      })}
+    </ul>
+  </div>
+</section>
+<style>
+  .head { max-width: var(--content-narrow); margin-bottom: var(--space-8); }
+  .cards {
+    list-style: none; margin: 0; padding: 0; display: grid; gap: var(--gutter);
+    grid-template-columns: repeat(var(--cols), minmax(0, 1fr));
+  }
+  @media (max-width: 63.99rem) { .cards { --cols: 2 !important; } }
+  @media (max-width: 39.99rem) { .cards { --cols: 1 !important; } }
+  .card { display: flex; flex-direction: column; gap: var(--space-2); }
+  .card :global(img), .card :global(.img-placeholder) { border-radius: var(--radius); margin-bottom: var(--space-2); }
+  .card h3 { margin: 0; }
+  .card h3 a { color: inherit; text-decoration: none; }
+  .card h3 a::after { content: " →"; color: var(--color-primary); }
+  .card h3 a:hover { color: var(--color-primary); }
+  .card p { margin: 0; color: var(--color-muted); }
+  .items { padding-left: 1.1em; margin: var(--space-2) 0 0; font-size: var(--text-sm); display: grid; gap: var(--space-2); }
+</style>

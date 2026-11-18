@@ -1,0 +1,42 @@
+---
+import type { SectionData } from "@aa/db";
+import FormStatus from "../FormStatus.astro";
+
+interface Props {
+  data: SectionData<"contact_form">;
+}
+const { data } = Astro.props;
+---
+<section class="layout section">
+  <div class="wrap">
+    {data.heading && <h2>{data.heading}</h2>}
+    {data.intro && <p class="lead">{data.intro}</p>}
+    <FormStatus sent="Thank you — your message has been sent. We'll be in touch shortly." />
+    <form method="post" action="/api/contact" class="form">
+      <div class="row">
+        <label>Full name<input name="name" required autocomplete="name" maxlength="120" /></label>
+        <label>Email<input name="email" type="email" required autocomplete="email" maxlength="200" /></label>
+      </div>
+      <div class="row">
+        <label>Phone <span>(optional)</span><input name="phone" type="tel" autocomplete="tel" maxlength="40" /></label>
+        <label>Company <span>(optional)</span><input name="company" autocomplete="organization" maxlength="160" /></label>
+      </div>
+      <label>How can we help?<textarea name="message" rows="6" required maxlength="5000"></textarea></label>
+      <label class="hp" aria-hidden="true">Leave this empty<input name="website" tabindex="-1" autocomplete="off" /></label>
+      <button class="btn" type="submit">Send message</button>
+    </form>
+  </div>
+</section>
+<style>
+  .wrap { max-width: var(--content-narrow); }
+  .form { display: grid; gap: var(--space-4); }
+  .row { display: grid; gap: var(--space-4); grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr)); }
+  label { display: grid; gap: var(--space-1); font-weight: 600; font-size: var(--text-sm); }
+  label span { font-weight: 400; color: var(--color-muted); }
+  input, textarea {
+    font: inherit; font-weight: 400; padding: 0.7rem 0.85rem; border: 1px solid #c9cfc4; border-radius: var(--radius); background: #fff; width: 100%;
+  }
+  input:focus, textarea:focus { outline: 2px solid var(--green-500); outline-offset: 0; border-color: transparent; }
+  .hp { position: absolute; left: -9999px; }
+  .btn { justify-self: start; }
+</style>

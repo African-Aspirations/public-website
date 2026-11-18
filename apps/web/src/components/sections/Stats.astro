@@ -1,0 +1,22 @@
+---
+import type { SectionData } from "@aa/db";
+
+interface Props {
+  data: SectionData<"stats">;
+}
+const { data } = Astro.props;
+---
+<section class="layout section">
+  <div>
+    {data.heading && <h2>{data.heading}</h2>}
+    <dl class="stats">
+      {data.stats.map((s) => <div><dt>{s.label}</dt><dd>{s.value}</dd></div>)}
+    </dl>
+  </div>
+</section>
+<style>
+  .stats { display: grid; gap: var(--gutter); grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr)); margin: 0; }
+  .stats div { display: flex; flex-direction: column-reverse; border-left: 3px solid var(--color-accent); padding-left: var(--space-4); }
+  dd { margin: 0; font-size: var(--text-2xl); font-weight: 650; color: var(--color-primary); }
+  dt { color: var(--color-muted); }
+</style>

@@ -1,0 +1,29 @@
+---
+import type { SectionData } from "@aa/db";
+import { getContent } from "../../lib/content";
+import ListingCard from "../ListingCard.astro";
+
+interface Props {
+  data: SectionData<"listings_teaser">;
+}
+const { data } = Astro.props;
+const c = await getContent();
+const featured = [...c.listings]
+  .sort((a, b) => Number(b.featured) - Number(a.featured))
+  .slice(0, data.limit);
+---
+{featured.length > 0 && (
+  <section class="layout section">
+    <div>
+      <div class="head">
+        <h2>{data.heading ?? "Businesses for sale"}</h2>
+        <a href="/listings">View all listings →</a>
+      </div>
+      <ul class="grid">{featured.map((l) => <li><ListingCard listing={l} /></li>)}</ul>
+    </div>
+  </section>
+)}
+<style>
+  .head { display: flex; justify-content: space-between; align-items: baseline; gap: var(--space-4); flex-wrap: wrap; margin-bottom: var(--space-6); }
+  .grid { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--gutter); grid-template-columns: repeat(auto-fill, minmax(min(100%, 16rem), 1fr)); }
+</style>

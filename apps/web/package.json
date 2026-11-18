@@ -6,13 +6,20 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "typecheck": "astro sync && tsc --noEmit"
+    "typecheck": "astro sync && tsc --noEmit",
+    "test:e2e": "playwright test"
   },
   "dependencies": {
     "@aa/config": "workspace:*",
     "@aa/db": "workspace:*",
     "@astrojs/sitemap": "3.7.5",
     "@astrojs/vercel": "11.0.22",
-    "astro": "7.4.12"
+    "astro": "7.4.12",
+    "drizzle-orm": "0.45.4",
+    "marked": "18.2.1",
+    "postgres": "4.1.1"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.65.1"
   }
 }

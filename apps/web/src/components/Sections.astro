@@ -1,0 +1,39 @@
+---
+/** Renders a page's sections in order, one component per section type. */
+import type { Section } from "../lib/content";
+import CardGrid from "./sections/CardGrid.astro";
+import ContactForm from "./sections/ContactForm.astro";
+import Cta from "./sections/Cta.astro";
+import Faq from "./sections/Faq.astro";
+import Hero from "./sections/Hero.astro";
+import ListingsTeaser from "./sections/ListingsTeaser.astro";
+import NewsletterForm from "./sections/NewsletterForm.astro";
+import Partner from "./sections/Partner.astro";
+import RichText from "./sections/RichText.astro";
+import Stats from "./sections/Stats.astro";
+import Steps from "./sections/Steps.astro";
+import Team from "./sections/Team.astro";
+
+interface Props {
+  sections: Section[];
+}
+const components = {
+  hero: Hero,
+  rich_text: RichText,
+  card_grid: CardGrid,
+  steps: Steps,
+  stats: Stats,
+  cta: Cta,
+  team: Team,
+  partner: Partner,
+  faq: Faq,
+  listings_teaser: ListingsTeaser,
+  contact_form: ContactForm,
+  newsletter_form: NewsletterForm,
+} as const;
+const { sections } = Astro.props;
+---
+{sections.map((s) => {
+  const C = components[s.type];
+  return <C data={s.data as never} />;
+})}

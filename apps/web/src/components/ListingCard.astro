@@ -1,0 +1,31 @@
+---
+import type { Listing } from "../lib/content";
+import { formatMoney } from "../lib/format";
+import Img from "./Img.astro";
+
+interface Props {
+  listing: Listing;
+}
+const { listing: l } = Astro.props;
+---
+<article class="listing">
+  <Img media={l.cover} sizes="(min-width: 64rem) 360px, (min-width: 40rem) 50vw, 100vw" aspect={4 / 3} alt="" />
+  <div class="body">
+    {l.category && <p class="eyebrow">{l.category.label}</p>}
+    <h3><a href={`/listings/${l.slug}`}>{l.name}</a></h3>
+    <p class="meta">{l.region ?? l.location ?? "Ghana"}</p>
+    <p class="price">{formatMoney(l.price, l.currency) ?? "Price on request"}</p>
+  </div>
+</article>
+<style>
+  .listing { position: relative; display: flex; flex-direction: column; gap: var(--space-3); }
+  .listing :global(img), .listing :global(.img-placeholder) { border-radius: var(--radius); }
+  h3 { margin: 0; }
+  h3 a { color: inherit; text-decoration: none; }
+  h3 a::after { content: ""; position: absolute; inset: 0; }
+  .listing:hover h3 { color: var(--color-primary); }
+  .eyebrow { margin: 0; }
+  .meta { margin: 0; color: var(--color-muted); font-size: var(--text-sm); }
+  .price { margin: 0; font-weight: 650; }
+  .body { display: grid; gap: var(--space-1); }
+</style>

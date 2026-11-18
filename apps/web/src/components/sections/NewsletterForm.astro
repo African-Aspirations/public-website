@@ -1,0 +1,28 @@
+---
+import type { SectionData } from "@aa/db";
+import FormStatus from "../FormStatus.astro";
+
+interface Props {
+  data: SectionData<"newsletter_form">;
+}
+const { data } = Astro.props;
+---
+<section class="layout section">
+  <div class="wrap">
+    <h2>{data.heading ?? "Subscribe to our newsletter"}</h2>
+    {data.intro && <p class="lead">{data.intro}</p>}
+    <FormStatus sent="Almost done — check your inbox and click the link to confirm your subscription." />
+    <form method="post" action="/api/newsletter" class="form">
+      <label class="visually-hidden" for="nl-email">Email address</label>
+      <input id="nl-email" name="email" type="email" required autocomplete="email" placeholder="you@company.com" maxlength="200" />
+      <input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" />
+      <button class="btn" type="submit">Subscribe</button>
+    </form>
+  </div>
+</section>
+<style>
+  .wrap { max-width: var(--content-narrow); }
+  .form { display: flex; gap: var(--space-2); flex-wrap: wrap; }
+  input { flex: 1 1 16rem; font: inherit; padding: 0.7rem 0.85rem; border: 1px solid #c9cfc4; border-radius: var(--radius); }
+  .hp { position: absolute; left: -9999px; }
+</style>

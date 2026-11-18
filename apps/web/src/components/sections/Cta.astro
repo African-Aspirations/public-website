@@ -1,0 +1,22 @@
+---
+import type { SectionData } from "@aa/db";
+
+interface Props {
+  data: SectionData<"cta">;
+}
+const { data } = Astro.props;
+---
+<section class:list={["layout section tone full-bleed", data.tone]}>
+  <div class="inner">
+    <h2>{data.heading}</h2>
+    {data.body && <p>{data.body}</p>}
+    <a class:list={["btn", { "btn-accent": data.tone === "dark" }]} href={data.cta.href}>{data.cta.label}</a>
+  </div>
+</section>
+<style>
+  .band { background: var(--color-band); }
+  .dark { background: var(--green-800); color: #fff; }
+  .inner { max-width: var(--content-narrow); }
+  h2 { font-size: var(--text-xl); }
+  p { opacity: 0.9; }
+</style>

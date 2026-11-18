@@ -43,7 +43,9 @@ bun --cwd apps/web run dev
   ```
 
 ## Content seed (Phase 2)
+
 All copy from the legacy site lives in `packages/db/seed/content/*.ts` (transcribed verbatim; images referenced by legacy path).
+
 ```bash
 bun --cwd packages/db run seed:check        # validate + regenerate seed/REVIEW.md (no DB)
 bun --cwd packages/db run assets:migrate -- --dry-run   # needs the legacy worktree (../aa-website-legacy)

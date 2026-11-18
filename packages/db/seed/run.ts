@@ -136,8 +136,16 @@ async function seed(url: string) {
     let notUploaded = 0;
     for (const [path, alt] of collectAssets(content)) {
       const file = join(LEGACY_PUBLIC, path);
-      const meta = await sharp(file).metadata();
       const up = manifest[path];
+      // Dimensions: from the upload manifest, else the local legacy file. In CI (no legacy
+      // files, nothing uploaded yet) --allow-missing-images uses a 4:3 stand-in.
+      const meta: { width?: number; height?: number; format?: string } = up
+        ? {}
+        : existsSync(file)
+          ? await sharp(file).metadata()
+          : args.has("--allow-missing-images")
+            ? { width: 1600, height: 1200 }
+            : fail(`legacy image not found: ${file} (pass --allow-missing-images in CI)`);
       if (!up) notUploaded++;
       const publicId = up?.publicId ?? publicIdFor(path, alt);
       const [row] = await tx

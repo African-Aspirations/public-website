@@ -1,0 +1,184 @@
+---
+import { getContent } from "../lib/content";
+import Img from "./Img.astro";
+
+const c = await getContent();
+const { settings, header } = c;
+const logo = c.media(settings.logoId);
+const path = Astro.url.pathname.replace(/\/$/, "") || "/";
+const isCurrent = (href: string) => href === path || (href !== "/" && path.startsWith(`${href}/`));
+---
+<header class="layout site-header">
+  <div class="bar">
+    <a href="/" class="logo" aria-label={`${settings.orgName} home`}>
+      <Img media={logo} sizes="120px" priority alt={settings.orgName} />
+    </a>
+    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
+    <nav id="site-nav" class="site-nav" aria-label="Main">
+      <ul>
+        {header.map((item) =>
+          item.children.length ? (
+            <li>
+              <details name="nav">
+                <summary>{item.label}</summary>
+                <ul class="sub">
+                  {item.children.map((child) => (
+                    <li>
+                      <a href={child.href} aria-current={isCurrent(child.href) ? "page" : undefined}>
+                        <strong>{child.label}</strong>
+                        {child.description && <span>{child.description}</span>}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </details>
+            </li>
+          ) : (
+            <li><a href={item.href} aria-current={isCurrent(item.href) ? "page" : undefined}>{item.label}</a></li>
+          ),
+        )}
+      </ul>
+      {settings.ctaUrl && settings.ctaLabel && <a class="btn btn-accent" href={settings.ctaUrl}>{settings.ctaLabel}</a>}
+    </nav>
+  </div>
+</header>
+<noscript><style>.site-nav{display:flex!important}.menu-toggle{display:none}</style></noscript>
+<script is:inline>
+  {
+    const b = document.querySelector(".menu-toggle");
+    b.addEventListener("click", () => {
+      const open = b.getAttribute("aria-expanded") !== "true";
+      b.setAttribute("aria-expanded", open);
+      document.body.classList.toggle("nav-open", open);
+    });
+    document.addEventListener("click", (e) => {
+      for (const d of document.querySelectorAll(".site-nav details[open]")) if (!d.contains(e.target)) d.open = false;
+    });
+  }
+</script>
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    background: color-mix(in srgb, var(--surface) 94%, transparent);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--line);
+  }
+  .bar {
+    display: flex;
+    align-items: center;
+    gap: var(--space-6);
+    min-height: 4.5rem;
+  }
+  .logo :global(img),
+  .logo :global(.img-placeholder) {
+    width: 120px;
+    height: auto;
+  }
+  .site-nav,
+  .site-nav > ul {
+    display: flex;
+    align-items: center;
+    gap: var(--space-6);
+  }
+  .site-nav {
+    margin-left: auto;
+  }
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .site-nav a:not(.btn),
+  summary {
+    color: var(--ink);
+    text-decoration: none;
+    font-weight: 500;
+    cursor: pointer;
+  }
+  .site-nav a[aria-current="page"] {
+    color: var(--color-primary);
+    text-decoration: underline;
+  }
+  summary {
+    list-style: none;
+  }
+  summary::-webkit-details-marker {
+    display: none;
+  }
+  summary::after {
+    content: " ▾";
+    font-size: 0.75em;
+  }
+  details {
+    position: relative;
+  }
+  .sub {
+    position: absolute;
+    top: calc(100% + 0.75rem);
+    left: -1rem;
+    width: 20rem;
+    padding: var(--space-2);
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    box-shadow: 0 12px 32px rgb(0 0 0 / 0.08);
+  }
+  .sub a {
+    display: block;
+    padding: var(--space-3);
+    border-radius: calc(var(--radius) - 2px);
+  }
+  .sub a:hover {
+    background: var(--color-band);
+  }
+  .sub span {
+    display: block;
+    font-size: var(--text-sm);
+    color: var(--color-muted);
+    font-weight: 400;
+  }
+  .menu-toggle {
+    display: none;
+    margin-left: auto;
+    font: inherit;
+    font-weight: 600;
+    background: none;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: var(--space-2) var(--space-4);
+  }
+  @media (max-width: 63.99rem) {
+    .menu-toggle {
+      display: block;
+    }
+    .site-nav {
+      display: none;
+      position: absolute;
+      inset: 100% 0 auto;
+      flex-direction: column;
+      align-items: stretch;
+      padding: var(--space-4) var(--gutter) var(--space-8);
+      background: var(--surface);
+      border-bottom: 1px solid var(--line);
+      max-height: calc(100dvh - 4.5rem);
+      overflow-y: auto;
+    }
+    :global(.nav-open) .site-nav {
+      display: flex;
+    }
+    .site-nav > ul {
+      flex-direction: column;
+      align-items: stretch;
+      gap: var(--space-4);
+    }
+    .sub {
+      position: static;
+      width: auto;
+      border: 0;
+      box-shadow: none;
+      padding: var(--space-2) 0 0;
+    }
+  }
+</style>

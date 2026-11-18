@@ -150,4 +150,3 @@ Everything here was found while moving the legacy copy into the database. Fix it
 ## /terms-of-use (draft)
 
 - [ ] Legacy footer linked here but the page never existed. Needs real legal text before publishing.
-

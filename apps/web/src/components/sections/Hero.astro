@@ -1,0 +1,46 @@
+---
+import type { SectionData } from "@aa/db";
+import { getContent } from "../../lib/content";
+import { HERO_ASPECT, HERO_SIZES } from "../../lib/hero";
+import Img from "../Img.astro";
+
+interface Props {
+  data: SectionData<"hero">;
+}
+const { data } = Astro.props;
+const c = await getContent();
+const images = data.imageIds.map((id) => c.media(id)).filter((m) => m !== null);
+const sizes = HERO_SIZES;
+---
+<section class="layout hero section">
+  <div class="grid-12">
+    <div class="text" style={images.length ? undefined : "grid-column: 1 / -1"}>
+      {data.eyebrow && <p class="eyebrow">{data.eyebrow}</p>}
+      <h1>{data.heading}</h1>
+      {data.body && <p class="lead">{data.body}</p>}
+      {data.cta && <a class="btn" href={data.cta.href}>{data.cta.label}</a>}
+    </div>
+    {images.length > 0 && (
+      <div class="media">
+        {images.length === 1 ? (
+          <Img media={images[0]!} sizes={sizes} aspect={HERO_ASPECT} priority />
+        ) : (
+          <ul class="carousel" aria-label="Photos">
+            {images.map((m, i) => <li><Img media={m} sizes={sizes} aspect={HERO_ASPECT} priority={i === 0} /></li>)}
+          </ul>
+        )}
+      </div>
+    )}
+  </div>
+</section>
+<style>
+  .text { grid-column: 1 / span 6; align-self: center; }
+  .media { grid-column: 7 / -1; }
+  .media :global(img), .media :global(.img-placeholder) { border-radius: var(--radius); width: 100%; }
+  .carousel {
+    display: flex; gap: var(--space-2); margin: 0; padding: 0; list-style: none;
+    overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: thin; border-radius: var(--radius);
+  }
+  .carousel li { flex: 0 0 100%; scroll-snap-align: start; }
+  .lead { margin-bottom: var(--space-6); }
+</style>

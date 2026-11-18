@@ -1,0 +1,117 @@
+---
+import { marked } from "marked";
+import Img from "../../components/Img.astro";
+import Base from "../../layouts/Base.astro";
+import { cloudinaryEnabled, responsive } from "../../lib/cloudinary";
+import { getContent } from "../../lib/content";
+import { formatMoney } from "../../lib/format";
+import { breadcrumbLd } from "../../lib/seo";
+
+export async function getStaticPaths() {
+  const c = await getContent();
+  return c.listings.map((l) => ({ params: { slug: l.slug }, props: { id: l.id } }));
+}
+
+const c = await getContent();
+const l = c.listings.find((x) => x.id === Astro.props.id);
+if (!l) throw new Error(`listing ${Astro.props.id} not found`);
+const price = formatMoney(l.price, l.currency);
+const details = [
+  ["Sector", l.category?.label],
+  ["Location", l.location],
+  ["Asking price", price ?? "Price on request"],
+  ["Down payment", formatMoney(l.downPayment, l.currency)],
+  ["SDE (seller's discretionary earnings)", formatMoney(l.sde, l.currency)],
+].filter((d): d is [string, string] => Boolean(d[1]));
+const description = await marked.parse(l.description);
+const SIZES = "(min-width: 64rem) 680px, 100vw";
+const site = new URL("/", Astro.site).toString();
+const jsonLd = [
+  breadcrumbLd(c, `listings/${l.slug}`, l.name),
+  {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: l.name,
+    description: l.summary ?? l.description.slice(0, 300),
+    category: l.category?.label,
+    ...(l.cover && cloudinaryEnabled && { image: responsive(l.cover, 4 / 3).src }),
+    offers: {
+      "@type": "Offer",
+      url: new URL(`/listings/${l.slug}`, site).toString(),
+      availability: "https://schema.org/InStock",
+      ...(l.price && { price: Number(l.price), priceCurrency: l.currency }),
+      seller: { "@type": "Organization", name: c.settings.orgName },
+    },
+  },
+];
+---
+<Base
+  title={l.name}
+  description={l.summary ?? l.description.slice(0, 155)}
+  ogImage={l.cover}
+  preload={l.cover && cloudinaryEnabled ? { srcset: responsive(l.cover, 4 / 3).srcset, sizes: SIZES } : null}
+  jsonLd={jsonLd}
+>
+  <article class="layout section">
+    <div class="grid-12">
+      <div class="main">
+        <nav class="crumbs" aria-label="Breadcrumb"><a href="/listings">Listings</a> › <span aria-current="page">{l.name}</span></nav>
+        {l.category && <p class="eyebrow">{l.category.label}</p>}
+        <h1>{l.name}</h1>
+        {l.location && <p class="lead">{l.location}</p>}
+        <Img media={l.cover} sizes={SIZES} aspect={4 / 3} priority />
+        <h2>About this business</h2>
+        <div class="prose" set:html={description} />
+        {l.images.length > 0 && (
+          <ul class="gallery">{l.images.map((m) => <li><Img media={m} sizes="(min-width: 64rem) 330px, 50vw" aspect={4 / 3} /></li>)}</ul>
+        )}
+      </div>
+      <aside class="side">
+        <div class="box">
+          <p class="price">{price ?? "Price on request"}</p>
+          <dl>{details.map(([k, v]) => <div><dt>{k}</dt><dd>{v}</dd></div>)}</dl>
+          <a class="btn" href={`#inquire`}>Enquire about this business</a>
+        </div>
+      </aside>
+    </div>
+  </article>
+  <section class="layout section" id="inquire">
+    <div class="form-wrap">
+      <h2>Enquire about {l.name}</h2>
+      <p id="sent" class="status ok" role="status">Thank you — your enquiry has been sent. Our brokerage team will contact you shortly.</p>
+      <p id="error" class="status err" role="alert">Something went wrong. Please try again, or email us directly.</p>
+      <form method="post" action="/api/inquiry" class="form">
+        <input type="hidden" name="listing" value={l.slug} />
+        <label>Full name<input name="name" required autocomplete="name" maxlength="120" /></label>
+        <label>Email<input name="email" type="email" required autocomplete="email" maxlength="200" /></label>
+        <label>Phone <span>(optional)</span><input name="phone" type="tel" autocomplete="tel" maxlength="40" /></label>
+        <label>Message<textarea name="message" rows="5" required maxlength="5000">{`I'm interested in "${l.name}". Please send me more information.`}</textarea></label>
+        <input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" />
+        <button class="btn" type="submit">Send enquiry</button>
+      </form>
+    </div>
+  </section>
+</Base>
+<style>
+  .main { grid-column: 1 / span 8; }
+  .side { grid-column: 9 / -1; }
+  .box { position: sticky; top: 6rem; border: 1px solid var(--line); border-radius: var(--radius); padding: var(--space-6); display: grid; gap: var(--space-4); }
+  .price { font-size: var(--text-xl); font-weight: 650; margin: 0; }
+  dl { margin: 0; display: grid; gap: var(--space-3); }
+  dt { font-size: var(--text-sm); color: var(--color-muted); }
+  dd { margin: 0; font-weight: 600; }
+  .crumbs { font-size: var(--text-sm); margin-bottom: var(--space-4); color: var(--color-muted); }
+  .main :global(img), .main :global(.img-placeholder) { border-radius: var(--radius); margin-bottom: var(--space-8); }
+  .gallery { list-style: none; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-4); }
+  .form-wrap { max-width: var(--content-narrow); }
+  .form { display: grid; gap: var(--space-4); }
+  label { display: grid; gap: var(--space-1); font-weight: 600; font-size: var(--text-sm); }
+  label span { font-weight: 400; color: var(--color-muted); }
+  input, textarea { font: inherit; font-weight: 400; padding: 0.7rem 0.85rem; border: 1px solid #c9cfc4; border-radius: var(--radius); width: 100%; }
+  .hp { position: absolute; left: -9999px; }
+  .btn { justify-self: start; text-align: center; }
+  .status { display: none; padding: var(--space-3) var(--space-4); border-radius: var(--radius); }
+  .status:target { display: block; }
+  .ok { background: var(--color-band); }
+  .err { background: #fdecea; color: #8a1c13; }
+</style>
