@@ -105,6 +105,9 @@ describe("web_forms (public form endpoints)", () => {
     }
     expect(hits).toEqual([true, true, true, false]);
   });
+  test("can read public site settings (email footers)", async () => {
+    await run(forms`SELECT org_name FROM site_settings`);
+  });
   test("cannot touch content or staff", async () => {
     await denied(forms`SELECT * FROM pages`);
     await denied(forms`SELECT * FROM staff`);

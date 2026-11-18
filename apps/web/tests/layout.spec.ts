@@ -7,7 +7,7 @@ import { readdirSync, statSync } from "node:fs";
 import { join, relative } from "node:path";
 import { expect, test } from "@playwright/test";
 
-const dist = join(import.meta.dirname, "../dist");
+const dist = join(import.meta.dirname, "../dist/client");
 function routes(dir = dist): string[] {
   return readdirSync(dir).flatMap((name) => {
     const p = join(dir, name);

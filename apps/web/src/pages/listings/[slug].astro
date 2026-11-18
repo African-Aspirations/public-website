@@ -1,6 +1,7 @@
 ---
 import { marked } from "marked";
 import Img from "../../components/Img.astro";
+import Turnstile from "../../components/Turnstile.astro";
 import Base from "../../layouts/Base.astro";
 import { cloudinaryEnabled, responsive } from "../../lib/cloudinary";
 import { getContent } from "../../lib/content";
@@ -87,6 +88,7 @@ const jsonLd = [
         <label>Phone <span>(optional)</span><input name="phone" type="tel" autocomplete="tel" maxlength="40" /></label>
         <label>Message<textarea name="message" rows="5" required maxlength="5000">{`I'm interested in "${l.name}". Please send me more information.`}</textarea></label>
         <input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" />
+        <Turnstile />
         <button class="btn" type="submit">Send enquiry</button>
       </form>
     </div>

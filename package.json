@@ -13,7 +13,7 @@
     "typecheck": "turbo run typecheck",
     "lint": "biome check .",
     "fix": "biome check --write .",
-    "budget": "bun scripts/check-budget.ts apps/web/dist",
+    "budget": "bun scripts/check-budget.ts apps/web/dist/client",
     "db:generate": "bun --cwd packages/db run generate",
     "db:migrate": "bun --cwd packages/db run migrate"
   },

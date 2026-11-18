@@ -2,7 +2,7 @@
 import { existsSync, statSync } from "node:fs";
 import { join } from "node:path";
 
-const root = join(import.meta.dir, "../dist");
+const root = join(import.meta.dir, "../dist/client");
 const port = Number(process.env.PORT ?? 4322);
 Bun.serve({
   port,

@@ -54,6 +54,12 @@ bun --cwd packages/db run seed               # DATABASE_MIGRATION_URL=…; --for
 ```
 `seed/REVIEW.md` is the checklist of problems found in the old copy for the team to fix.
 
+## Forms and email (Phase 4)
+`apps/web/src/pages/api/*` — contact, listing inquiry, newsletter (+ confirm). Each: honeypot → zod validation → Turnstile →
+rate limit (Postgres) → save lead (insert-only `web_forms` role) → email via Resend (`packages/emails`).
+Leads are saved before email is sent, so an email outage never loses an enquiry. Without `RESEND_API_KEY`
+emails are printed to the console; without `TURNSTILE_SECRET_KEY` the spam check is skipped (local dev only).
+
 ## Layout rule
 
 All widths and side margins come from `packages/config/tokens.css` (`.layout`, `--content-max`, `--gutter`).

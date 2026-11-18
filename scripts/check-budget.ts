@@ -4,14 +4,14 @@
  * and fails if either is over budget. 14 KB ≈ the first TCP round trip
  * (10 segments × ~1460 B); we keep 14,000 B as the hard limit.
  *
- *   bun scripts/check-budget.ts apps/web/dist
+ *   bun scripts/check-budget.ts apps/web/dist/client
  */
 import { readdirSync, readFileSync, statSync } from "node:fs";
 import { join, relative } from "node:path";
 import { brotliCompressSync, constants, gzipSync } from "node:zlib";
 
 const LIMIT = 14_000;
-const root = process.argv[2] ?? "apps/web/dist";
+const root = process.argv[2] ?? "apps/web/dist/client";
 
 function* htmlFiles(dir: string): Generator<string> {
   for (const name of readdirSync(dir)) {

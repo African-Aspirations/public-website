@@ -1,6 +1,7 @@
 ---
 import type { SectionData } from "@aa/db";
 import FormStatus from "../FormStatus.astro";
+import Turnstile from "../Turnstile.astro";
 
 interface Props {
   data: SectionData<"contact_form">;
@@ -23,6 +24,7 @@ const { data } = Astro.props;
       </div>
       <label>How can we help?<textarea name="message" rows="6" required maxlength="5000"></textarea></label>
       <label class="hp" aria-hidden="true">Leave this empty<input name="website" tabindex="-1" autocomplete="off" /></label>
+      <Turnstile />
       <button class="btn" type="submit">Send message</button>
     </form>
   </div>
