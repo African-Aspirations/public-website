@@ -1,8 +1,8 @@
 import { cloudinaryEnabled, responsive } from "./cloudinary";
 import type { Content, Section } from "./content";
 
-export const HERO_SIZES = "(min-width: 64rem) 560px, 100vw";
-export const HERO_ASPECT = 4 / 3;
+export const HERO_SIZES = "(min-width: 64rem) 620px, 100vw";
+export const HERO_ASPECT = 1;
 
 /** Preload hint for the page's LCP image (first image of the first hero). */
 export function heroPreload(c: Content, sections: Section[]) {

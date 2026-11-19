@@ -29,6 +29,7 @@ export type SeedPage = {
   seoTitle?: string;
   seoDescription?: string;
   status?: "draft" | "published"; // default published
+  noindex?: boolean; // published but kept out of search (e.g. placeholder legal pages)
   sections: SeedSection[];
   /** Notes for the human reviewer: broken/duplicated/missing copy found in the old site. */
   review?: string[];
@@ -90,4 +91,6 @@ export type SeedNav = {
   header: SeedNavItem[];
   /** footer columns, keyed by column heading */
   footer: Record<string, SeedNavItem[]>;
+  /** footer bottom bar (Privacy, Terms) */
+  legal: SeedNavItem[];
 };

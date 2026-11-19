@@ -64,7 +64,7 @@ emails are printed to the console; without `TURNSTILE_SECRET_KEY` the spam check
 
 ## Layout rule
 
-All widths and side margins come from `packages/config/tokens.css` (`.layout`, `--content-max`, `--gutter`).
+All widths and side margins come from `packages/ui/theme.css` (`.layout`, `--content-max`, `--gutter`).
 Section components never set their own `max-width` or horizontal padding.
 
 ## Performance budget

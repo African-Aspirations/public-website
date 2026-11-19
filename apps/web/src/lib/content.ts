@@ -118,6 +118,7 @@ async function load() {
     media: (id: unknown) => (typeof id === "string" ? (mediaById.get(id) ?? null) : null),
     header: buildNav("header"),
     footerColumns,
+    legal: buildNav("legal"),
     team,
     partners,
     partner: (id: unknown) => partners.find((p) => p.id === id) ?? null,

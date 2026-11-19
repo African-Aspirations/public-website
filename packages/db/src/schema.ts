@@ -111,7 +111,7 @@ export const pageSections = pgTable(
 
 export const navItems = pgTable("nav_items", {
   id: id(),
-  menu: text("menu").notNull(), // "header" | "footer:<column>"
+  menu: text("menu").notNull(), // "header" | "footer:<column>" | "legal"
   parentId: uuid("parent_id"),
   label: text("label").notNull(),
   description: text("description"),

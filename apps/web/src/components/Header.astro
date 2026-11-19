@@ -1,4 +1,9 @@
 ---
+/**
+ * Site header. Desktop: logo left, menu centred, contact button right; menus with
+ * children open as dropdowns (native <details>, no JS needed).
+ * Mobile: logo + hamburger, opening a full-screen panel with the links in groups.
+ */
 import { getContent } from "../lib/content";
 import Img from "./Img.astro";
 import Button from "./ui/Button.astro";
@@ -8,60 +13,104 @@ const { settings, header } = c;
 const logo = c.media(settings.logoId);
 const path = Astro.url.pathname.replace(/\/$/, "") || "/";
 const isCurrent = (href: string) => href === path || (href !== "/" && path.startsWith(`${href}/`));
-const link =
-  "font-medium text-foreground no-underline hover:text-primary aria-[current=page]:text-primary aria-[current=page]:underline";
+const current = (href: string) => (isCurrent(href) ? "page" : undefined);
+const groups = header.filter((i) => i.children.length);
+const leaves = header.filter((i) => !i.children.length);
+const cta =
+  settings.ctaUrl && settings.ctaLabel ? { href: settings.ctaUrl, label: settings.ctaLabel } : null;
+
+const topLink =
+  "flex items-center gap-1 text-sm font-medium text-foreground no-underline hover:text-primary aria-[current=page]:text-primary";
+const subLink =
+  "block rounded-md px-4 py-2.5 text-sm font-normal text-foreground no-underline hover:bg-accent hover:text-primary aria-[current=page]:text-primary";
+const mobileLink =
+  "block py-2 text-base font-normal text-foreground no-underline hover:text-primary aria-[current=page]:text-primary";
 ---
-<header class="site-header layout sticky top-0 z-40 border-b bg-background">
-  <div class="relative flex min-h-18 items-center gap-6">
-    <a href="/" class="logo w-30 shrink-0" aria-label={`${settings.orgName} home`}>
-      <Img media={logo} sizes="120px" priority alt={settings.orgName} />
+<header class="site-header layout sticky top-0 z-40 border-b border-black-5 bg-background">
+  <div class="flex min-h-16 items-center justify-between gap-6 lg:grid lg:grid-cols-[1fr_auto_1fr]">
+    <a href="/" class="logo w-28 shrink-0" aria-label={`${settings.orgName} home`}>
+      <Img media={logo} sizes="112px" priority alt={settings.orgName} />
     </a>
-    <button class="menu-toggle ml-auto rounded-md border px-4 py-2 font-semibold lg:hidden" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
-    <nav
-      id="site-nav"
-      class="absolute inset-x-[calc(-1*var(--gutter))] top-full hidden max-h-[calc(100dvh-4.5rem)] flex-col gap-4 overflow-y-auto border-b bg-background px-gutter pb-8 pt-4 in-[.nav-open]:flex lg:static lg:ml-auto lg:flex lg:max-h-none lg:flex-row lg:items-center lg:gap-6 lg:overflow-visible lg:border-0 lg:bg-transparent lg:p-0"
-      aria-label="Main"
-    >
-      <ul class="flex flex-col gap-4 lg:flex-row lg:items-center lg:gap-6">
+
+    <nav class="hidden lg:block" aria-label="Main">
+      <ul class="flex items-center gap-8">
         {header.map((item) =>
           item.children.length ? (
             <li>
               <details name="nav" class="group relative">
-                <summary class={`${link} cursor-pointer list-none [&::-webkit-details-marker]:hidden`}>
-                  {item.label}<span class="ml-1 inline-block text-xs group-open:rotate-180" aria-hidden="true">▾</span>
+                <summary class={`${topLink} cursor-pointer list-none group-open:text-primary [&::-webkit-details-marker]:hidden`}>
+                  {item.label}
+                  <svg class="size-4 group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6" /></svg>
                 </summary>
-                <ul class="mt-2 grid gap-1 lg:absolute lg:-left-4 lg:top-full lg:mt-3 lg:w-80 lg:rounded-lg lg:border lg:bg-popover lg:p-2 lg:shadow-popover">
+                <ul class="absolute left-1/2 top-full mt-4 grid w-56 -translate-x-1/2 gap-0.5 rounded-xl bg-popover p-2 shadow-popover">
                   {item.children.map((child) => (
-                    <li>
-                      <a href={child.href} aria-current={isCurrent(child.href) ? "page" : undefined} class="block rounded-md px-3 py-2 no-underline hover:bg-accent">
-                        <span class="block font-medium text-foreground">{child.label}</span>
-                        {child.description && <span class="block text-sm text-muted-foreground">{child.description}</span>}
-                      </a>
-                    </li>
+                    <li><a href={child.href} class={subLink} aria-current={current(child.href)}>{child.label}</a></li>
                   ))}
                 </ul>
               </details>
             </li>
           ) : (
-            <li><a href={item.href} class={link} aria-current={isCurrent(item.href) ? "page" : undefined}>{item.label}</a></li>
+            <li><a href={item.href} class={topLink} aria-current={current(item.href)}>{item.label}</a></li>
           ),
         )}
       </ul>
-      {settings.ctaUrl && settings.ctaLabel && <Button href={settings.ctaUrl} variant="gold" class="self-start lg:self-auto">{settings.ctaLabel}</Button>}
+    </nav>
+
+    <div class="flex items-center justify-end">
+      {cta && <Button href={cta.href} class="hidden px-6 lg:inline-flex">{cta.label}</Button>}
+      <button class="menu-toggle -mr-2 p-2 text-foreground lg:hidden" type="button" aria-expanded="false" aria-controls="mobile-nav" aria-label="Open menu">
+        <svg class="size-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16" /></svg>
+      </button>
+    </div>
+  </div>
+
+  <div id="mobile-nav" class="layout fixed inset-0 z-50 hidden content-start overflow-y-auto bg-background in-[.nav-open]:grid lg:hidden">
+    <div class="flex min-h-16 items-center justify-between">
+      <a href="/" class="w-28 shrink-0" aria-label={`${settings.orgName} home`}>
+        <Img media={logo} sizes="112px" alt={settings.orgName} />
+      </a>
+      <button class="menu-close -mr-2 p-2 text-foreground" type="button" aria-label="Close menu">
+        <svg class="size-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" /></svg>
+      </button>
+    </div>
+    <nav aria-label="Main">
+      {groups.map((item) => (
+        <ul class="border-b py-6" aria-label={item.label}>
+          {item.children.map((child) => (
+            <li><a href={child.href} class={mobileLink} aria-current={current(child.href)}>{child.label}</a></li>
+          ))}
+        </ul>
+      ))}
+      {leaves.length > 0 && (
+        <ul class="border-b py-6">
+          {leaves.map((item) => (
+            <li><a href={item.href} class={mobileLink} aria-current={current(item.href)}>{item.label}</a></li>
+          ))}
+        </ul>
+      )}
+      {cta && <Button href={cta.href} size="lg" class="mt-8 w-full">{cta.label}</Button>}
     </nav>
   </div>
 </header>
-<noscript><style>#site-nav{display:flex}.menu-toggle{display:none}</style></noscript>
+<noscript><style>@media (width < 64rem){#mobile-nav{display:grid;position:static}.menu-toggle,.menu-close{display:none}}</style></noscript>
 <script is:inline>
   {
-    const b = document.querySelector(".menu-toggle");
-    b.addEventListener("click", () => {
-      const open = b.getAttribute("aria-expanded") !== "true";
-      b.setAttribute("aria-expanded", open);
+    const toggle = document.querySelector(".menu-toggle");
+    const setOpen = (open) => {
+      toggle.setAttribute("aria-expanded", open);
       document.body.classList.toggle("nav-open", open);
-    });
-    document.addEventListener("click", (e) => {
-      for (const d of document.querySelectorAll("#site-nav details[open]")) if (!d.contains(e.target)) d.open = false;
+      document.body.style.overflow = open ? "hidden" : "";
+    };
+    toggle.addEventListener("click", () => setOpen(true));
+    document.querySelector(".menu-close").addEventListener("click", () => setOpen(false));
+    const closeMenus = (except) => {
+      for (const d of document.querySelectorAll(".site-header details[open]")) if (!d.contains(except)) d.open = false;
+    };
+    document.addEventListener("click", (e) => closeMenus(e.target));
+    document.addEventListener("keydown", (e) => {
+      if (e.key !== "Escape") return;
+      closeMenus(null);
+      if (document.body.classList.contains("nav-open")) setOpen(false), toggle.focus();
     });
   }
 </script>

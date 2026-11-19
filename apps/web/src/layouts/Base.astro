@@ -46,7 +46,10 @@ const ogUrl =
     {ogUrl && <meta property="og:image:height" content="630" />}
     <meta name="twitter:card" content={ogUrl ? "summary_large_image" : "summary"} />
     <meta name="theme-color" content="#015a1a" />
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
+    <link rel="icon" href="/icon-192.png" type="image/png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
     {preload && <link rel="preload" as="image" imagesrcset={preload.srcset} imagesizes={preload.sizes} fetchpriority="high" />}
     {cloudinaryEnabled && <link rel="preconnect" href="https://res.cloudinary.com" />}
     {jsonLd.map((data) => <script type="application/ld+json" set:html={JSON.stringify(data)} />)}

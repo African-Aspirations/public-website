@@ -1,4 +1,9 @@
 ---
+/**
+ * Page hero. Text left, photo (or carousel) right; stacked on mobile, text first.
+ * Carousel: CSS scroll-snap (swipe works without JS). A tiny inline script adds
+ * prev/next arrows, shown on hover with a mouse and always on touch screens.
+ */
 import type { SectionData } from "@aa/db";
 import { getContent } from "../../lib/content";
 import { HERO_ASPECT, HERO_SIZES } from "../../lib/hero";
@@ -12,23 +17,56 @@ interface Props {
 const { data } = Astro.props;
 const c = await getContent();
 const images = data.imageIds.map((id) => c.media(id)).filter((m) => m !== null);
+const photo = "aspect-[4/5] w-full object-cover sm:aspect-square";
+const arrow =
+  "absolute top-1/2 grid size-10 -translate-y-1/2 place-items-center rounded-full bg-black-40 text-white transition-opacity hover:bg-black-60 focus-visible:opacity-100 [@media(hover:hover)]:opacity-0 [@media(hover:hover)]:group-hover:opacity-100";
 ---
 <Section>
-  <div class="grid items-center gap-gutter md:grid-cols-2">
-    <div class:list={[!images.length && "md:col-span-2 max-w-3xl"]}>
+  <div class="grid items-start gap-10 md:grid-cols-2 md:gap-gutter">
+    <div class:list={["md:pt-2", !images.length && "md:col-span-2 max-w-3xl"]}>
       {data.eyebrow && <p class="mb-2 text-sm font-semibold uppercase tracking-wider text-brand-leaf">{data.eyebrow}</p>}
-      <h1 class="text-display">{data.heading}</h1>
-      {data.body && <p class="mt-4 text-lg text-muted-foreground">{data.body}</p>}
-      {data.cta && <Button href={data.cta.href} size="lg" class="mt-6">{data.cta.label}</Button>}
+      <h1 class="text-display">
+        {data.heading}
+        {data.accent && <span class="block text-brand-leaf">{data.accent}</span>}
+      </h1>
+      {data.body && <p class="mt-6 max-w-xl text-lg">{data.body}</p>}
+      {data.cta && <Button href={data.cta.href} variant="outline" class="mt-8 font-semibold">{data.cta.label}</Button>}
     </div>
-    {images.length > 0 && (
-      images.length === 1 ? (
-        <Img media={images[0]!} sizes={HERO_SIZES} aspect={HERO_ASPECT} priority class="w-full rounded-xl" />
-      ) : (
-        <ul class="flex snap-x snap-mandatory gap-2 overflow-x-auto rounded-xl" aria-label="Photos">
-          {images.map((m, i) => <li class="shrink-0 basis-full snap-start"><Img media={m} sizes={HERO_SIZES} aspect={HERO_ASPECT} priority={i === 0} class="w-full" /></li>)}
+    {images.length === 1 && <Img media={images[0]!} sizes={HERO_SIZES} aspect={HERO_ASPECT} priority class={`${photo} rounded-media`} />}
+    {images.length > 1 && (
+      <div class="hero-carousel group relative">
+        <ul class="flex snap-x snap-mandatory overflow-x-auto rounded-media [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" aria-label="Photos">
+          {images.map((m, i) => (
+            <li class="w-full shrink-0 snap-start" aria-label={`${i + 1} of ${images.length}`}>
+              <Img media={m} sizes={HERO_SIZES} aspect={HERO_ASPECT} priority={i === 0} class={photo} />
+            </li>
+          ))}
         </ul>
-      )
+        <button type="button" data-dir="-1" class={`${arrow} left-3`} aria-label="Previous photo" hidden>
+          <svg class="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5m7 7-7-7 7-7" /></svg>
+        </button>
+        <button type="button" data-dir="1" class={`${arrow} right-3`} aria-label="Next photo" hidden>
+          <svg class="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14m-7-7 7 7-7 7" /></svg>
+        </button>
+      </div>
     )}
   </div>
 </Section>
+{images.length > 1 && (
+  <script is:inline>
+    for (const root of document.querySelectorAll(".hero-carousel:not([data-ready])")) {
+      root.dataset.ready = "";
+      const track = root.querySelector("ul");
+      const smooth = matchMedia("(prefers-reduced-motion: no-preference)").matches ? "smooth" : "auto";
+      for (const btn of root.querySelectorAll("button")) {
+        btn.hidden = false;
+        btn.addEventListener("click", () => {
+          const w = track.clientWidth;
+          const i = Math.round(track.scrollLeft / w) + Number(btn.dataset.dir);
+          const n = track.children.length;
+          track.scrollTo({ left: ((i + n) % n) * w, behavior: smooth });
+        });
+      }
+    }
+  </script>
+)}

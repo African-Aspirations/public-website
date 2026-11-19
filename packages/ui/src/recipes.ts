@@ -17,20 +17,22 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export const buttonVariants = cva(
-  `inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium no-underline transition-colors disabled:pointer-events-none disabled:opacity-50 shrink-0`,
+  `inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium no-underline transition-colors disabled:pointer-events-none disabled:opacity-50 shrink-0`,
   {
     variants: {
       variant: {
         default: "bg-primary text-primary-foreground hover:bg-primary-hover",
         gold: "bg-gold text-gold-foreground hover:bg-gold-hover",
         destructive: "bg-destructive text-white hover:bg-destructive-hover",
-        outline: "border bg-background hover:bg-accent hover:text-accent-foreground",
+        outline: "border border-primary bg-transparent text-foreground hover:bg-accent",
+        // White outline for dark/green backgrounds.
+        inverse: "border border-white bg-transparent text-white hover:bg-white hover:text-primary",
         secondary: "bg-secondary text-secondary-foreground hover:bg-muted",
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
       },
       size: {
-        default: "h-9 px-4 py-2",
+        default: "h-9 px-5 py-2",
         sm: "h-8 gap-1.5 px-3",
         lg: "h-11 px-6 text-base",
         icon: "size-9",

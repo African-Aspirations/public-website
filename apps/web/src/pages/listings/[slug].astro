@@ -68,11 +68,11 @@ const jsonLd = [
         {l.category && <Badge variant="secondary" class="mb-3">{l.category.label}</Badge>}
         <h1 class="text-display">{l.name}</h1>
         {l.location && <p class="mt-2 text-lg text-muted-foreground">{l.location}</p>}
-        <Img media={l.cover} sizes={SIZES} aspect={4 / 3} priority class="my-8 w-full rounded-xl" />
+        <Img media={l.cover} sizes={SIZES} aspect={4 / 3} priority class="my-8 w-full rounded-media" />
         <h2 class="mb-4 text-2xl">About this business</h2>
         <div class="prose" set:html={description} />
         {l.images.length > 0 && (
-          <ul class="mt-8 grid grid-cols-2 gap-4">{l.images.map((m) => <li><Img media={m} sizes="(min-width: 64rem) 330px, 50vw" aspect={4 / 3} class="w-full rounded-lg" /></li>)}</ul>
+          <ul class="mt-8 grid grid-cols-2 gap-4">{l.images.map((m) => <li><Img media={m} sizes="(min-width: 64rem) 330px, 50vw" aspect={4 / 3} class="w-full rounded-media" /></li>)}</ul>
         )}
       </article>
       <aside>

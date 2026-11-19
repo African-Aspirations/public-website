@@ -143,10 +143,10 @@ Everything here was found while moving the legacy copy into the database. Fix it
 
 - [ ] New page (replaces the external Fillout form all CTAs used to link to). Hero copy is a placeholder.
 
-## /privacy-policy (draft)
+## /privacy-policy
 
-- [ ] Legacy footer linked here but the page never existed. Needs real legal text before publishing.
+- [ ] Legacy footer linked here but the page never existed. Published with noindex and placeholder text; needs real legal text.
 
-## /terms-of-use (draft)
+## /terms-of-use
 
-- [ ] Legacy footer linked here but the page never existed. Needs real legal text before publishing.
+- [ ] Legacy footer linked here but the page never existed. Published with noindex and placeholder text; needs real legal text.

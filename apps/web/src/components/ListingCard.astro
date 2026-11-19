@@ -10,7 +10,7 @@ interface Props {
 const { listing: l } = Astro.props;
 ---
 <article class="group relative flex flex-col gap-3">
-  <Img media={l.cover} sizes="(min-width: 64rem) 360px, (min-width: 40rem) 50vw, 100vw" aspect={4 / 3} alt="" class="w-full rounded-xl" />
+  <Img media={l.cover} sizes="(min-width: 64rem) 360px, (min-width: 40rem) 50vw, 100vw" aspect={4 / 3} alt="" class="w-full rounded-media" />
   <div class="grid gap-1">
     {l.category && <Badge variant="secondary">{l.category.label}</Badge>}
     <h3 class="text-lg"><a href={`/listings/${l.slug}`} class="text-foreground no-underline after:absolute after:inset-0 group-hover:text-primary">{l.name}</a></h3>

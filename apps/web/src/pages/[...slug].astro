@@ -24,7 +24,7 @@ const [hero, ...rest] = sections;
 const jsonLd = page.slug === "" ? [organizationLd(c)] : [breadcrumbLd(c, page.slug, page.title)];
 ---
 <Base
-  title={page.slug === "" ? null : (page.seoTitle ?? page.title)}
+  title={page.seoTitle ?? page.title}
   description={page.seoDescription}
   noindex={page.noindex}
   ogImage={c.media(page.ogImageId) ?? heroImage(c, sections)}

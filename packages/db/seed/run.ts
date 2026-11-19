@@ -77,6 +77,7 @@ function validate(): string[] {
   for (const slug of [
     ...linkSlugs(content.nav.header),
     ...Object.values(content.nav.footer).flatMap(linkSlugs),
+    ...linkSlugs(content.nav.legal),
   ]) {
     if (!knownRefs.page.has(slug)) errors.push(`nav: links to unknown page "${slug}"`);
   }
@@ -111,7 +112,7 @@ function writeReview() {
       "",
     );
   }
-  writeFileSync(join(import.meta.dirname, "REVIEW.md"), `${lines.join("\n")}\n`);
+  writeFileSync(join(import.meta.dirname, "REVIEW.md"), `${lines.join("\n").trimEnd()}\n`);
 }
 
 // ---------- seeding ----------
@@ -215,6 +216,7 @@ async function seed(url: string) {
           seoTitle: p.seoTitle,
           seoDescription: p.seoDescription,
           status: p.status ?? "published",
+          noindex: p.noindex ?? false,
         })
         .returning({ id: s.pages.id });
       ids.page.set(p.slug, must(row).id);
@@ -280,7 +282,14 @@ async function seed(url: string) {
       ctaUrl: st.ctaUrl,
     });
 
-    const insertNav = async (menu: string, items: SeedNavItem[], parentId: string | null) => {
+    // `base` offsets sort_order so footer columns keep their order (columns are ordered by
+    // their first item's sort_order).
+    const insertNav = async (
+      menu: string,
+      items: SeedNavItem[],
+      parentId: string | null,
+      base = 0,
+    ) => {
       for (const [i, item] of items.entries()) {
         const [row] = await tx
           .insert(s.navItems)
@@ -291,15 +300,16 @@ async function seed(url: string) {
             description: item.description,
             pageId: item.pageSlug !== undefined ? ids.page.get(item.pageSlug) : undefined,
             url: item.url,
-            sortOrder: i,
+            sortOrder: base + i,
           })
           .returning({ id: s.navItems.id });
         await insertNav(menu, item.children ?? [], must(row).id);
       }
     };
     await insertNav("header", content.nav.header, null);
-    for (const [column, items] of Object.entries(content.nav.footer))
-      await insertNav(`footer:${column}`, items, null);
+    for (const [c, [column, items]] of Object.entries(content.nav.footer).entries())
+      await insertNav(`footer:${column}`, items, null, c * 100);
+    await insertNav("legal", content.nav.legal, null);
 
     console.log(
       `Seeded ${content.pages.length} pages, ${content.services.length} services, ${content.teamMembers.length} team members, ${mediaIds.size} media.`,

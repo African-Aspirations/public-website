@@ -1,4 +1,9 @@
 ---
+/**
+ * Markdown text with an optional image beside it.
+ * variant "diagonal": image centred on white, text on a dark-green panel whose
+ * slanted edge runs to the right edge of the screen (used for partners).
+ */
 import type { SectionData } from "@aa/db";
 import { marked } from "marked";
 import { getContent } from "../../lib/content";
@@ -13,13 +18,27 @@ const { data } = Astro.props;
 const c = await getContent();
 const image = c.media(data.imageId);
 const html = await marked.parse(data.body);
+const diagonal = data.variant === "diagonal";
 ---
-<Section>
-  <div class:list={["grid items-center gap-gutter", image && "md:grid-cols-2"]}>
-    <div class:list={["max-w-narrow", image && data.imageSide === "left" && "md:order-2"]}>
-      <SectionHeader eyebrow={data.eyebrow} heading={data.heading} />
-      <div class="prose" set:html={html} />
+{diagonal ? (
+  <Section class="relative overflow-hidden pb-0 md:pb-section">
+    <div class="absolute inset-y-0 right-0 hidden w-[56%] bg-brand-dark [clip-path:polygon(16%_0,100%_0,100%_100%,0_100%)] md:block" aria-hidden="true"></div>
+    <div class="relative grid items-center md:grid-cols-2 md:gap-gutter">
+      {image && <Img media={image} sizes="(min-width: 48rem) 320px, 80vw" class="mb-12 w-full max-w-80 justify-self-center md:mb-0" />}
+      <div class="-mx-gutter bg-brand-dark px-gutter py-12 text-white md:mx-0 md:bg-transparent md:py-8 md:pl-16">
+        {data.heading && <h2 class="text-lg text-white md:text-xl">{data.heading}</h2>}
+        <div class="prose mt-4 text-lg leading-relaxed text-white-70" set:html={html} />
+      </div>
     </div>
-    {image && <Img media={image} sizes="(min-width: 64rem) 520px, 100vw" class="w-full rounded-xl" />}
-  </div>
-</Section>
+  </Section>
+) : (
+  <Section>
+    <div class:list={["grid items-center gap-gutter", image && "md:grid-cols-2"]}>
+      <div class:list={["max-w-narrow", image && data.imageSide === "left" && "md:order-2"]}>
+        <SectionHeader eyebrow={data.eyebrow} heading={data.heading} />
+        <div class="prose" set:html={html} />
+      </div>
+      {image && <Img media={image} sizes="(min-width: 64rem) 520px, 100vw" class="w-full rounded-media" />}
+    </div>
+  </Section>
+)}

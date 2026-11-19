@@ -2,6 +2,7 @@
 import type { SectionData } from "@aa/db";
 import { getContent } from "../../lib/content";
 import Img from "../Img.astro";
+import Button from "../ui/Button.astro";
 import Section from "../ui/Section.astro";
 import SectionHeader from "../ui/SectionHeader.astro";
 
@@ -18,12 +19,35 @@ const sizes =
 ---
 <Section>
   <SectionHeader eyebrow={data.eyebrow} heading={data.heading} intro={data.intro} />
+  {data.variant === "feature" ? (
+    <ul class:list={["grid gap-6 sm:grid-cols-2", cols]}>
+      {data.cards.map((card) => {
+        const img = c.media(card.imageId);
+        return (
+          <li class="group relative flex flex-col overflow-hidden rounded-media bg-primary text-white transition-transform motion-safe:hover:-translate-y-1.5">
+            {img && <Img media={img} sizes={sizes} aspect={16 / 10} alt="" class="w-full" />}
+            <div class="flex flex-1 flex-col gap-3 p-6">
+              <h3 class="text-xl text-white">{card.title}</h3>
+              {card.body?.split("\n\n").map((p) => <p class="text-sm text-white-85">{p}</p>)}
+              {card.href && (
+                <div class="mt-auto pt-4">
+                  <Button href={card.href} variant="inverse" class="px-7 after:absolute after:inset-0 group-hover:bg-white group-hover:text-primary">
+                    {data.linkLabel}<span class="sr-only"> about {card.title}</span>
+                  </Button>
+                </div>
+              )}
+            </div>
+          </li>
+        );
+      })}
+    </ul>
+  ) : (
   <ul class:list={["grid gap-gutter sm:grid-cols-2", cols]}>
     {data.cards.map((card) => {
       const img = c.media(card.imageId);
       return (
         <li class="group relative flex flex-col gap-2">
-          {img && <Img media={img} sizes={sizes} aspect={4 / 3} class="mb-2 w-full rounded-xl" />}
+          {img && <Img media={img} sizes={sizes} aspect={4 / 3} class="mb-2 w-full rounded-media" />}
           <h3 class="text-lg">
             {card.href ? (
               <a href={card.href} class="text-foreground no-underline after:absolute after:inset-0 group-hover:text-primary">{card.title} <span class="text-primary" aria-hidden="true">→</span></a>
@@ -31,7 +55,7 @@ const sizes =
           </h3>
           {card.body?.split("\n\n").map((p) => <p class="text-muted-foreground">{p}</p>)}
           {card.items && card.items.length > 0 && (
-            <ul class="mt-2 grid list-disc gap-2 pl-5 text-sm">
+            <ul class="mt-2 grid list-disc gap-2 pl-5 text-sm marker:text-brand-leaf">
               {card.items.map((i) => <li><strong class="font-semibold">{i.title}</strong>{i.body && <> — {i.body}</>}</li>)}
             </ul>
           )}
@@ -39,4 +63,5 @@ const sizes =
       );
     })}
   </ul>
+  )}
 </Section>

@@ -25,6 +25,7 @@ export const sectionSchemas = {
   hero: z.object({
     eyebrow: z.string().optional(),
     heading: z.string().min(1), // rendered as the page <h1>
+    accent: z.string().optional(), // second line of the <h1>, in the brand green
     body: z.string().optional(),
     imageIds: z.array(mediaId).max(6).default([]), // >1 = scroll-snap carousel
     cta: link.optional(),
@@ -35,12 +36,17 @@ export const sectionSchemas = {
     body: z.string().min(1), // markdown
     imageId: mediaId.optional(),
     imageSide: z.enum(["left", "right"]).default("right"),
+    // "diagonal": image on white, text on a dark-green panel with a slanted edge (partners).
+    variant: z.enum(["default", "diagonal"]).default("default"),
   }),
   card_grid: z.object({
     eyebrow: z.string().optional(),
     heading: z.string().optional(),
     intro: z.string().optional(),
     columns: z.union([z.literal(2), z.literal(3), z.literal(4)]).default(3),
+    // "feature": green cards with a photo on top and a "Learn more" button (home services).
+    variant: z.enum(["default", "feature"]).default("default"),
+    linkLabel: z.string().default("Learn more"),
     cards: z.array(card).min(1),
   }),
   steps: z.object({
@@ -57,7 +63,9 @@ export const sectionSchemas = {
     heading: z.string().min(1),
     body: z.string().optional(),
     cta: link,
-    imageId: mediaId.optional(),
+    imageId: mediaId.optional(), // band: beside the text; dark: full-width background
+    imageSide: z.enum(["left", "right"]).default("right"),
+    imageMirror: z.boolean().default(false), // flip the image horizontally
     tone: z.enum(["band", "dark"]).default("band"),
   }),
   team: z.object({ heading: z.string().optional(), intro: z.string().optional() }),

@@ -21,7 +21,8 @@ export const corePages: SeedPage[] = [
       {
         type: "hero",
         data: {
-          heading: "Build value today. Exit stronger tomorrow.",
+          heading: "Build value today.",
+          accent: "Exit stronger tomorrow.",
           body: "African Aspirations helps founders, owners, and investors build businesses that are resilient, fundable, and ready to create maximum value when the time comes to grow, transition, or exit.",
           imageIds: [
             asset("new_images/1.jpg", "Businesswoman checking her phone among city office towers"),
@@ -39,6 +40,8 @@ export const corePages: SeedPage[] = [
           heading: "We help owners at every stage of the journey",
           intro: "From growth to value creation to exit",
           columns: 4,
+          variant: "feature",
+          linkLabel: "Learn more",
           cards: [
             {
               title: "Business Consulting",
@@ -85,7 +88,7 @@ export const corePages: SeedPage[] = [
           eyebrow: "Why timing matters",
           heading: "The value of planning early",
           body: [
-            "Most founders wait until they're ready to exit before thinking about value — by then, it's often too late to change the outcome.",
+            "Most founders wait until they're ready to exit before thinking about value; by then, it's often too late to change the outcome.",
             "",
             "- Most businesses are built around the founder. That can limit growth, reduce resilience, and weaken value at exit.",
             "- Businesses with clear strategy, strong governance, and credible financials attract better capital and stronger buyers.",
@@ -102,12 +105,14 @@ export const corePages: SeedPage[] = [
         type: "cta",
         data: {
           heading:
-            "We help you build a business that can grow, endure, and be sold on your terms — whether you’re strengthening governance, raising capital, or planning an exit.",
+            "We help you build a business that can grow, endure, and be sold on your terms, whether you’re strengthening governance, raising capital, or planning an exit.",
           cta: { label: "Book a consultation", href: "/contact" },
           imageId: asset(
             "new_images/The-Republic-Cover-Landscape-Image-Card-5 1.svg",
             "Line sketch of a city skyline with an aeroplane overhead",
           ),
+          imageSide: "right",
+          imageMirror: true,
           tone: "band",
         },
       },
@@ -119,6 +124,7 @@ export const corePages: SeedPage[] = [
           body: "Our partnership with Transworld Business Advisors gives African owners access to a global marketplace of serious buyers, investors, and strategic opportunities.",
           imageId: asset("new_images/TBALogo_origin.webp", "Transworld Business Advisors logo"),
           imageSide: "left",
+          variant: "diagonal",
         },
       },
       {

@@ -25,7 +25,7 @@ const members = await Promise.all(
   <ul class="grid gap-gutter sm:grid-cols-2 lg:grid-cols-3">
     {members.map((m) => (
       <li>
-        <Img media={m.photo} sizes="(min-width: 64rem) 360px, (min-width: 40rem) 50vw, 100vw" aspect={4 / 5} class="mb-4 w-full rounded-xl" />
+        <Img media={m.photo} sizes="(min-width: 64rem) 360px, (min-width: 40rem) 50vw, 100vw" aspect={4 / 5} class="mb-4 w-full rounded-media" />
         <h3 class="text-lg">{m.name}{m.credentials && <span class="text-sm font-normal text-muted-foreground">, {m.credentials}</span>}</h3>
         <p class="font-semibold text-primary">{m.role}</p>
         {m.summary && <p class="mt-2">{m.summary}</p>}

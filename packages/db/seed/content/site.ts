@@ -103,13 +103,13 @@ export const nav: SeedNav = {
       // Legacy pointed to the Fillout form.
       { label: "Refer a business", pageSlug: "contact" },
     ],
-    // Legacy bottom bar showed "Privacy Policy" and "Terms of Use" as plain text (no links).
-    // The "Admin" link (/auth/login) is intentionally dropped.
-    Legal: [
-      { label: "Privacy Policy", pageSlug: "privacy-policy" },
-      { label: "Terms of Use", pageSlug: "terms-of-use" },
-    ],
   },
+  // Footer bottom bar. Legacy showed "Privacy Policy" and "Terms of Use" as plain text (no links).
+  // The "Admin" link (/auth/login) is intentionally dropped: the admin is never linked publicly.
+  legal: [
+    { label: "Privacy Policy", pageSlug: "privacy-policy" },
+    { label: "Terms of Use", pageSlug: "terms-of-use" },
+  ],
 };
 
 export const teamMembers: SeedTeamMember[] = [

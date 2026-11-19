@@ -1,18 +1,31 @@
 ---
+/**
+ * Site footer: logo + contact, link columns (footer:<column> menus), social icons,
+ * and a bottom bar with the copyright and the "legal" menu. The admin is never linked.
+ * Social icons come from one cached sprite (public/icons/social.svg), keyed by label.
+ */
 import { getContent } from "../lib/content";
 
-const { settings, footerColumns: allColumns } = await getContent();
+const { settings, footerColumns: allColumns, legal } = await getContent();
 const footerColumns = allColumns.filter((col) => col.items.length > 0);
 const year = new Date().getFullYear();
 const tel = settings.phone?.replace(/[^\d+]/g, "");
-const link = "text-inherit no-underline hover:underline";
+const icons = new Set(["linkedin", "facebook", "instagram", "x"]);
+const socials = settings.socials
+  .map((s) => ({ ...s, icon: s.label.toLowerCase() }))
+  .filter((s) => icons.has(s.icon));
+const link = "text-white-70 no-underline hover:text-white";
 ---
-<footer class="site-footer layout bg-brand-dark pb-8 pt-12 text-[#e8f0e0]">
-  <div class="cols grid grid-cols-1 gap-x-gutter gap-y-8 sm:grid-cols-2 lg:grid-cols-[2fr_repeat(var(--n),1fr)]" style={`--n:${footerColumns.length}`}>
-    <div class="sm:col-span-full lg:col-span-1">
-      <p class="font-semibold text-white">{settings.orgName}</p>
-      {settings.tagline && <p class="mt-2">{settings.tagline}</p>}
-      <address class="mt-3 grid gap-1 not-italic">
+<footer class="site-footer layout bg-[#141414] pb-8 pt-16 text-sm text-white">
+  <div
+    class="cols grid grid-cols-2 gap-x-gutter gap-y-10 sm:grid-cols-3 lg:grid-cols-[minmax(0,1.6fr)_repeat(var(--n),minmax(0,1fr))_auto]"
+    style={`--n:${footerColumns.length}`}
+  >
+    <div class="col-span-full lg:col-span-1">
+      <a href="/" class="inline-block" aria-label={`${settings.orgName} home`}>
+        <img src="/logo-white.webp" width="109" height="45" alt={settings.orgName} loading="lazy" decoding="async" />
+      </a>
+      <address class="mt-6 grid gap-2 not-italic text-white-85">
         {settings.address && <span>{settings.address}</span>}
         {settings.phone && <a class={link} href={`tel:${tel}`}>{settings.phone}</a>}
         {settings.email && <a class={link} href={`mailto:${settings.email}`}>{settings.email}</a>}
@@ -20,17 +33,26 @@ const link = "text-inherit no-underline hover:underline";
     </div>
     {footerColumns.map((col) => (
       <nav aria-label={col.heading}>
-        <p class="font-semibold text-white">{col.heading}</p>
-        <ul class="mt-3 grid gap-2">{col.items.map((i) => <li><a class={link} href={i.href}>{i.label}</a></li>)}</ul>
+        <p class="text-base font-semibold text-white">{col.heading}</p>
+        <ul class="mt-4 grid gap-3">{col.items.map((i) => <li><a class={link} href={i.href}>{i.label}</a></li>)}</ul>
       </nav>
     ))}
-  </div>
-  <div class="mt-12 flex flex-wrap justify-between gap-4 border-t border-[#2f5a3a] pt-6 text-sm">
-    <p>© {year} {settings.orgName}</p>
-    {settings.socials.length > 0 && (
-      <ul class="flex gap-6">
-        {settings.socials.map((s) => <li><a class={link} href={s.url} rel="noopener" target="_blank">{s.label}</a></li>)}
+    {socials.length > 0 && (
+      <ul class="col-span-full flex gap-6 lg:col-span-1 lg:flex-col lg:gap-5" aria-label="Social media">
+        {socials.map((s) => (
+          <li>
+            <a href={s.url} rel="noopener" target="_blank" class="block text-white hover:text-white-70" aria-label={s.label}>
+              <svg class="size-5" aria-hidden="true"><use href={`/icons/social.svg#${s.icon}`} /></svg>
+            </a>
+          </li>
+        ))}
       </ul>
+    )}
+  </div>
+  <div class="mt-14 flex flex-col-reverse gap-4 border-t border-white-10 pt-8 sm:flex-row sm:items-center sm:justify-between">
+    <p class="font-medium">Copyright © {year}. {settings.orgName}.</p>
+    {legal.length > 0 && (
+      <ul class="flex gap-6">{legal.map((i) => <li><a class="text-white-60 no-underline hover:text-white" href={i.href}>{i.label}</a></li>)}</ul>
     )}
   </div>
 </footer>
