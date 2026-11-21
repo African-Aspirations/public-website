@@ -7,6 +7,7 @@
  * (the last paragraph muted). logoBanner: the site logo, large, in a band above.
  * variant "band": white text on a full-width green band, landscape photo right;
  * on nested pages (e.g. /business-consulting/advisory) a breadcrumb above the h1.
+ * newsletter: the signup form under the heading.
  */
 import type { SectionData } from "@aa/db";
 import { marked } from "marked";
@@ -20,6 +21,7 @@ import {
   HERO_SIZES,
 } from "../../lib/hero";
 import Img from "../Img.astro";
+import NewsletterSignup from "../NewsletterSignup.astro";
 import Button from "../ui/Button.astro";
 import Section from "../ui/Section.astro";
 
@@ -33,11 +35,12 @@ const collage = data.variant === "collage";
 const band = data.variant === "band";
 // Breadcrumb (band only). Nested URL: every ancestor that is a page, then this page.
 // Top-level page inside a header menu group: the group's label (text), then this page.
-// Any other page: just this page's title.
+// Any other page: just this page, by its header menu label if it has one ("Insights").
 const path = Astro.url.pathname.replace(/\/$/, "");
 const parts = path.split("/").filter(Boolean);
 const titleOf = (slug: string) => c.pages.find((p) => p.slug === slug)?.title ?? slug;
 const group = c.header.find((g) => g.children.some((ch) => ch.href === path));
+const navLabel = c.header.find((i) => !i.children.length && i.href === path)?.label;
 const crumbs: { href?: string; title: string }[] = !band
   ? []
   : parts.length > 1
@@ -48,7 +51,7 @@ const crumbs: { href?: string; title: string }[] = !band
     : group && parts[0]
       ? [{ title: group.label }, { title: titleOf(parts[0]) }]
       : parts[0]
-        ? [{ title: titleOf(parts[0]) }]
+        ? [{ title: navLabel ?? titleOf(parts[0]) }]
         : [];
 const bodyHtml = collage && data.body ? await marked.parse(data.body) : null;
 const logo = data.logoBanner ? c.media(c.settings.logoId) : null;
@@ -79,6 +82,7 @@ const arrow =
       {data.eyebrow && <p class="mb-2 text-sm font-semibold uppercase tracking-wider text-white-70">{data.eyebrow}</p>}
       <h1 class="text-display font-normal text-white">{data.heading}{data.accent && <> <span class="text-brand-mint">{data.accent}</span></>}</h1>
       {data.body && <p class="mt-4 max-w-md text-lg text-white-85">{data.body}</p>}
+      {data.newsletter && <NewsletterSignup inverse class="mt-6 max-w-md" />}
       {data.cta && <Button href={data.cta.href} class="mt-6 bg-white px-7 font-semibold text-primary hover:bg-secondary">{data.cta.label}</Button>}
     </div>
     {images[0] && (data.imageFrame ? (

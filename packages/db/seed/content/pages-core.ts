@@ -363,17 +363,18 @@ export const corePages: SeedPage[] = [
       {
         type: "hero",
         data: {
-          heading: "Join our newsletter",
+          heading: "Join",
+          accent: "our newsletter",
           imageIds: [
             asset(
               "new_images/image 16.png",
               "Man in glasses working at a desk in front of a chart of rising money growth",
             ),
           ],
-          cta: { label: "See latest deals", href: "/listings" },
+          variant: "band",
+          newsletter: true,
         },
       },
-      { type: "newsletter_form", data: {} },
       {
         type: "cta",
         data: {
@@ -381,12 +382,13 @@ export const corePages: SeedPage[] = [
           cta: { label: "Leave us a message", href: "/contact" },
           imageId: asset("new_images/156.png", ""),
           tone: "dark",
+          overlay: "fade",
         },
       },
     ],
     review: [
-      'Legacy page was a placeholder: a "Join our newsletter" hero with no form and no articles/insights. The newsletter_form section is new (no legacy copy) — needs a heading/intro if wanted.',
-      'Hero button "See latest deals" links to /listings, which is odd under a newsletter heading.',
+      'Legacy page was a placeholder: a "Join our newsletter" hero with no form and no articles/insights. The newsletter signup form (new, no legacy copy) sits in the hero under the heading.',
+      'Legacy hero button "See latest deals" (to /listings) was replaced by the signup form.',
       '"Leave us a message" pointed to the Fillout form; now /contact.',
       'The header menu labels this page "Insights".',
     ],

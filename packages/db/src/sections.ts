@@ -36,6 +36,8 @@ export const sectionSchemas = {
     logoBanner: z.boolean().default(false), // large site logo in a band above the hero
     // Shaped/cut-out image: shown uncropped on a translucent panel ("band" only).
     imageFrame: z.boolean().default(false),
+    // Newsletter signup form under the heading ("band"), e.g. Media & Insights.
+    newsletter: z.boolean().default(false),
   }),
   rich_text: z.object({
     eyebrow: z.string().optional(),

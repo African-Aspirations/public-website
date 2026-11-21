@@ -1,9 +1,6 @@
 ---
 import type { SectionData } from "@aa/db";
-import Turnstile from "../Turnstile.astro";
-import Alert from "../ui/Alert.astro";
-import Button from "../ui/Button.astro";
-import Input from "../ui/Input.astro";
+import NewsletterSignup from "../NewsletterSignup.astro";
 import Section from "../ui/Section.astro";
 import SectionHeader from "../ui/SectionHeader.astro";
 
@@ -15,16 +12,6 @@ const { data } = Astro.props;
 <Section>
   <div class="max-w-narrow">
     <SectionHeader heading={data.heading ?? "Subscribe to our newsletter"} intro={data.intro} />
-    <Alert id="sent" variant="success" class="mb-6">Almost done — check your inbox and click the link to confirm your subscription.</Alert>
-    <Alert id="error" variant="destructive" class="mb-6">Something went wrong. Please try again.</Alert>
-    <Alert id="confirmed" variant="success" class="mb-6">You're subscribed. Thank you for confirming!</Alert>
-    <Alert id="confirm-error" variant="destructive" class="mb-6">This confirmation link is invalid or has already been used.</Alert>
-    <form method="post" action="/api/newsletter" class="flex flex-wrap gap-2">
-      <label class="sr-only" for="nl-email">Email address</label>
-      <Input id="nl-email" name="email" type="email" required autocomplete="email" placeholder="you@company.com" maxlength={200} class="flex-[1_1_16rem]" />
-      <input class="absolute -left-[9999px]" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" />
-      <Button type="submit" size="lg">Subscribe</Button>
-      <div class="basis-full"><Turnstile /></div>
-    </form>
+    <NewsletterSignup />
   </div>
 </Section>

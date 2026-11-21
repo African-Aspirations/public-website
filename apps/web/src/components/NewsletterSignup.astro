@@ -1,0 +1,30 @@
+---
+/**
+ * Newsletter signup: status alerts (shown by URL fragment after the redirect from
+ * /api/newsletter or the confirm link), email field, honeypot, Turnstile.
+ * `inverse`: white button for the green hero band.
+ */
+import Turnstile from "./Turnstile.astro";
+import Alert from "./ui/Alert.astro";
+import Button from "./ui/Button.astro";
+import Input from "./ui/Input.astro";
+
+interface Props {
+  inverse?: boolean;
+  class?: string;
+}
+const { inverse = false, class: cls } = Astro.props;
+---
+<div class={cls}>
+  <Alert id="sent" variant="success" class="mb-4">Almost done — check your inbox and click the link to confirm your subscription.</Alert>
+  <Alert id="error" variant="destructive" class="mb-4">Something went wrong. Please try again.</Alert>
+  <Alert id="confirmed" variant="success" class="mb-4">You're subscribed. Thank you for confirming!</Alert>
+  <Alert id="confirm-error" variant="destructive" class="mb-4">This confirmation link is invalid or has already been used.</Alert>
+  <form method="post" action="/api/newsletter" class="flex flex-wrap gap-2">
+    <label class="sr-only" for="nl-email">Email address</label>
+    <Input id="nl-email" name="email" type="email" required autocomplete="email" placeholder="you@company.com" maxlength={200} class:list={["flex-[1_1_14rem]", inverse && "border-transparent bg-white"]} />
+    <input class="absolute -left-[9999px]" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" />
+    <Button type="submit" size="lg" class={inverse ? "bg-white px-7 font-semibold text-primary hover:bg-secondary" : undefined}>Subscribe</Button>
+    <div class="basis-full"><Turnstile /></div>
+  </form>
+</div>

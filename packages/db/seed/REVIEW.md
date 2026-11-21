@@ -38,8 +38,8 @@ Everything here was found while moving the legacy copy into the database. Fix it
 
 ## /media-and-insights
 
-- [ ] Legacy page was a placeholder: a "Join our newsletter" hero with no form and no articles/insights. The newsletter_form section is new (no legacy copy) — needs a heading/intro if wanted.
-- [ ] Hero button "See latest deals" links to /listings, which is odd under a newsletter heading.
+- [ ] Legacy page was a placeholder: a "Join our newsletter" hero with no form and no articles/insights. The newsletter signup form (new, no legacy copy) sits in the hero under the heading.
+- [ ] Legacy hero button "See latest deals" (to /listings) was replaced by the signup form.
 - [ ] "Leave us a message" pointed to the Fillout form; now /contact.
 - [ ] The header menu labels this page "Insights".
 
