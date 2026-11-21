@@ -65,7 +65,7 @@ Everything here was found while moving the legacy copy into the database. Fix it
 ## /exit-and-succession
 
 - [ ] Page ends with two consecutive CTA sections ('If you are preparing for the next chapter…' / 'A sharper transition begins with better preparation'), both to the contact page — consider merging.
-- [ ] 'Our take' was a side panel next to the intro in legacy; now its own rich_text section.
+- [ ] 'Our take' is the intro's side panel (rich_text aside), as in legacy.
 - [ ] Hero image is the shared 'image 16.png' used on all consulting-cluster pages. Closing CTA background (16.jpg) treated as decorative (alt '').
 
 ## /business-valuation

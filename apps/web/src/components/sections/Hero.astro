@@ -33,6 +33,7 @@ const collage = data.variant === "collage";
 const band = data.variant === "band";
 // Breadcrumb (band only). Nested URL: every ancestor that is a page, then this page.
 // Top-level page inside a header menu group: the group's label (text), then this page.
+// Any other page: just this page's title.
 const path = Astro.url.pathname.replace(/\/$/, "");
 const parts = path.split("/").filter(Boolean);
 const titleOf = (slug: string) => c.pages.find((p) => p.slug === slug)?.title ?? slug;
@@ -46,7 +47,9 @@ const crumbs: { href?: string; title: string }[] = !band
       }))
     : group && parts[0]
       ? [{ title: group.label }, { title: titleOf(parts[0]) }]
-      : [];
+      : parts[0]
+        ? [{ title: titleOf(parts[0]) }]
+        : [];
 const bodyHtml = collage && data.body ? await marked.parse(data.body) : null;
 const logo = data.logoBanner ? c.media(c.settings.logoId) : null;
 const photo = "aspect-[4/5] w-full object-cover sm:aspect-square";

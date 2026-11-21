@@ -73,7 +73,8 @@ export const sectionSchemas = {
     intro: z.string().optional(),
     steps: z.array(z.object({ title: z.string().min(1), body: z.string().optional() })).min(1),
     // "panel": the steps as translucent cards on a rounded green panel.
-    variant: z.enum(["default", "panel"]).default("default"),
+    // "band": the steps on a full-width green band, numbers in light green.
+    variant: z.enum(["default", "panel", "band"]).default("default"),
     headingInPanel: z.boolean().default(false), // "panel": put the heading inside the panel
     label: z.string().optional(), // e.g. "Phase" → "PHASE 1"; otherwise "01"
   }),

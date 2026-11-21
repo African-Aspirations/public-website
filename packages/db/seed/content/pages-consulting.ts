@@ -255,7 +255,8 @@ export const consultingPages: SeedPage[] = [
       {
         type: "hero",
         data: {
-          heading: "Exit & Succession",
+          heading: "Exit",
+          accent: "& Succession",
           body: "For owners handing the business to family or a trusted successor, not selling it to a stranger.",
           imageIds: [heroImage],
           cta: heroCta,
@@ -268,13 +269,10 @@ export const consultingPages: SeedPage[] = [
           heading:
             "Some owners want to keep the business in the family. Others want to hand it to the people who've earned it.",
           body: "If your plan is to hand the business to family or a trusted successor rather than sell it to a third party, that transition deserves the same rigor as a sale. Preparing early, not improvising at the last minute, protects the seller and the business well after the seller has stepped back. Considering a sale to a buyer instead? [See Business Brokerage](/business-brokerage).",
-        },
-      },
-      {
-        type: "rich_text",
-        data: {
-          heading: "Our take",
-          body: "We believe the owner’s objective should be to maximize return on investment at exit, even when that exit isn't a sale. For a handover to family or a trusted successor, that means a business that can survive beyond the founder, a successor who's actually ready to lead it, and clarity on the value being transferred.",
+          aside: {
+            heading: "Our take",
+            body: "We believe the owner’s objective should be to maximize return on investment at exit, even when that exit isn't a sale. For a handover to family or a trusted successor, that means a business that can survive beyond the founder, a successor who's actually ready to lead it, and clarity on the value being transferred.",
+          },
         },
       },
       {
@@ -282,6 +280,7 @@ export const consultingPages: SeedPage[] = [
         data: {
           heading: "What we help owners do",
           columns: 3,
+          variant: "tiles",
           cards: [
             {
               title: "Prepare the business to stand on its own",
@@ -302,6 +301,7 @@ export const consultingPages: SeedPage[] = [
         type: "steps",
         data: {
           heading: "A practical path to a better transition",
+          variant: "band",
           steps: [
             {
               title: "Assess the business",
@@ -332,12 +332,13 @@ export const consultingPages: SeedPage[] = [
           heading: "A sharper transition begins with better preparation",
           cta: { label: "Speak with our team", href: "/contact" },
           imageId: asset("new_images/16.jpg", ""),
+          tone: "dark",
         },
       },
     ],
     review: [
       "Page ends with two consecutive CTA sections ('If you are preparing for the next chapter…' / 'A sharper transition begins with better preparation'), both to the contact page — consider merging.",
-      "'Our take' was a side panel next to the intro in legacy; now its own rich_text section.",
+      "'Our take' is the intro's side panel (rich_text aside), as in legacy.",
       "Hero image is the shared 'image 16.png' used on all consulting-cluster pages. Closing CTA background (16.jpg) treated as decorative (alt '').",
     ],
   },
