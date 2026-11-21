@@ -1,0 +1,32 @@
+---
+/**
+ * One leader's full bio: photo left / text right from md up, photo on top below.
+ * Rendered on /about/leadership (stacked, page height) and, cloned from that page,
+ * inside the About page's modal, where `in-[.team-bio]` gives it a fixed height
+ * with only the text column scrolling.
+ */
+import { marked } from "marked";
+import type { Content } from "../lib/content";
+import { memberSlug } from "../lib/team";
+import Img from "./Img.astro";
+
+interface Props {
+  member: Content["team"][number];
+  media: Content["media"];
+}
+const { member: m, media } = Astro.props;
+const id = memberSlug(m.name);
+const bioHtml = m.bio ? await marked.parse(m.bio) : null;
+---
+<article id={id} aria-labelledby={`${id}-name`} class="scroll-mt-24 overflow-hidden rounded-xl bg-background md:grid md:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] in-[.team-bio]:md:h-[min(40rem,calc(100dvh-2rem))]">
+  <Img media={media(m.photoId)} sizes="(min-width: 48rem) 384px, 100vw" aspect={4 / 5} class="aspect-[4/3] w-full object-cover object-[50%_20%] md:aspect-auto md:h-full" />
+  <div class="p-6 sm:p-8 md:py-10 md:pr-16 in-[.team-bio]:md:overflow-y-auto in-[.team-bio]:md:overscroll-contain">
+    <h2 id={`${id}-name`} class="text-2xl">
+      {m.name}
+      {m.credentials && <span class="ml-1 text-sm font-semibold tracking-normal text-brand-leaf">{m.credentials}</span>}
+    </h2>
+    <p class="mt-1">{m.role}</p>
+    {m.summary && <p class="mt-6 text-lg font-semibold leading-snug text-brand-leaf">{m.summary}</p>}
+    {bioHtml && <div class="prose mt-6 text-sm" set:html={bioHtml} />}
+  </div>
+</article>

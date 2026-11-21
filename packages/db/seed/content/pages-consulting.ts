@@ -32,6 +32,7 @@ export const consultingPages: SeedPage[] = [
           body: "One place for everything your business needs to operate, scale, and outlast its founder.",
           imageIds: [heroImage],
           cta: heroCta,
+          variant: "band",
         },
       },
       {
@@ -137,6 +138,8 @@ export const consultingPages: SeedPage[] = [
           heading: "We are experts at Institutionalization",
           cta: { label: "Leave us a message", href: "/contact" },
           imageId: asset("new_images/156.png", ""),
+          tone: "dark",
+          overlay: "fade",
         },
       },
     ],
@@ -163,6 +166,7 @@ export const consultingPages: SeedPage[] = [
           body: "Deep, specialized expertise for the complex challenges generalized consulting doesn't reach.",
           imageIds: [heroImage],
           cta: heroCta,
+          variant: "band",
         },
       },
       {
@@ -172,6 +176,7 @@ export const consultingPages: SeedPage[] = [
           intro:
             "Our advisory practices support business owners and institutions as they build stronger businesses, improve resilience, and prepare for long-term value creation and successful transitions.",
           columns: 3,
+          variant: "feature",
           cards: [
             {
               title: "Insurance",
@@ -224,6 +229,8 @@ export const consultingPages: SeedPage[] = [
           heading: "We are experts at Institutionalization",
           cta: { label: "Leave us a message", href: "/contact" },
           imageId: asset("new_images/156.png", ""),
+          tone: "dark",
+          overlay: "fade",
         },
       },
     ],
@@ -248,6 +255,7 @@ export const consultingPages: SeedPage[] = [
           body: "For owners handing the business to family or a trusted successor, not selling it to a stranger.",
           imageIds: [heroImage],
           cta: heroCta,
+          variant: "band",
         },
       },
       {
@@ -342,6 +350,7 @@ export const consultingPages: SeedPage[] = [
           body: "A number you can defend, not just a number.",
           imageIds: [heroImage],
           cta: heroCta,
+          variant: "band",
         },
       },
       {
@@ -436,6 +445,7 @@ export const consultingPages: SeedPage[] = [
           body: "Capital matched to businesses that are actually ready for it.",
           imageIds: [heroImage],
           cta: heroCta,
+          variant: "band",
         },
       },
       {
@@ -623,6 +633,8 @@ export const consultingPages: SeedPage[] = [
           heading: "We have an extensive network of numerous funding partners",
           cta: { label: "Leave us a message", href: "/contact" },
           imageId: asset("new_images/156.png", ""),
+          tone: "dark",
+          overlay: "fade",
         },
       },
     ],

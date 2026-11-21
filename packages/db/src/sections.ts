@@ -29,6 +29,10 @@ export const sectionSchemas = {
     body: z.string().optional(),
     imageIds: z.array(mediaId).max(6).default([]), // >1 = scroll-snap carousel
     cta: link.optional(),
+    // "collage": two overlapping photos left, heading + markdown body right (about page).
+    // "band": white text on a full-width green band, landscape photo right, breadcrumb on nested pages.
+    variant: z.enum(["default", "collage", "band"]).default("default"),
+    logoBanner: z.boolean().default(false), // large site logo in a band above the hero
   }),
   rich_text: z.object({
     eyebrow: z.string().optional(),
@@ -67,9 +71,13 @@ export const sectionSchemas = {
     imageSide: z.enum(["left", "right"]).default("right"),
     imageMirror: z.boolean().default(false), // flip the image horizontally
     tone: z.enum(["band", "dark"]).default("band"),
+    // dark tone with an image: "full" darkens the whole photo; "fade" darkens the left
+    // (behind the text) and fades out, so the photo's subject on the right stays clear.
+    overlay: z.enum(["full", "fade"]).default("full"),
   }),
   team: z.object({ heading: z.string().optional(), intro: z.string().optional() }),
-  partner: z.object({ partnerId: z.uuid() }),
+  // heading defaults to the partner's name; the description's first paragraph is the intro.
+  partner: z.object({ partnerId: z.uuid(), heading: z.string().optional() }),
   faq: z.object({ heading: z.string().optional(), topic: z.string().optional() }),
   listings_teaser: z.object({
     heading: z.string().optional(),

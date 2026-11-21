@@ -6,3 +6,27 @@
 @source "../components";
 @source "../layouts";
 @source "../pages";
+
+/* Modal dialogs (team bios): no page scroll behind, short entrance unless reduced motion. */
+html:has(dialog[open]) {
+  overflow: hidden;
+}
+@media (prefers-reduced-motion: no-preference) {
+  dialog[open] {
+    animation: dialog-in 0.2s ease-out;
+  }
+  dialog[open]::backdrop {
+    animation: fade-in 0.2s ease-out;
+  }
+}
+@keyframes dialog-in {
+  from {
+    opacity: 0;
+    transform: translateY(1rem) scale(0.98);
+  }
+}
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}

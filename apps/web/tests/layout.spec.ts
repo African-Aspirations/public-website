@@ -1,7 +1,8 @@
 /**
  * The content-width rule: on every page and breakpoint, the header logo,
- * the page <h1> and the footer columns start at the same x-offset, and
- * nothing scrolls horizontally.
+ * the page <h1>'s content column and the footer columns start at the same
+ * x-offset, and nothing scrolls horizontally. (The h1's column, not the h1:
+ * a design may put the heading in the right half, as the About page hero does.)
  */
 import { readdirSync, statSync } from "node:fs";
 import { join, relative } from "node:path";
@@ -30,7 +31,10 @@ for (const route of routes()) {
           document.querySelector(sel)?.getBoundingClientRect().left ?? null;
         return {
           logo: left(".site-header .logo"),
-          h1: left("main h1"),
+          h1: document.querySelector("main h1")
+            ? (document.querySelector("main h1")?.closest(".layout > *")?.getBoundingClientRect()
+                .left ?? null)
+            : null,
           footer: left(".site-footer .cols"),
           overflow: document.documentElement.scrollWidth - window.innerWidth,
         };

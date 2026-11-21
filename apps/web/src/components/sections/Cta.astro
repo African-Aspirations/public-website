@@ -3,7 +3,9 @@
  * Call-to-action.
  * - "band" tone: light band; an image sits beside the text (left/right, optionally mirrored).
  * - "dark" tone: with an image, the photo fills the full width behind the text under a
- *   dark overlay; without one, a solid green band.
+ *   dark overlay; without one, a solid green band. overlay "fade": the overlay is solid
+ *   behind the text and fades out to the right (full overlay on phones, where the text
+ *   spans the width), anchored right so the photo's subject stays in view.
  */
 import type { SectionData } from "@aa/db";
 import { getContent } from "../../lib/content";
@@ -18,13 +20,14 @@ const { data } = Astro.props;
 const c = await getContent();
 const image = c.media(data.imageId);
 const dark = data.tone === "dark";
+const fade = data.overlay === "fade";
 ---
 {dark ? (
   <Section tone="dark" class="relative isolate overflow-hidden">
     {image && (
       <>
-        <Img media={image} sizes="100vw" aspect={3} alt="" class="absolute inset-0 -z-10 h-full w-full object-cover" />
-        <div class="absolute inset-0 -z-10 bg-black-60" aria-hidden="true"></div>
+        <Img media={image} sizes="100vw" aspect={3} alt="" class:list={["absolute inset-0 -z-10 h-full w-full object-cover", fade && "object-right"]} />
+        <div class:list={["absolute inset-0 -z-10 bg-black-60", fade && "md:bg-transparent md:bg-[linear-gradient(90deg,#262626_30%,rgb(38_38_38/0.6)_55%,transparent_80%)]"]} aria-hidden="true"></div>
       </>
     )}
     <div class="max-w-2xl">

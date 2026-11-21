@@ -16,6 +16,7 @@ const hero = (heading: string): SeedSection => ({
     heading,
     imageIds: [heroImage],
     cta: { label: "Reach out to us", href: "/contact" },
+    variant: "band",
   },
 });
 
@@ -27,6 +28,8 @@ const closingCta: SeedSection = {
     heading: "We are experts at Institutionalization",
     cta: { label: "Leave us a message", href: "/contact" },
     imageId: asset("new_images/156.png", ""),
+    tone: "dark",
+    overlay: "fade",
   },
 };
 
@@ -37,7 +40,7 @@ const sharedReview = [
   "Each service in the legacy data array has a `features` list (brokerage boilerplate such as 'Buyer qualification', 'Market matching') that the legacy template NEVER RENDERED. Treated as unused data and NOT carried into card `items`.",
   "Service descriptions were hard-wrapped template literals (copied from a PDF); line breaks/leading newlines joined into single spaces (they collapsed in the rendered HTML anyway).",
   "Skipped commented-out code: 'AA line' Meliuk-liuk.svg image under the hero and a 'See more'/'Learn more' button per service card (no target).",
-  "Hero breadcrumbs (auto-generated from the URL) not transcribed.",
+  "Legacy hero breadcrumbs came from the URL; these pages are top-level (/insurance …), so the band hero shows none. Consider nesting them under /business-consulting/advisory/ (with redirects) to restore the trail.",
   "The service-grid <h2> repeats the page title, so the heading appears twice on the page (hero + grid). Consider dropping or rewording.",
 ];
 
@@ -242,7 +245,7 @@ export const advisoryPages: SeedPage[] = [
       "Service grid heading styled 'Aspirations' in a highlight colour; styling dropped.",
       "Service descriptions were hard-wrapped template literals; line breaks joined into single spaces.",
       "Skipped commented-out code: 'AA line' Meliuk-liuk.svg image under the hero and a 'Learn more' link per card (href=\"#\").",
-      "Hero breadcrumbs (auto-generated from the URL) not transcribed.",
+      "Legacy hero breadcrumbs came from the URL; these pages are top-level (/insurance …), so the band hero shows none. Consider nesting them under /business-consulting/advisory/ (with redirects) to restore the trail.",
       "No 'and many more...' tile on this page (the other four have one).",
     ],
   },

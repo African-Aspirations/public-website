@@ -1,5 +1,10 @@
 ---
+/**
+ * Global partner. Large heading + the description's first paragraph left, logo and
+ * stats right; the rest of the description runs underneath.
+ */
 import type { SectionData } from "@aa/db";
+import { marked } from "marked";
 import { getContent } from "../../lib/content";
 import Img from "../Img.astro";
 import Section from "../ui/Section.astro";
@@ -7,26 +12,41 @@ import Section from "../ui/Section.astro";
 interface Props {
   data: SectionData<"partner">;
 }
+const { data } = Astro.props;
 const c = await getContent();
-const p = c.partner(Astro.props.data.partnerId);
+const p = c.partner(data.partnerId);
 const logo = p ? c.media(p.logoId) : null;
+const [intro, ...rest] = (p?.description ?? "").split(/\n\s*\n/);
+const restHtml = rest.length ? await marked.parse(rest.join("\n\n")) : null;
+const heading = data.heading ?? p?.name;
 ---
 {p && (
-  <Section tone="band" id="our-global-partner">
-    <div class="grid items-center gap-gutter lg:grid-cols-[7fr_5fr]">
+  <Section id="our-global-partner">
+    <div class="grid gap-10 md:grid-cols-2 md:gap-gutter">
       <div>
-        <p class="mb-2 text-sm font-semibold uppercase tracking-wider text-brand-leaf">Global partner</p>
-        <h2 class="text-title">{p.url ? <a href={p.url} rel="noopener" class="text-inherit">{p.name}</a> : p.name}</h2>
-        {p.description && <p class="mt-4">{p.description}</p>}
+        <h2 class="text-display">{heading}</h2>
+        {intro && <p class="mt-8 max-w-md text-lg text-muted-foreground md:mt-16">{intro}</p>}
       </div>
-      <div class="grid gap-6">
-        {logo && <Img media={logo} sizes="200px" class="w-50" />}
+      <div class="grid content-start justify-items-center gap-8">
+        {logo && (
+          p.url ? (
+            <a href={p.url} rel="noopener" class="block w-3/5 max-w-72"><Img media={logo} sizes="288px" alt={`${p.name} website`} /></a>
+          ) : (
+            <Img media={logo} sizes="288px" class="w-3/5 max-w-72" />
+          )
+        )}
         {p.stats.length > 0 && (
-          <dl class="grid grid-cols-[repeat(auto-fit,minmax(8rem,1fr))] gap-4">
-            {p.stats.map((s) => <div class="flex flex-col-reverse"><dt class="text-sm text-muted-foreground">{s.label}</dt><dd class="text-xl font-semibold text-primary">{s.value}</dd></div>)}
+          <dl class="grid w-full grid-cols-3 gap-2 border-t pt-8 text-center sm:gap-4">
+            {p.stats.map((s) => (
+              <div class="flex flex-col-reverse gap-1">
+                <dt class="text-xs text-muted-foreground sm:text-sm">{s.label}</dt>
+                <dd class="text-xl font-semibold text-primary sm:text-2xl">{s.value}</dd>
+              </div>
+            ))}
           </dl>
         )}
       </div>
     </div>
+    {restHtml && <div class="prose mt-12 max-w-3xl text-muted-foreground" set:html={restHtml} />}
   </Section>
 )}

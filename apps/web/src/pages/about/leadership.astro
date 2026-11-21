@@ -1,0 +1,32 @@
+---
+/**
+ * Full leadership bios, one article per team member. Linked from the About page
+ * cards: with JS the bio opens there in a modal (fetched from this page, so the
+ * About page stays inside the 14 KB budget); without JS the link lands here.
+ */
+import TeamBio from "../../components/TeamBio.astro";
+import Section from "../../components/ui/Section.astro";
+import SectionHeader from "../../components/ui/SectionHeader.astro";
+import Base from "../../layouts/Base.astro";
+import { getContent } from "../../lib/content";
+import { breadcrumbLd } from "../../lib/seo";
+import { LEADERSHIP_PATH } from "../../lib/team";
+
+const c = await getContent();
+const about = c.pages.find((p) => p.slug === "about");
+const team = about ? c.sectionsFor(about.id).find((s) => s.type === "team") : undefined;
+const data = (team?.data ?? {}) as { heading?: string; intro?: string };
+const title = data.heading ?? "Leadership";
+---
+<Base
+  title={title}
+  description={data.intro}
+  jsonLd={[breadcrumbLd(c, LEADERSHIP_PATH.slice(1), title)]}
+>
+  <Section>
+    <SectionHeader as="h1" heading={title} intro={data.intro} />
+    <div class="grid gap-gutter">
+      {c.team.map((m) => <div class="rounded-xl border"><TeamBio member={m} media={c.media} /></div>)}
+    </div>
+  </Section>
+</Base>

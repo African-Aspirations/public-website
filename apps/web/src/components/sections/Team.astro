@@ -1,40 +1,109 @@
 ---
+/**
+ * Leadership band: heading left, member cards right, on a black-to-green gradient.
+ * Each card links to the member's bio on /about/leadership. With JS, a click opens
+ * the bio in a native modal <dialog> instead (photo left / bio right on desktop,
+ * photo on top on phones, one scroll): the bios are fetched from that page, which
+ * keeps them out of this page's 14 KB budget. Prefetched on hover/focus/touch.
+ * The browser handles focus trapping, Esc and the top layer; the script adds
+ * closing on a tap/click outside.
+ */
 import type { SectionData } from "@aa/db";
-import { marked } from "marked";
 import { getContent } from "../../lib/content";
+import { LEADERSHIP_PATH, memberSlug } from "../../lib/team";
 import Img from "../Img.astro";
-import Accordion from "../ui/Accordion.astro";
 import Section from "../ui/Section.astro";
-import SectionHeader from "../ui/SectionHeader.astro";
 
 interface Props {
   data: SectionData<"team">;
 }
 const { data } = Astro.props;
 const c = await getContent();
-const members = await Promise.all(
-  c.team.map(async (m) => ({
-    ...m,
-    photo: c.media(m.photoId),
-    bioHtml: m.bio ? await marked.parse(m.bio) : null,
-  })),
-);
 ---
-<Section id="our-team">
-  <SectionHeader heading={data.heading} intro={data.intro} />
-  <ul class="grid gap-gutter sm:grid-cols-2 lg:grid-cols-3">
-    {members.map((m) => (
-      <li>
-        <Img media={m.photo} sizes="(min-width: 64rem) 360px, (min-width: 40rem) 50vw, 100vw" aspect={4 / 5} class="mb-4 w-full rounded-media" />
-        <h3 class="text-lg">{m.name}{m.credentials && <span class="text-sm font-normal text-muted-foreground">, {m.credentials}</span>}</h3>
-        <p class="font-semibold text-primary">{m.role}</p>
-        {m.summary && <p class="mt-2">{m.summary}</p>}
-        {m.bioHtml && (
-          <Accordion title="Read full bio" class="mt-2 border-b-0">
-            <div class="prose text-sm text-foreground" set:html={m.bioHtml} />
-          </Accordion>
-        )}
-      </li>
-    ))}
-  </ul>
+<Section
+  tone="dark"
+  id="our-team"
+  class="bg-[linear-gradient(180deg,#000_45%,var(--brand-leaf))] md:bg-[linear-gradient(90deg,#000_45%,var(--brand-leaf))]"
+>
+  <div class="grid gap-10 lg:grid-cols-[1fr_3fr] lg:items-center lg:gap-gutter">
+    <header class="max-w-sm">
+      {data.heading && <h2 class="text-title text-white">{data.heading}</h2>}
+      {data.intro && <p class="mt-4 text-white-70">{data.intro}</p>}
+    </header>
+    <ul class="team-cards grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      {c.team.map((m) => (
+        <li>
+          <a
+            href={`${LEADERSHIP_PATH}#${memberSlug(m.name)}`}
+            aria-haspopup="dialog"
+            class="group flex size-full flex-col overflow-hidden rounded-media bg-card text-card-foreground no-underline"
+          >
+            <span class="block overflow-hidden">
+              <Img media={c.media(m.photoId)} alt="" sizes="(min-width: 64rem) 300px, (min-width: 40rem) 50vw, 100vw" aspect={1} class="w-full object-cover object-top transition-transform duration-300 group-hover:scale-105" />
+            </span>
+            <span class="flex flex-1 items-end justify-between gap-3 p-5">
+              <span>
+                <span class="block text-lg font-semibold leading-snug">{m.name}</span>
+                <span class="mt-1 block text-sm">{m.role}</span>
+              </span>
+              <svg class="size-7 shrink-0 text-brand-leaf transition-transform group-hover:translate-x-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10" /><path d="M8 12h8m-4-4 4 4-4 4" /></svg>
+            </span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
 </Section>
+
+{c.team.length > 0 && (
+  <dialog
+    aria-label="Leader biography"
+    class="team-bio m-auto max-h-[calc(100dvh-2rem)] w-[min(60rem,calc(100%-2rem))] max-w-none overflow-y-auto overscroll-contain rounded-xl border-0 bg-background p-0 text-foreground shadow-popover backdrop:bg-black-60 md:overflow-hidden"
+  >
+    <form method="dialog" class="sticky top-0 z-10 flex h-0 justify-end">
+      <button class="m-3 grid size-10 cursor-pointer place-items-center rounded-full border border-foreground bg-background hover:bg-muted" aria-label="Close">
+        <svg class="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12" /></svg>
+      </button>
+    </form>
+    <div></div>
+  </dialog>
+  <script is:inline>
+    {
+      const d = document.querySelector(".team-bio");
+      const slot = d.lastElementChild;
+      const list = document.querySelector(".team-cards");
+      let page;
+      const load = () =>
+        (page ??= fetch(list.querySelector("a").pathname)
+          .then((r) => (r.ok ? r.text() : Promise.reject()))
+          .then((t) => new DOMParser().parseFromString(t, "text/html")));
+      for (const ev of ["pointerover", "focusin", "touchstart"])
+        list.addEventListener(ev, load, { once: true, passive: true });
+      list.onclick = async (e) => {
+        const a = e.target.closest("a");
+        if (!a || e.metaKey || e.ctrlKey || e.shiftKey || e.button) return;
+        e.preventDefault();
+        try {
+          const bio = (await load()).getElementById(a.hash.slice(1));
+          slot.replaceChildren(document.importNode(bio, true));
+          d.setAttribute("aria-labelledby", bio.getAttribute("aria-labelledby"));
+          d.showModal();
+          d.scrollTop = 0;
+        } catch {
+          page = undefined;
+          location.href = a.href;
+        }
+      };
+      // Close on a click/tap on the backdrop, only when the press also started there
+      // (selecting bio text and releasing outside must not close it). Block bodies:
+      // an on* handler returning false would cancel the close button's submit.
+      let down = false;
+      d.onpointerdown = (e) => {
+        down = e.target === d;
+      };
+      d.onclick = (e) => {
+        if (down && e.target === d) d.close();
+      };
+    }
+  </script>
+)}

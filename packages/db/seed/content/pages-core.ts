@@ -157,6 +157,11 @@ export const corePages: SeedPage[] = [
         data: {
           heading:
             "African Aspirations exists to help business owners turn their life’s work into lasting value.",
+          body: [
+            "Every business owner faces a journey: build, grow, strengthen, and eventually decide what happens next. We believe the most important objective is to maximize return on investment when the time comes to exit.",
+            "Through our integrated approach to consulting, funding, valuation, and brokerage, we help founders create businesses that are institution-ready, fundable, valuable, and ready for a successful transition.",
+            "Rooted in Ghana and connected to global opportunity, African Aspirations helps entrepreneurs build enterprises that can thrive in the present and endure beyond the founder.",
+          ].join("\n\n"),
           imageIds: [
             asset("new_images/2148913227 2.png", "African business team collaborating"),
             asset(
@@ -164,16 +169,8 @@ export const corePages: SeedPage[] = [
               "African entrepreneur in agricultural setting",
             ),
           ],
-        },
-      },
-      {
-        type: "rich_text",
-        data: {
-          body: [
-            "Every business owner faces a journey: build, grow, strengthen, and eventually decide what happens next. We believe the most important objective is to maximize return on investment when the time comes to exit.",
-            "Through our integrated approach to consulting, funding, valuation, and brokerage, we help founders create businesses that are institution-ready, fundable, valuable, and ready for a successful transition.",
-            "Rooted in Ghana and connected to global opportunity, African Aspirations helps entrepreneurs build enterprises that can thrive in the present and endure beyond the founder.",
-          ].join("\n\n"),
+          variant: "collage",
+          logoBanner: true,
         },
       },
       {
@@ -184,7 +181,10 @@ export const corePages: SeedPage[] = [
             "Our team combines world-class expertise with local insight to deliver professional excellence across every engagement.",
         },
       },
-      { type: "partner", data: { partnerId: ref("partner", "tba") } },
+      {
+        type: "partner",
+        data: { partnerId: ref("partner", "tba"), heading: "Our Global Partner" },
+      },
       {
         type: "cta",
         data: {
@@ -196,8 +196,8 @@ export const corePages: SeedPage[] = [
       },
     ],
     review: [
-      "Legacy page had no <h1>: the hero heading is the legacy intro <h2>. The page opened with a banner of the AA logo (new_images/image 14.svg), which was dropped (it is the site logo).",
-      "The two intro photos were an overlapping collage beside the text; they are now the hero images.",
+      "Legacy page had no <h1>: the hero heading is the legacy intro <h2>. The legacy banner of the AA logo (new_images/image 14.svg) is rendered from the site logo (hero logoBanner).",
+      "The two intro photos and the intro copy are the hero (variant collage: overlapping photos beside the text).",
       'Bottom CTA "Book a consultation" had no link in the legacy page (BottomCTASection rendered with link undefined); set to /contact.',
       'Leader bios: see team member notes in site.ts — Nigel Nunoo\'s bio repeats his summary sentence and says both "over 20" and "over 25 years"; his credentials (CFA, CFE) differ from the bio (CFA, FSA); C.C. Bruce\'s credentials (PhD, MBA, CPA, FCCA) do not match his bio (ACII, FIIG, DipFM, MA).',
       "Legacy anchors #our-team and #our-global-partner are linked from the header menu.",

@@ -14,8 +14,8 @@ Everything here was found while moving the legacy copy into the database. Fix it
 
 ## /about
 
-- [ ] Legacy page had no <h1>: the hero heading is the legacy intro <h2>. The page opened with a banner of the AA logo (new_images/image 14.svg), which was dropped (it is the site logo).
-- [ ] The two intro photos were an overlapping collage beside the text; they are now the hero images.
+- [ ] Legacy page had no <h1>: the hero heading is the legacy intro <h2>. The legacy banner of the AA logo (new_images/image 14.svg) is rendered from the site logo (hero logoBanner).
+- [ ] The two intro photos and the intro copy are the hero (variant collage: overlapping photos beside the text).
 - [ ] Bottom CTA "Book a consultation" had no link in the legacy page (BottomCTASection rendered with link undefined); set to /contact.
 - [ ] Leader bios: see team member notes in site.ts — Nigel Nunoo's bio repeats his summary sentence and says both "over 20" and "over 25 years"; his credentials (CFA, CFE) differ from the bio (CFA, FSA); C.C. Bruce's credentials (PhD, MBA, CPA, FCCA) do not match his bio (ACII, FIIG, DipFM, MA).
 - [ ] Legacy anchors #our-team and #our-global-partner are linked from the header menu.
@@ -89,7 +89,7 @@ Everything here was found while moving the legacy copy into the database. Fix it
 - [ ] Each service in the legacy data array has a `features` list (brokerage boilerplate such as 'Buyer qualification', 'Market matching') that the legacy template NEVER RENDERED. Treated as unused data and NOT carried into card `items`.
 - [ ] Service descriptions were hard-wrapped template literals (copied from a PDF); line breaks/leading newlines joined into single spaces (they collapsed in the rendered HTML anyway).
 - [ ] Skipped commented-out code: 'AA line' Meliuk-liuk.svg image under the hero and a 'See more'/'Learn more' button per service card (no target).
-- [ ] Hero breadcrumbs (auto-generated from the URL) not transcribed.
+- [ ] Legacy hero breadcrumbs came from the URL; these pages are top-level (/insurance …), so the band hero shows none. Consider nesting them under /business-consulting/advisory/ (with redirects) to restore the trail.
 - [ ] The service-grid <h2> repeats the page title, so the heading appears twice on the page (hero + grid). Consider dropping or rewording.
 - [ ] The grid ended with a highlighted 'and many more...' tile; kept as a final title-only card. Decide whether to keep it.
 - [ ] Legacy component was named BusinessBrokeragePage and its data array businessBrokerageServices (copy-paste of the brokerage page).
@@ -100,7 +100,7 @@ Everything here was found while moving the legacy copy into the database. Fix it
 - [ ] Each service in the legacy data array has a `features` list (brokerage boilerplate such as 'Buyer qualification', 'Market matching') that the legacy template NEVER RENDERED. Treated as unused data and NOT carried into card `items`.
 - [ ] Service descriptions were hard-wrapped template literals (copied from a PDF); line breaks/leading newlines joined into single spaces (they collapsed in the rendered HTML anyway).
 - [ ] Skipped commented-out code: 'AA line' Meliuk-liuk.svg image under the hero and a 'See more'/'Learn more' button per service card (no target).
-- [ ] Hero breadcrumbs (auto-generated from the URL) not transcribed.
+- [ ] Legacy hero breadcrumbs came from the URL; these pages are top-level (/insurance …), so the band hero shows none. Consider nesting them under /business-consulting/advisory/ (with redirects) to restore the trail.
 - [ ] The service-grid <h2> repeats the page title, so the heading appears twice on the page (hero + grid). Consider dropping or rewording.
 - [ ] Typo fixed: 'Acturial & Financial Modeling' -> 'Actuarial & Financial Modeling' (hero title and grid heading). Legacy URL /acturial-and-financial-modeling redirects here.
 - [ ] Trailing space removed from card title 'Capital Management '.
@@ -113,7 +113,7 @@ Everything here was found while moving the legacy copy into the database. Fix it
 - [ ] Each service in the legacy data array has a `features` list (brokerage boilerplate such as 'Buyer qualification', 'Market matching') that the legacy template NEVER RENDERED. Treated as unused data and NOT carried into card `items`.
 - [ ] Service descriptions were hard-wrapped template literals (copied from a PDF); line breaks/leading newlines joined into single spaces (they collapsed in the rendered HTML anyway).
 - [ ] Skipped commented-out code: 'AA line' Meliuk-liuk.svg image under the hero and a 'See more'/'Learn more' button per service card (no target).
-- [ ] Hero breadcrumbs (auto-generated from the URL) not transcribed.
+- [ ] Legacy hero breadcrumbs came from the URL; these pages are top-level (/insurance …), so the band hero shows none. Consider nesting them under /business-consulting/advisory/ (with redirects) to restore the trail.
 - [ ] The service-grid <h2> repeats the page title, so the heading appears twice on the page (hero + grid). Consider dropping or rewording.
 - [ ] The grid ended with a highlighted 'and many more...' tile; kept as a final title-only card. Decide whether to keep it.
 
@@ -125,7 +125,7 @@ Everything here was found while moving the legacy copy into the database. Fix it
 - [ ] Service grid heading styled 'Aspirations' in a highlight colour; styling dropped.
 - [ ] Service descriptions were hard-wrapped template literals; line breaks joined into single spaces.
 - [ ] Skipped commented-out code: 'AA line' Meliuk-liuk.svg image under the hero and a 'Learn more' link per card (href="#").
-- [ ] Hero breadcrumbs (auto-generated from the URL) not transcribed.
+- [ ] Legacy hero breadcrumbs came from the URL; these pages are top-level (/insurance …), so the band hero shows none. Consider nesting them under /business-consulting/advisory/ (with redirects) to restore the trail.
 - [ ] No 'and many more...' tile on this page (the other four have one).
 
 ## /compliance
@@ -134,7 +134,7 @@ Everything here was found while moving the legacy copy into the database. Fix it
 - [ ] Each service in the legacy data array has a `features` list (brokerage boilerplate such as 'Buyer qualification', 'Market matching') that the legacy template NEVER RENDERED. Treated as unused data and NOT carried into card `items`.
 - [ ] Service descriptions were hard-wrapped template literals (copied from a PDF); line breaks/leading newlines joined into single spaces (they collapsed in the rendered HTML anyway).
 - [ ] Skipped commented-out code: 'AA line' Meliuk-liuk.svg image under the hero and a 'See more'/'Learn more' button per service card (no target).
-- [ ] Hero breadcrumbs (auto-generated from the URL) not transcribed.
+- [ ] Legacy hero breadcrumbs came from the URL; these pages are top-level (/insurance …), so the band hero shows none. Consider nesting them under /business-consulting/advisory/ (with redirects) to restore the trail.
 - [ ] The service-grid <h2> repeats the page title, so the heading appears twice on the page (hero + grid). Consider dropping or rewording.
 - [ ] COPY-PASTED BROKERAGE TEXT: the legacy `features` arrays on this page are brokerage boilerplate ('Buyer qualification', 'Market matching', 'Transaction support', 'Due diligence assistance', 'Business valuation', 'Buyer screening', 'Verified listings', 'Diverse portfolio', etc.) and have nothing to do with compliance. They were never rendered, so they are NOT included here. If feature bullets are wanted, real compliance copy must be written.
 - [ ] The grid ended with a highlighted 'and many more...' tile; kept as a final title-only card. Decide whether to keep it.
