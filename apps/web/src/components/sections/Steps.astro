@@ -3,7 +3,8 @@
  * Numbered steps under a section header.
  * - default: columns with a green top rule and "01", "02"…
  * - "panel": translucent cards on a rounded green panel (funding phases).
- * `label` replaces the number with e.g. "PHASE 1".
+ * `label` replaces the number with e.g. "PHASE 1". headingInPanel: the heading sits
+ * inside the green panel, in white.
  */
 import type { SectionData } from "@aa/db";
 import Section from "../ui/Section.astro";
@@ -15,11 +16,20 @@ interface Props {
 const { data } = Astro.props;
 const tag = (i: number) => (data.label ? `${data.label} ${i + 1}` : String(i + 1).padStart(2, "0"));
 const grid = "grid gap-gutter sm:grid-cols-2 lg:grid-cols-[repeat(auto-fit,minmax(16rem,1fr))]";
+const inPanel = data.variant === "panel" && data.headingInPanel;
 ---
 <Section>
-  <SectionHeader eyebrow={data.eyebrow} heading={data.heading} intro={data.intro} />
+  {!inPanel && <SectionHeader eyebrow={data.eyebrow} heading={data.heading} intro={data.intro} />}
   {data.variant === "panel" ? (
-    <ol class={`${grid} rounded-[1.5rem] bg-primary p-4 sm:p-8 md:p-10 md:gap-6`}>
+    <div class="rounded-[1.5rem] bg-primary p-4 sm:p-8 md:p-10">
+      {inPanel && (
+        <header class="mb-6 px-2 sm:px-0">
+          {data.eyebrow && <p class="mb-2 text-xs font-semibold uppercase tracking-[0.2em] text-brand-mint">{data.eyebrow}</p>}
+          {data.heading && <h2 class="text-2xl text-white md:text-3xl">{data.heading}</h2>}
+          {data.intro && <p class="mt-3 text-white-85">{data.intro}</p>}
+        </header>
+      )}
+    <ol class={`${grid} md:gap-6`}>
       {data.steps.map((s, i) => (
         <li class="rounded-xl border border-white-20 bg-white-10 p-5 text-white sm:p-6">
           <span class="mb-3 block text-xs font-semibold uppercase tracking-[0.2em] text-white-85">{tag(i)}</span>
@@ -28,6 +38,7 @@ const grid = "grid gap-gutter sm:grid-cols-2 lg:grid-cols-[repeat(auto-fit,minma
         </li>
       ))}
     </ol>
+    </div>
   ) : (
     <ol class={grid}>
       {data.steps.map((s, i) => (

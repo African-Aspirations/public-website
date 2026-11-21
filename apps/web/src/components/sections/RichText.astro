@@ -3,6 +3,7 @@
  * Markdown text with an optional image beside it.
  * variant "diagonal": image centred on white, text on a dark-green panel whose
  * slanted edge runs to the right edge of the screen (used for partners).
+ * aside: a light green box beside the text (takes the image's place).
  * imageSide "below": text centred, the image centred underneath (diagrams). The image
  * keeps a 40rem minimum width and scrolls sideways on phones so labels stay legible.
  */
@@ -20,6 +21,7 @@ const { data } = Astro.props;
 const c = await getContent();
 const image = c.media(data.imageId);
 const html = await marked.parse(data.body);
+const asideHtml = data.aside ? await marked.parse(data.aside.body) : null;
 const diagonal = data.variant === "diagonal";
 ---
 {diagonal ? (
@@ -42,6 +44,19 @@ const diagonal = data.variant === "diagonal";
         <Img media={image} sizes="(min-width: 64rem) 760px, 640px" class="mx-auto w-full min-w-[40rem] max-w-3xl" />
       </div>
     )}
+  </Section>
+) : data.aside ? (
+  <Section id={data.anchor}>
+    <div class="grid items-start gap-10 md:grid-cols-2 md:gap-gutter">
+      <div>
+        <SectionHeader eyebrow={data.eyebrow} heading={data.heading} />
+        <div class="prose text-lg" set:html={html} />
+      </div>
+      <aside class="rounded-[1.5rem] border border-brand-line bg-secondary p-6 md:p-8">
+        {data.aside.heading && <h3 class="text-lg text-primary">{data.aside.heading}</h3>}
+        <div class="prose mt-3 text-lg" set:html={asideHtml} />
+      </aside>
+    </div>
   </Section>
 ) : (
   <Section id={data.anchor}>

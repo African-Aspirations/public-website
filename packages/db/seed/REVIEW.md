@@ -71,7 +71,7 @@ Everything here was found while moving the legacy copy into the database. Fix it
 ## /business-valuation
 
 - [ ] Page ends with two consecutive CTA sections ('Want to know what your business is worth?' / 'You've built a great business. Find out what it's really worth.') with near-identical messages — consider merging.
-- [ ] 'Our positioning' was a side panel next to the intro in legacy; now its own rich_text section. Its copy overlaps the intro paragraph.
+- [ ] 'Our positioning' is the intro's side panel (rich_text aside), as in legacy. Its copy overlaps the intro paragraph.
 - [ ] Closing CTA background (16.jpg) is the same as on Exit & Succession; treated as decorative (alt ''). Hero image is the shared 'image 16.png'.
 
 ## /business-funding

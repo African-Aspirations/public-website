@@ -40,6 +40,7 @@
   --brand-dark: #004714;
   --brand-leaf: #739f46;
   --brand-mint: #a9d18e; /* light green for accents on the green band */
+  --brand-line: #dce8c6; /* light green border for boxes on white */
 
   /* layout: one content width, one gutter, everywhere */
   --content-max: 80rem; /* 1280px */
@@ -76,6 +77,7 @@
   --color-brand-dark: var(--brand-dark);
   --color-brand-leaf: var(--brand-leaf);
   --color-brand-mint: var(--brand-mint);
+  --color-brand-line: var(--brand-line);
   /* Translucent white/black as plain colours: a `/opacity` modifier would emit an extra
      color-mix() rule per class, and all CSS is inlined on every page. */
   --color-white-85: rgb(255 255 255 / 0.85);

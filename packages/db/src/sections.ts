@@ -42,6 +42,8 @@ export const sectionSchemas = {
     heading: z.string().optional(),
     body: z.string().min(1), // markdown
     imageId: mediaId.optional(),
+    // Side panel beside the text (light green box), e.g. "Our positioning".
+    aside: z.object({ heading: z.string().optional(), body: z.string().min(1) }).optional(),
     // "below": text centred, image centred underneath (diagrams).
     imageSide: z.enum(["left", "right", "below"]).default("right"),
     // "diagonal": image on white, text on a dark-green panel with a slanted edge (partners).
@@ -58,9 +60,10 @@ export const sectionSchemas = {
     intro: z.string().optional(),
     columns: z.union([z.literal(2), z.literal(3), z.literal(4)]).default(3),
     // "feature": green cards with a photo on top and a "Learn more" button (home services).
+    // "tiles": text-only white cards on a grey band.
     // "rows": one full-width row per card, image and text alternating sides, every
     // other row on a green panel (brokerage audiences).
-    variant: z.enum(["default", "feature", "rows"]).default("default"),
+    variant: z.enum(["default", "feature", "tiles", "rows"]).default("default"),
     linkLabel: z.string().default("Learn more"),
     cards: z.array(card).min(1),
   }),
@@ -71,6 +74,7 @@ export const sectionSchemas = {
     steps: z.array(z.object({ title: z.string().min(1), body: z.string().optional() })).min(1),
     // "panel": the steps as translucent cards on a rounded green panel.
     variant: z.enum(["default", "panel"]).default("default"),
+    headingInPanel: z.boolean().default(false), // "panel": put the heading inside the panel
     label: z.string().optional(), // e.g. "Phase" → "PHASE 1"; otherwise "01"
   }),
   stats: z.object({
@@ -84,7 +88,8 @@ export const sectionSchemas = {
     imageId: mediaId.optional(), // band: beside the text; dark: full-width background
     imageSide: z.enum(["left", "right"]).default("right"),
     imageMirror: z.boolean().default(false), // flip the image horizontally
-    tone: z.enum(["band", "dark"]).default("band"),
+    // "box": a light green bordered box in the content column (no image).
+    tone: z.enum(["band", "dark", "box"]).default("band"),
     // dark tone with an image: "full" darkens the whole photo; "fade" darkens the left
     // (behind the text) and fades out, so the photo's subject on the right stays clear.
     overlay: z.enum(["full", "fade"]).default("full"),

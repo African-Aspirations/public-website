@@ -2,6 +2,7 @@
 /**
  * Call-to-action.
  * - "band" tone: light band; an image sits beside the text (left/right, optionally mirrored).
+ * - "box" tone: a light green bordered box inside the content column.
  * - "dark" tone: with an image, the photo fills the full width behind the text under a
  *   dark overlay; without one, a solid green band. overlay "fade": the overlay is solid
  *   behind the text and fades out to the right (full overlay on phones, where the text
@@ -22,7 +23,15 @@ const image = c.media(data.imageId);
 const dark = data.tone === "dark";
 const fade = data.overlay === "fade";
 ---
-{dark ? (
+{data.tone === "box" ? (
+  <Section>
+    <div class="rounded-[1.5rem] border border-brand-line bg-secondary p-6 sm:p-8">
+      <h2 class="text-2xl md:text-3xl">{data.heading}</h2>
+      {data.body && <p class="mt-3 max-w-xl text-muted-foreground">{data.body}</p>}
+      <Button href={data.cta.href} size="lg" class="mt-6 font-semibold">{data.cta.label}</Button>
+    </div>
+  </Section>
+) : dark ? (
   <Section tone="dark" class="relative isolate overflow-hidden">
     {image && (
       <>

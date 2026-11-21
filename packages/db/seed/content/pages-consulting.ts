@@ -350,7 +350,8 @@ export const consultingPages: SeedPage[] = [
       {
         type: "hero",
         data: {
-          heading: "Business Valuation",
+          heading: "Business",
+          accent: "Valuation",
           body: "A number you can defend, not just a number.",
           imageIds: [heroImage],
           cta: heroCta,
@@ -363,13 +364,10 @@ export const consultingPages: SeedPage[] = [
           eyebrow: "What is your business worth?",
           heading: "A valuation isn't just a number. It's a position you can defend.",
           body: "Whether you're preparing for a sale, raising capital, meeting a regulatory requirement, or simply want to know where you stand, we deliver valuation insight with speed, precision, and credibility.",
-        },
-      },
-      {
-        type: "rich_text",
-        data: {
-          heading: "Our positioning",
-          body: "Understanding the true worth of your business is essential for any transaction or partnership. Our valuation experts combine financial analysis, market benchmarking, and sector insights to deliver accurate, defensible valuations that position your business competitively for sale or investment.",
+          aside: {
+            heading: "Our positioning",
+            body: "Understanding the true worth of your business is essential for any transaction or partnership. Our valuation experts combine financial analysis, market benchmarking, and sector insights to deliver accurate, defensible valuations that position your business competitively for sale or investment.",
+          },
         },
       },
       {
@@ -377,6 +375,7 @@ export const consultingPages: SeedPage[] = [
         data: {
           heading: "Weak valuations cost real money",
           columns: 3,
+          variant: "tiles",
           cards: [
             {
               title: "Leads to overpricing",
@@ -397,6 +396,9 @@ export const consultingPages: SeedPage[] = [
         type: "steps",
         data: {
           heading: "What you can expect when you value your business with us",
+          variant: "panel",
+          headingInPanel: true,
+          label: "Step",
           steps: [
             {
               title: "Financial analysis",
@@ -419,6 +421,7 @@ export const consultingPages: SeedPage[] = [
           heading: "Want to know what your business is worth?",
           body: "Whether you're planning a sale, raising capital, or just checking in on your life's work, get an honest number to work from.",
           cta: { label: "Get Your Valuation", href: "/contact" },
+          tone: "box",
         },
       },
       {
@@ -427,12 +430,13 @@ export const consultingPages: SeedPage[] = [
           heading: "You've built a great business. Find out what it's really worth.",
           cta: { label: "Leave us a message", href: "/contact" },
           imageId: asset("new_images/16.jpg", ""),
+          tone: "dark",
         },
       },
     ],
     review: [
       "Page ends with two consecutive CTA sections ('Want to know what your business is worth?' / 'You've built a great business. Find out what it's really worth.') with near-identical messages — consider merging.",
-      "'Our positioning' was a side panel next to the intro in legacy; now its own rich_text section. Its copy overlaps the intro paragraph.",
+      "'Our positioning' is the intro's side panel (rich_text aside), as in legacy. Its copy overlaps the intro paragraph.",
       "Closing CTA background (16.jpg) is the same as on Exit & Succession; treated as decorative (alt ''). Hero image is the shared 'image 16.png'.",
     ],
   },

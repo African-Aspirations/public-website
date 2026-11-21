@@ -24,7 +24,7 @@ const heading = data.heading ?? p?.name;
 ---
 {p && data.variant === "boxed" && (
   <Section id="our-global-partner">
-    <div class="rounded-[1.5rem] border px-5 py-10 text-center sm:px-10 md:py-14">
+    <div class="rounded-[1.5rem] border border-brand-line px-5 py-10 text-center sm:px-10 md:py-14">
       {logo && <Img media={logo} sizes="160px" class="mx-auto w-36" />}
       <h2 class="mx-auto mt-6 max-w-xl text-2xl md:text-3xl">{heading}</h2>
       {intro && <p class="mx-auto mt-4 max-w-xl text-sm text-muted-foreground">{intro}</p>}
