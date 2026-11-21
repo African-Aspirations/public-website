@@ -23,8 +23,8 @@ Everything here was found while moving the legacy copy into the database. Fix it
 ## /business-brokerage
 
 - [ ] All three audience cards use the same photo (new_images/image 25.png) — placeholder; needs distinct images.
-- [ ] Each audience card had an eyebrow ("For Sellers", "For Buyers", "For Global Investors") that card_grid cannot hold; dropped as it repeats the card title.
-- [ ] TBA block (heading + logo + stats) is transcribed as rich_text + stats to keep its page-specific copy; the stats duplicate the TBA partner record — a `partner` section (ref tba) could replace both.
+- [ ] Audience cards keep their legacy eyebrows ("For Sellers", "For Buyers", "For Global Investors").
+- [ ] TBA block is a boxed `partner` section (ref tba) with page-specific heading and body; logo and stats come from the TBA partner record.
 - [ ] "Reach out to us" (hero) and "Contact Us" (bottom CTA) pointed to the Fillout form; now /contact.
 - [ ] Skipped unused data `_businessBrokerageServices` (African Business Sellers, Buyers of African Businesses, Africans Looking to Invest Globally, Business Valuation, Pitch Books — longer descriptions with icons new_images/image 9–13.svg). It is the only place Pitch Books are described, which the footer links to.
 - [ ] Skipped commented-out code: the "Brokerage opportunities available with African Aspirations" services grid, a decorative line (new_images/Meliuk-liuk.svg) and a BottomHero "We are experts at Institutionalization" / "Leave us a message" (new_images/156.png).

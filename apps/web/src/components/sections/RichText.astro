@@ -3,6 +3,8 @@
  * Markdown text with an optional image beside it.
  * variant "diagonal": image centred on white, text on a dark-green panel whose
  * slanted edge runs to the right edge of the screen (used for partners).
+ * imageSide "below": text centred, the image centred underneath (diagrams). The image
+ * keeps a 40rem minimum width and scrolls sideways on phones so labels stay legible.
  */
 import type { SectionData } from "@aa/db";
 import { marked } from "marked";
@@ -30,6 +32,16 @@ const diagonal = data.variant === "diagonal";
         <div class="prose mt-4 text-lg leading-relaxed text-white-70" set:html={html} />
       </div>
     </div>
+  </Section>
+) : data.imageSide === "below" ? (
+  <Section id={data.anchor}>
+    <SectionHeader eyebrow={data.eyebrow} heading={data.heading} align="center" />
+    <div class="prose mx-auto -mt-4 max-w-narrow text-center text-muted-foreground" set:html={html} />
+    {image && (
+      <div class="-mx-gutter mt-12 overflow-x-auto px-gutter">
+        <Img media={image} sizes="(min-width: 64rem) 760px, 640px" class="mx-auto w-full min-w-[40rem] max-w-3xl" />
+      </div>
+    )}
   </Section>
 ) : (
   <Section id={data.anchor}>

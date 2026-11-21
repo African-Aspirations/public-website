@@ -23,7 +23,9 @@ export function heroPreload(c: Content, sections: Section[]) {
   const media = c.media((hero.data.imageIds as string[] | undefined)?.[0]);
   if (!media) return null;
   const v = VARIANTS[(hero.data.variant as keyof typeof VARIANTS | undefined) ?? "default"];
-  return { srcset: responsive(media, v.aspect).srcset, sizes: v.sizes };
+  // A framed band image is shown uncropped (see Hero.astro).
+  const aspect = hero.data.variant === "band" && hero.data.imageFrame ? undefined : v.aspect;
+  return { srcset: responsive(media, aspect).srcset, sizes: v.sizes };
 }
 
 export function heroImage(c: Content, sections: Section[]) {

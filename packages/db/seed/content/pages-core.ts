@@ -212,10 +212,13 @@ export const corePages: SeedPage[] = [
       {
         type: "hero",
         data: {
-          heading: "Business Brokerage",
+          heading: "Business",
+          accent: "Brokerage",
           body: "Have you ever considered selling your business?",
           imageIds: [asset("new_images/Union.png", "Two business people shaking hands")],
           cta: { label: "Reach out to us", href: "/contact" },
+          variant: "band",
+          imageFrame: true,
         },
       },
       {
@@ -228,6 +231,7 @@ export const corePages: SeedPage[] = [
             "new_images/bbn1.png",
             "Diagram of the brokerage process: the business owner (seller) works with African Aspirations (broker), who presents the business to several potential buyers until one buyer completes the purchase and the business is sold",
           ),
+          imageSide: "below",
         },
       },
       {
@@ -237,8 +241,10 @@ export const corePages: SeedPage[] = [
           intro:
             "Whether you're selling, buying, or investing across borders, we bring the same rigor and the same network to every transaction.",
           columns: 3,
+          variant: "rows",
           cards: [
             {
+              eyebrow: "For Sellers",
               title: "For African Business Sellers",
               body: "An African marketplace for business owners to sell their business, or a stake in it, to serious investors. Through our relationship with Transworld Business Advisors — the world's largest business brokerage network — we connect African owners with buyers across the globe.",
               imageId: asset(
@@ -254,6 +260,7 @@ export const corePages: SeedPage[] = [
               ],
             },
             {
+              eyebrow: "For Buyers",
               title: "For Buyers of African Businesses",
               body: "We provide access to vetted, cash-flowing African businesses across multiple sectors. Our buyer clients benefit from proprietary listings, verified seller information, and expert guidance through due diligence and negotiations.",
               imageId: asset(
@@ -269,6 +276,7 @@ export const corePages: SeedPage[] = [
               ],
             },
             {
+              eyebrow: "For Global Investors",
               title: "Africans Looking to Invest Globally",
               body: "We help African investors diversify their portfolios internationally through franchise opportunities, business acquisitions, and cross-border partnerships, with exposure to stable, high-growth markets.",
               imageId: asset(
@@ -287,21 +295,12 @@ export const corePages: SeedPage[] = [
         },
       },
       {
-        type: "rich_text",
+        type: "partner",
         data: {
+          partnerId: ref("partner", "tba"),
           heading: "Backed by the world's largest business brokerage network",
           body: "We operate Transworld Business Advisors Ghana — the Master Franchise for Africa.",
-          imageId: asset("new_images/TBALogo_origin.webp", "Transworld Business Advisors logo"),
-        },
-      },
-      {
-        type: "stats",
-        data: {
-          stats: [
-            { value: "250", label: "Global Offices" },
-            { value: "600,000+", label: "Active Investor Network" },
-            { value: "1,000+", label: "Global Active Agents" },
-          ],
+          variant: "boxed",
         },
       },
       {
@@ -316,8 +315,8 @@ export const corePages: SeedPage[] = [
     ],
     review: [
       "All three audience cards use the same photo (new_images/image 25.png) — placeholder; needs distinct images.",
-      'Each audience card had an eyebrow ("For Sellers", "For Buyers", "For Global Investors") that card_grid cannot hold; dropped as it repeats the card title.',
-      "TBA block (heading + logo + stats) is transcribed as rich_text + stats to keep its page-specific copy; the stats duplicate the TBA partner record — a `partner` section (ref tba) could replace both.",
+      'Audience cards keep their legacy eyebrows ("For Sellers", "For Buyers", "For Global Investors").',
+      "TBA block is a boxed `partner` section (ref tba) with page-specific heading and body; logo and stats come from the TBA partner record.",
       '"Reach out to us" (hero) and "Contact Us" (bottom CTA) pointed to the Fillout form; now /contact.',
       "Skipped unused data `_businessBrokerageServices` (African Business Sellers, Buyers of African Businesses, Africans Looking to Invest Globally, Business Valuation, Pitch Books — longer descriptions with icons new_images/image 9–13.svg). It is the only place Pitch Books are described, which the footer links to.",
       'Skipped commented-out code: the "Brokerage opportunities available with African Aspirations" services grid, a decorative line (new_images/Meliuk-liuk.svg) and a BottomHero "We are experts at Institutionalization" / "Leave us a message" (new_images/156.png).',

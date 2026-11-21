@@ -1,4 +1,11 @@
 ---
+/**
+ * Cards.
+ * - default: photo, title (linked), body and an optional bullet list
+ * - "feature": green cards, photo on top, "Learn more" button
+ * - "rows": one full-width row per card, image and text alternating sides, every
+ *   other row on a rounded green panel; centred header (brokerage audiences)
+ */
 import type { SectionData } from "@aa/db";
 import { getContent } from "../../lib/content";
 import Img from "../Img.astro";
@@ -18,8 +25,35 @@ const sizes =
     : "(min-width: 64rem) 560px, 100vw";
 ---
 <Section>
-  <SectionHeader eyebrow={data.eyebrow} heading={data.heading} intro={data.intro} />
-  {data.variant === "feature" ? (
+  <SectionHeader eyebrow={data.eyebrow} heading={data.heading} intro={data.intro} align={data.variant === "rows" ? "center" : "start"} />
+  {data.variant === "rows" ? (
+    <div class="mt-12 grid gap-6">
+      {data.cards.map((card, i) => {
+        const img = c.media(card.imageId);
+        const green = i % 2 === 0;
+        return (
+          <article class:list={["grid items-center gap-8 rounded-[1.5rem] md:grid-cols-2 md:gap-gutter md:p-10", green ? "bg-primary p-6 text-white sm:p-8" : "py-6 md:py-16"]}>
+            {img && <Img media={img} sizes="(min-width: 64rem) 520px, 100vw" aspect={8 / 5} class:list={["w-full rounded-[2rem] object-cover", !green && "md:order-2"]} />}
+            <div>
+              {card.eyebrow && <p class:list={["mb-2 text-xs font-semibold uppercase tracking-[0.2em]", green ? "text-brand-mint" : "text-brand-leaf"]}>{card.eyebrow}</p>}
+              <h3 class:list={["text-2xl", green && "text-white"]}>{card.title}</h3>
+              {card.body?.split("\n\n").map((p) => <p class:list={["mt-4 text-lg", green ? "text-white-85" : "text-muted-foreground"]}>{p}</p>)}
+              {card.items && card.items.length > 0 && (
+                <ul class:list={["mt-6 grid list-disc gap-3 pl-5 text-sm", green ? "text-white-85 marker:text-brand-mint" : "marker:text-brand-leaf"]}>
+                  {card.items.map((it) => <li>{it.body ? <><strong class="font-semibold">{it.title}</strong> — {it.body}</> : it.title}</li>)}
+                </ul>
+              )}
+              {card.href && (
+                <Button href={card.href} variant={green ? "inverse" : "outline"} class="mt-8 px-7">
+                  {data.linkLabel}<span class="sr-only"> about {card.title}</span>
+                </Button>
+              )}
+            </div>
+          </article>
+        );
+      })}
+    </div>
+  ) : data.variant === "feature" ? (
     <ul class:list={["grid gap-6 sm:grid-cols-2", cols]}>
       {data.cards.map((card) => {
         const img = c.media(card.imageId);

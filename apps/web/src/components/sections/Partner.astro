@@ -2,6 +2,8 @@
 /**
  * Global partner. Large heading + the description's first paragraph left, logo and
  * stats right; the rest of the description runs underneath.
+ * "boxed": logo, heading, one line of text and big stats, centred in a bordered box.
+ * `body` overrides the description.
  */
 import type { SectionData } from "@aa/db";
 import { marked } from "marked";
@@ -16,11 +18,30 @@ const { data } = Astro.props;
 const c = await getContent();
 const p = c.partner(data.partnerId);
 const logo = p ? c.media(p.logoId) : null;
-const [intro, ...rest] = (p?.description ?? "").split(/\n\s*\n/);
+const [intro, ...rest] = (data.body ?? p?.description ?? "").split(/\n\s*\n/);
 const restHtml = rest.length ? await marked.parse(rest.join("\n\n")) : null;
 const heading = data.heading ?? p?.name;
 ---
-{p && (
+{p && data.variant === "boxed" && (
+  <Section id="our-global-partner">
+    <div class="rounded-[1.5rem] border px-5 py-10 text-center sm:px-10 md:py-14">
+      {logo && <Img media={logo} sizes="160px" class="mx-auto w-36" />}
+      <h2 class="mx-auto mt-6 max-w-xl text-2xl md:text-3xl">{heading}</h2>
+      {intro && <p class="mx-auto mt-4 max-w-xl text-sm text-muted-foreground">{intro}</p>}
+      {p.stats.length > 0 && (
+        <dl class="mx-auto mt-10 grid max-w-4xl grid-cols-3 gap-2 sm:gap-6">
+          {p.stats.map((s) => (
+            <div class="flex flex-col-reverse justify-end gap-1">
+              <dt class="text-[0.625rem] uppercase tracking-wider sm:tracking-[0.15em] text-muted-foreground sm:text-xs">{s.label}</dt>
+              <dd class="text-xl font-semibold text-primary sm:text-4xl md:text-5xl">{s.value}</dd>
+            </div>
+          ))}
+        </dl>
+      )}
+    </div>
+  </Section>
+)}
+{p && data.variant !== "boxed" && (
   <Section id="our-global-partner">
     <div class="grid gap-10 md:grid-cols-2 md:gap-gutter">
       <div>

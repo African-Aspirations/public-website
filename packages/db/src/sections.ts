@@ -14,6 +14,7 @@ import { z } from "zod";
 const mediaId = z.uuid();
 const link = z.object({ label: z.string().min(1), href: z.string().min(1) });
 const card = z.object({
+  eyebrow: z.string().optional(),
   title: z.string().min(1),
   body: z.string().optional(),
   imageId: mediaId.optional(),
@@ -33,13 +34,16 @@ export const sectionSchemas = {
     // "band": white text on a full-width green band, landscape photo right, breadcrumb on nested pages.
     variant: z.enum(["default", "collage", "band"]).default("default"),
     logoBanner: z.boolean().default(false), // large site logo in a band above the hero
+    // Shaped/cut-out image: shown uncropped on a translucent panel ("band" only).
+    imageFrame: z.boolean().default(false),
   }),
   rich_text: z.object({
     eyebrow: z.string().optional(),
     heading: z.string().optional(),
     body: z.string().min(1), // markdown
     imageId: mediaId.optional(),
-    imageSide: z.enum(["left", "right"]).default("right"),
+    // "below": text centred, image centred underneath (diagrams).
+    imageSide: z.enum(["left", "right", "below"]).default("right"),
     // "diagonal": image on white, text on a dark-green panel with a slanted edge (partners).
     variant: z.enum(["default", "diagonal"]).default("default"),
     // In-page link target, e.g. "institutionalization" → /business-consulting#institutionalization.
@@ -54,7 +58,9 @@ export const sectionSchemas = {
     intro: z.string().optional(),
     columns: z.union([z.literal(2), z.literal(3), z.literal(4)]).default(3),
     // "feature": green cards with a photo on top and a "Learn more" button (home services).
-    variant: z.enum(["default", "feature"]).default("default"),
+    // "rows": one full-width row per card, image and text alternating sides, every
+    // other row on a green panel (brokerage audiences).
+    variant: z.enum(["default", "feature", "rows"]).default("default"),
     linkLabel: z.string().default("Learn more"),
     cards: z.array(card).min(1),
   }),
@@ -85,7 +91,13 @@ export const sectionSchemas = {
   }),
   team: z.object({ heading: z.string().optional(), intro: z.string().optional() }),
   // heading defaults to the partner's name; the description's first paragraph is the intro.
-  partner: z.object({ partnerId: z.uuid(), heading: z.string().optional() }),
+  // body overrides the partner description. "boxed": centred in a bordered box.
+  partner: z.object({
+    partnerId: z.uuid(),
+    heading: z.string().optional(),
+    body: z.string().optional(),
+    variant: z.enum(["default", "boxed"]).default("default"),
+  }),
   faq: z.object({ heading: z.string().optional(), topic: z.string().optional() }),
   listings_teaser: z.object({
     heading: z.string().optional(),

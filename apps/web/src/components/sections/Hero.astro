@@ -78,7 +78,13 @@ const arrow =
       {data.body && <p class="mt-4 max-w-md text-lg text-white-85">{data.body}</p>}
       {data.cta && <Button href={data.cta.href} class="mt-6 bg-white px-7 font-semibold text-primary hover:bg-secondary">{data.cta.label}</Button>}
     </div>
-    {images[0] && <Img media={images[0]} sizes={BAND_SIZES} aspect={BAND_ASPECT} priority class="w-full rounded-media object-cover md:justify-self-end lg:w-[90%]" />}
+    {images[0] && (data.imageFrame ? (
+      <div class="grid aspect-[17/10] w-full place-items-center rounded-media bg-white-10 p-[6%] md:justify-self-end lg:w-[90%]">
+        <Img media={images[0]} sizes={BAND_SIZES} priority class="max-h-full w-full object-contain" />
+      </div>
+    ) : (
+      <Img media={images[0]} sizes={BAND_SIZES} aspect={BAND_ASPECT} priority class="w-full rounded-media object-cover md:justify-self-end lg:w-[90%]" />
+    ))}
   </div>
 </Section>
 ) : collage ? (

@@ -4,11 +4,12 @@ interface Props {
   heading?: string | null;
   intro?: string | null;
   as?: "h1" | "h2";
+  align?: "start" | "center";
 }
-const { eyebrow, heading, intro, as: H = "h2" } = Astro.props;
+const { eyebrow, heading, intro, as: H = "h2", align = "start" } = Astro.props;
 ---
 {(eyebrow || heading || intro) && (
-  <header class="mb-8 max-w-narrow">
+  <header class:list={["mb-8 max-w-narrow", align === "center" && "mx-auto text-center"]}>
     {eyebrow && <p class="mb-2 text-sm font-semibold uppercase tracking-wider text-brand-leaf">{eyebrow}</p>}
     {heading && <H class={H === "h1" ? "text-display" : "text-title"}>{heading}</H>}
     {intro && <p class="mt-4 text-lg text-muted-foreground">{intro}</p>}
