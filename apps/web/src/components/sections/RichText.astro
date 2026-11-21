@@ -21,7 +21,7 @@ const html = await marked.parse(data.body);
 const diagonal = data.variant === "diagonal";
 ---
 {diagonal ? (
-  <Section class="relative overflow-hidden pb-0 md:pb-section">
+  <Section id={data.anchor} class="relative overflow-hidden pb-0 md:pb-section">
     <div class="absolute inset-y-0 right-0 hidden w-[56%] bg-brand-dark [clip-path:polygon(16%_0,100%_0,100%_100%,0_100%)] md:block" aria-hidden="true"></div>
     <div class="relative grid items-center md:grid-cols-2 md:gap-gutter">
       {image && <Img media={image} sizes="(min-width: 48rem) 320px, 80vw" class="mb-12 w-full max-w-80 justify-self-center md:mb-0" />}
@@ -32,7 +32,7 @@ const diagonal = data.variant === "diagonal";
     </div>
   </Section>
 ) : (
-  <Section>
+  <Section id={data.anchor}>
     <div class:list={["grid items-center gap-gutter", image && "md:grid-cols-2"]}>
       <div class:list={["max-w-narrow", image && data.imageSide === "left" && "md:order-2"]}>
         <SectionHeader eyebrow={data.eyebrow} heading={data.heading} />

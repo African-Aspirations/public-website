@@ -42,6 +42,7 @@ export const consultingPages: SeedPage[] = [
           intro:
             "Strategic consulting helps owners strengthen governance, systems, and leadership so the business becomes more valuable, resilient, and ready for the future.",
           columns: 3,
+          variant: "feature",
           cards: [
             {
               title: "Generalized Consulting",
@@ -50,6 +51,7 @@ export const consultingPages: SeedPage[] = [
                 "new_images/68adea73590669a19f87111d_biz-img-1.webp.png",
                 "Two colleagues celebrating a result while working on a laptop",
               ),
+              href: "#institutionalization",
               items: [
                 {
                   title: "Management Consulting",
@@ -130,6 +132,7 @@ export const consultingPages: SeedPage[] = [
             "Diagram showing the African Aspirations 'plug' connecting to 100+ vetted world-class solution providers for business institutionalization, including Accounting, HR, Marketing, Legal, and Franchising.",
           ),
           imageSide: "right",
+          anchor: "institutionalization",
         },
       },
       {
@@ -147,7 +150,8 @@ export const consultingPages: SeedPage[] = [
       "Hero image (new_images/image 16.png) is the same on all five consulting-cluster pages — consider distinct images.",
       "Card sub-item titles had a trailing colon in legacy ('Management Consulting:' etc.); colons removed as presentational.",
       "In legacy, every card on this page had an href, so the card navigated directly and its expanded panel (expandedDescription + detail list) was never reachable. The detail lists are kept as card `items`; the expandedDescription texts were dropped: Generalized Consulting 'Our plug-and-play model connects clients to 100+ service providers with trusted expertise, everything needed to institutionalize your business and operate at global standards.'; Advisory '…Our specialized team brings deep industry knowledge and practical solutions.'; Exit & Succession '…The best transitions are prepared for early, not improvised at the last minute.' Decide whether any should be shown.",
-      "'Generalized Consulting' card linked to '/business-consulting#institutionalization' (an anchor on this same page, pointing at the network/diagram section). Href dropped; card has no link now.",
+      "'Generalized Consulting' card links to #institutionalization, the network/diagram section further down this page (as in legacy); there is no separate Generalized Consulting page.",
+      "The cards use the green feature style (as in the design), which shows title, body and button only: the per-card `items` lists (Management Consulting, Strategy, …) are kept in the data but not shown. Decide whether to drop them or show them on the linked pages.",
       "Legacy image alts were generic ('Team collaboration', 'Construction professional', 'Business professional'); rewritten from image content. The 14.jpg construction-worker image on the Advisory card may not suit the topic.",
       "Unused data skipped: `_businessConsultingServices` array (8 services with feature lists that don't match the services, e.g. Management Consulting → 'Statistical modeling', 'Pension planning') and the commented-out 'Our consulting services' grid ending in 'and many more...'. Also a commented-out Meliuk-liuk.svg decorative line.",
       "Closing CTA background image (156.png) treated as decorative (alt '').",

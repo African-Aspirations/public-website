@@ -42,6 +42,11 @@ export const sectionSchemas = {
     imageSide: z.enum(["left", "right"]).default("right"),
     // "diagonal": image on white, text on a dark-green panel with a slanted edge (partners).
     variant: z.enum(["default", "diagonal"]).default("default"),
+    // In-page link target, e.g. "institutionalization" → /business-consulting#institutionalization.
+    anchor: z
+      .string()
+      .regex(/^[a-z][a-z0-9-]*$/)
+      .optional(),
   }),
   card_grid: z.object({
     eyebrow: z.string().optional(),
