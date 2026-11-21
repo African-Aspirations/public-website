@@ -31,15 +31,22 @@ const c = await getContent();
 const images = data.imageIds.map((id) => c.media(id)).filter((m) => m !== null);
 const collage = data.variant === "collage";
 const band = data.variant === "band";
-// Breadcrumb from the URL: every ancestor that is a page, then this page.
-const parts = Astro.url.pathname.split("/").filter(Boolean);
-const crumbs =
-  band && parts.length > 1
-    ? parts.map((_, i) => {
-        const slug = parts.slice(0, i + 1).join("/");
-        return { href: `/${slug}`, title: c.pages.find((p) => p.slug === slug)?.title ?? slug };
-      })
-    : [];
+// Breadcrumb (band only). Nested URL: every ancestor that is a page, then this page.
+// Top-level page inside a header menu group: the group's label (text), then this page.
+const path = Astro.url.pathname.replace(/\/$/, "");
+const parts = path.split("/").filter(Boolean);
+const titleOf = (slug: string) => c.pages.find((p) => p.slug === slug)?.title ?? slug;
+const group = c.header.find((g) => g.children.some((ch) => ch.href === path));
+const crumbs: { href?: string; title: string }[] = !band
+  ? []
+  : parts.length > 1
+    ? parts.map((_, i) => ({
+        href: `/${parts.slice(0, i + 1).join("/")}`,
+        title: titleOf(parts.slice(0, i + 1).join("/")),
+      }))
+    : group && parts[0]
+      ? [{ title: group.label }, { title: titleOf(parts[0]) }]
+      : [];
 const bodyHtml = collage && data.body ? await marked.parse(data.body) : null;
 const logo = data.logoBanner ? c.media(c.settings.logoId) : null;
 const photo = "aspect-[4/5] w-full object-cover sm:aspect-square";
@@ -59,7 +66,7 @@ const arrow =
         <nav aria-label="Breadcrumb" class="mb-4 text-xs">
           <ol class="flex flex-wrap items-center gap-1.5 text-white-70">
             {crumbs.map((cr, i) => i < crumbs.length - 1 ? (
-              <li class="flex items-center gap-1.5"><a href={cr.href} class="text-inherit no-underline hover:text-white">{cr.title}</a><span aria-hidden="true">›</span></li>
+              <li class="flex items-center gap-1.5">{cr.href ? <a href={cr.href} class="text-inherit no-underline hover:text-white">{cr.title}</a> : cr.title}<span aria-hidden="true">›</span></li>
             ) : (
               <li aria-current="page" class="font-semibold text-white">{cr.title}</li>
             ))}
@@ -67,7 +74,7 @@ const arrow =
         </nav>
       )}
       {data.eyebrow && <p class="mb-2 text-sm font-semibold uppercase tracking-wider text-white-70">{data.eyebrow}</p>}
-      <h1 class="text-display font-normal text-white">{data.heading}</h1>
+      <h1 class="text-display font-normal text-white">{data.heading}{data.accent && <> <span class="text-brand-mint">{data.accent}</span></>}</h1>
       {data.body && <p class="mt-4 max-w-md text-lg text-white-85">{data.body}</p>}
       {data.cta && <Button href={data.cta.href} class="mt-6 bg-white px-7 font-semibold text-primary hover:bg-secondary">{data.cta.label}</Button>}
     </div>

@@ -1,4 +1,10 @@
 ---
+/**
+ * Numbered steps under a section header.
+ * - default: columns with a green top rule and "01", "02"…
+ * - "panel": translucent cards on a rounded green panel (funding phases).
+ * `label` replaces the number with e.g. "PHASE 1".
+ */
 import type { SectionData } from "@aa/db";
 import Section from "../ui/Section.astro";
 import SectionHeader from "../ui/SectionHeader.astro";
@@ -7,16 +13,30 @@ interface Props {
   data: SectionData<"steps">;
 }
 const { data } = Astro.props;
+const tag = (i: number) => (data.label ? `${data.label} ${i + 1}` : String(i + 1).padStart(2, "0"));
+const grid = "grid gap-gutter sm:grid-cols-2 lg:grid-cols-[repeat(auto-fit,minmax(16rem,1fr))]";
 ---
 <Section>
   <SectionHeader eyebrow={data.eyebrow} heading={data.heading} intro={data.intro} />
-  <ol class="grid gap-gutter sm:grid-cols-2 lg:grid-cols-[repeat(auto-fit,minmax(16rem,1fr))]">
-    {data.steps.map((s, i) => (
-      <li class="border-t-2 border-primary pt-4">
-        <span class="mb-2 block font-semibold text-brand-leaf">{String(i + 1).padStart(2, "0")}</span>
-        <h3 class="text-lg">{s.title}</h3>
-        {s.body && <p class="mt-2 text-muted-foreground">{s.body}</p>}
-      </li>
-    ))}
-  </ol>
+  {data.variant === "panel" ? (
+    <ol class={`${grid} rounded-[1.5rem] bg-primary p-4 sm:p-8 md:p-10 md:gap-6`}>
+      {data.steps.map((s, i) => (
+        <li class="rounded-xl border border-white-20 bg-white-10 p-5 text-white sm:p-6">
+          <span class="mb-3 block text-xs font-semibold uppercase tracking-[0.2em] text-white-85">{tag(i)}</span>
+          <h3 class="text-lg text-white">{s.title}</h3>
+          {s.body && <p class="mt-3 text-sm leading-relaxed text-white-85">{s.body}</p>}
+        </li>
+      ))}
+    </ol>
+  ) : (
+    <ol class={grid}>
+      {data.steps.map((s, i) => (
+        <li class="border-t-2 border-primary pt-4">
+          <span class="mb-2 block font-semibold text-brand-leaf">{tag(i)}</span>
+          <h3 class="text-lg">{s.title}</h3>
+          {s.body && <p class="mt-2 text-muted-foreground">{s.body}</p>}
+        </li>
+      ))}
+    </ol>
+  )}
 </Section>

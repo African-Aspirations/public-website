@@ -445,7 +445,8 @@ export const consultingPages: SeedPage[] = [
       {
         type: "hero",
         data: {
-          heading: "Business Funding",
+          heading: "Business",
+          accent: "Funding",
           body: "Capital matched to businesses that are actually ready for it.",
           imageIds: [heroImage],
           cta: heroCta,
@@ -456,6 +457,8 @@ export const consultingPages: SeedPage[] = [
         type: "steps",
         data: {
           eyebrow: "How we support you",
+          variant: "panel",
+          label: "Phase",
           heading: "We only make the introduction when there's real alignment.",
           intro:
             "We improve the odds of a successful raise by matching capital to businesses that actually meet investor criteria — not before. Our logic is simple: we win only when you win.",
@@ -479,10 +482,11 @@ export const consultingPages: SeedPage[] = [
           intro:
             "We work across seven types of capital, matched to what your business and its stage actually call for.",
           columns: 3,
+          variant: "feature",
           cards: [
             {
               title: "Private Equity",
-              body: "We connect established African businesses with private equity investors seeking scalable opportunities. Our team supports the entire process, from deal preparation and structuring to negotiation and closing, to ensure mutually beneficial outcomes.\n\nWe work with established, cash-generative businesses ready to bring in an institutional partner for growth capital or a partial exit.",
+              body: "We connect established African businesses with private equity investors seeking scalable opportunities. Our team supports the entire process, from deal preparation and structuring to negotiation and closing, to ensure mutually beneficial outcomes.",
               imageId: asset(
                 "new_images/68adea73590669a19f87111d_biz-img-1.webp.png",
                 "Two colleagues celebrating a result while working on a laptop",
@@ -504,7 +508,7 @@ export const consultingPages: SeedPage[] = [
             },
             {
               title: "Private Debt",
-              body: "We arrange flexible debt instruments tailored to the borrower’s cash flow and growth plans. By working closely with private lenders and debt funds, we secure financing that balances capital efficiency with sustainability.\n\nWe structure debt facilities that fund growth without giving up equity, matched to lenders who understand African markets.",
+              body: "We arrange flexible debt instruments tailored to the borrower’s cash flow and growth plans. By working closely with private lenders and debt funds, we secure financing that balances capital efficiency with sustainability.",
               imageId: asset("new_images/2.jpg", "Business professionals applauding in a meeting"),
               items: [
                 {
@@ -523,7 +527,7 @@ export const consultingPages: SeedPage[] = [
             },
             {
               title: "Venture Capital",
-              body: "We help early and growth-stage companies access venture funding that accelerates innovation and market expansion. Our role includes investor matching, pitch preparation, and deal structuring to position startups for success.\n\nWe help founders raise from investors who back early and growth-stage companies, from first pitch through to a signed term sheet.",
+              body: "We help early and growth-stage companies access venture funding that accelerates innovation and market expansion. Our role includes investor matching, pitch preparation, and deal structuring to position startups for success.",
               imageId: asset(
                 "new_images/14.jpg",
                 "Construction professional in a hard hat and safety vest holding plans and a phone",
@@ -545,7 +549,7 @@ export const consultingPages: SeedPage[] = [
             },
             {
               title: "Family Offices",
-              body: "Through our relationships with global family offices, we provide access to long-term, patient capital. We align businesses with family investors who share similar values, investment horizons, and strategic interests.\n\nWe connect businesses with family offices looking for long-term, values-aligned investments rather than a quick exit.",
+              body: "Through our relationships with global family offices, we provide access to long-term, patient capital. We align businesses with family investors who share similar values, investment horizons, and strategic interests.",
               imageId: asset(
                 "new_images/8.jpg",
                 "Smiling farm worker carrying a crate of leafy greens in a greenhouse",
@@ -567,7 +571,7 @@ export const consultingPages: SeedPage[] = [
             },
             {
               title: "Development Finance",
-              body: "We partner with Development Finance Institutions (DFIs) and impact investors to fund projects that drive inclusive growth across Africa. Our team assists with proposal preparation, compliance, and investment readiness.\n\nWe help businesses with a clear development or impact case access funding from DFIs and impact investors.",
+              body: "We partner with Development Finance Institutions (DFIs) and impact investors to fund projects that drive inclusive growth across Africa. Our team assists with proposal preparation, compliance, and investment readiness.",
               imageId: asset("new_images/16.jpg", "Two colleagues discussing work over a laptop"),
               items: [
                 {
@@ -586,7 +590,7 @@ export const consultingPages: SeedPage[] = [
             },
             {
               title: "Public Sector",
-              body: "We collaborate with government agencies and public-private partnership (PPP) programs to design and finance large-scale infrastructure and social projects. Our experience ensures transparency, efficiency, and developmental impact.\n\nWe help structure and finance projects that combine public agency backing with private capital.",
+              body: "We collaborate with government agencies and public-private partnership (PPP) programs to design and finance large-scale infrastructure and social projects. Our experience ensures transparency, efficiency, and developmental impact.",
               imageId: asset(
                 "new_images/17.jpg",
                 "Smiling man driving a car with a woman in the passenger seat",
@@ -608,7 +612,7 @@ export const consultingPages: SeedPage[] = [
             },
             {
               title: "Crowdfunding",
-              body: "We help entrepreneurs tap into collective financing opportunities by connecting them with credible crowdfunding platforms. Our process ensures compliance, investor protection, and clear communication of the business case.\n\nWe help businesses raise from the crowd the right way, on platforms that are actually credible and compliant.",
+              body: "We help entrepreneurs tap into collective financing opportunities by connecting them with credible crowdfunding platforms. Our process ensures compliance, investor protection, and clear communication of the business case.",
               imageId: asset(
                 "new_images/13.jpg",
                 "Two businessmen talking at an outdoor café table",
@@ -643,7 +647,7 @@ export const consultingPages: SeedPage[] = [
       },
     ],
     review: [
-      "Funding-type cards had no href in legacy; they expanded in place to show a second description (expandedDescription) and a detail list. Card body here = collapsed description + a second paragraph with the expanded description; detail list kept as `items`. Check the renderer shows this sensibly (the two paragraphs overlap in meaning).",
+      "Funding-type cards had no href in legacy; they expanded in place to show a second description (expandedDescription) and a detail list. The design shows the collapsed description only (green feature cards, no button). The detail lists are kept as `items` but not shown; the expanded descriptions were dropped: 'We work with established, cash-generative businesses ready to bring in an institutional partner for growth capital or a partial exit.' / 'We structure debt facilities that fund growth without giving up equity, matched to lenders who understand African markets.' / 'We help founders raise from investors who back early and growth-stage companies, from first pitch through to a signed term sheet.' / 'We connect businesses with family offices looking for long-term, values-aligned investments rather than a quick exit.' / 'We help businesses with a clear development or impact case access funding from DFIs and impact investors.' / 'We help structure and finance projects that combine public agency backing with private capital.' / 'We help businesses raise from the crowd the right way, on platforms that are actually credible and compliant.'",
       "Card descriptions in legacy were template literals with hard line breaks; joined into single lines.",
       "Card sub-item titles had a trailing colon in legacy ('Deal Preparation:' etc.); colons removed as presentational.",
       "Legacy image alts were wrong/generic (five cards said 'Construction professional'); rewritten from image content. Stock photos don't match the funding types (e.g. a farm worker for Family Offices, a man driving for Public Sector, a construction worker for Venture Capital) — consider better imagery.",

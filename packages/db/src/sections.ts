@@ -25,7 +25,7 @@ export const sectionSchemas = {
   hero: z.object({
     eyebrow: z.string().optional(),
     heading: z.string().min(1), // rendered as the page <h1>
-    accent: z.string().optional(), // second line of the <h1>, in the brand green
+    accent: z.string().optional(), // end of the <h1> in green: own line by default, inline in "band"
     body: z.string().optional(),
     imageIds: z.array(mediaId).max(6).default([]), // >1 = scroll-snap carousel
     cta: link.optional(),
@@ -63,6 +63,9 @@ export const sectionSchemas = {
     heading: z.string().optional(),
     intro: z.string().optional(),
     steps: z.array(z.object({ title: z.string().min(1), body: z.string().optional() })).min(1),
+    // "panel": the steps as translucent cards on a rounded green panel.
+    variant: z.enum(["default", "panel"]).default("default"),
+    label: z.string().optional(), // e.g. "Phase" → "PHASE 1"; otherwise "01"
   }),
   stats: z.object({
     heading: z.string().optional(),
