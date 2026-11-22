@@ -42,7 +42,7 @@ export async function publishState(): Promise<PublishState> {
     .from(a)
     .where(last ? and(since, gt(a.at, last.at)) : since);
   return {
-    configured: Boolean(process.env.VERCEL_DEPLOY_HOOK_URL),
+    configured: Boolean(process.env.PUBLISH_HOOK_URL),
     last: last ? { at: last.at, by: last.by ?? last.email ?? "someone" } : null,
     pending: p?.n ?? 0,
   };

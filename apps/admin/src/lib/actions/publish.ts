@@ -11,8 +11,8 @@ const MIN_GAP_MS = 60_000; // one build at a time is plenty
 /** Rebuild the public site from the database (Vercel deploy hook). */
 export async function publishSite(): Promise<{ ok?: true; error?: string }> {
   const me = await requireStaff();
-  const hook = process.env.VERCEL_DEPLOY_HOOK_URL;
-  if (!hook) return { error: "Publishing isn't set up yet (VERCEL_DEPLOY_HOOK_URL)." };
+  const hook = process.env.PUBLISH_HOOK_URL;
+  if (!hook) return { error: "Publishing isn't set up yet (PUBLISH_HOOK_URL)." };
   const [last] = await db()
     .select({ at: s.auditLog.at })
     .from(s.auditLog)

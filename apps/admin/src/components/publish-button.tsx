@@ -70,7 +70,7 @@ export function PublishButton({
           </span>
         </TooltipTrigger>
         <TooltipContent>
-          {state.configured ? status : "Set VERCEL_DEPLOY_HOOK_URL to enable publishing"}
+          {state.configured ? status : "Set PUBLISH_HOOK_URL to enable publishing"}
         </TooltipContent>
       </Tooltip>
     </div>
