@@ -44,6 +44,19 @@
           }
         }
       }
+    },
+    {
+      "includes": ["apps/admin/src/components/ui/**"],
+      "linter": {
+        "rules": {
+          "suspicious": {
+            "noDocumentCookie": "off"
+          },
+          "correctness": {
+            "useExhaustiveDependencies": "off"
+          }
+        }
+      }
     }
   ],
   "css": {

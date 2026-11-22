@@ -12,7 +12,7 @@ Monorepo for the public site and the private admin.
 
 ```
 apps/web         Astro public site — every page's first HTML response ≤ 14 KB compressed
-apps/admin       Next.js admin on a private subdomain (coming in phase 5)
+apps/admin       Next.js + shadcn admin on a private subdomain (sign-in, staff gate, dashboard)
 packages/db      Drizzle schema, SQL migrations, least-privilege roles, section schemas
 packages/ui      Design system: shadcn theme tokens (brand colours), shadcn class recipes, layout grid
 packages/config  Shared tsconfig

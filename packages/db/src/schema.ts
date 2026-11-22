@@ -31,7 +31,7 @@ export const subscriberStatus = pgEnum("subscriber_status", [
   "confirmed",
   "unsubscribed",
 ]);
-export const staffRole = pgEnum("staff_role", ["admin", "editor"]);
+export const staffRole = pgEnum("staff_role", ["super_admin", "admin"]);
 export const sectionType = pgEnum("section_type", [
   "hero",
   "rich_text",
@@ -303,7 +303,7 @@ export const staff = pgTable("staff", {
   firebaseUid: text("firebase_uid").notNull().unique(),
   email: text("email").notNull().unique(),
   name: text("name"),
-  role: staffRole("role").notNull().default("editor"),
+  role: staffRole("role").notNull().default("admin"),
   disabledAt: timestamp("disabled_at", { withTimezone: true }),
   ...timestamps,
 });
