@@ -8,7 +8,6 @@ import Section from "./ui/Section.astro";
 
 const c = await getContent();
 const { listings, categories } = c;
-const usedCats = categories.filter((cat) => listings.some((l) => l.categoryId === cat.id));
 ---
 <Section tight>
   {listings.length === 0 ? (
@@ -20,9 +19,9 @@ const usedCats = categories.filter((cat) => listings.some((l) => l.categoryId ==
     <>
       <form class="filters mb-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-5" role="search" aria-label="Filter listings">
         <Field label="Search"><Input type="search" name="q" placeholder="Name, sector or region" /></Field>
-        {usedCats.length > 0 && (
+        {categories.length > 0 && (
           <Field label="Sector">
-            <select name="cat" class={inputClass}><option value="">All sectors</option>{usedCats.map((cat) => <option value={cat.slug}>{cat.label}</option>)}</select>
+            <select name="cat" class={inputClass}><option value="">All sectors</option>{categories.map((cat) => <option value={cat.slug}>{cat.label}</option>)}</select>
           </Field>
         )}
         <Field label="Min price"><Input type="number" name="min" min="0" step="1000" inputmode="numeric" /></Field>
