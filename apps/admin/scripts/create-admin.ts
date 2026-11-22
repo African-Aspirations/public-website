@@ -6,6 +6,7 @@
  *
  * Reads apps/admin/.env.local. Prints a link to set the password.
  */
+import "../src/lib/quiet-google-auth";
 import { createDb, schema } from "@aa/db";
 import { cert, initializeApp } from "firebase-admin/app";
 import { getAuth } from "firebase-admin/auth";

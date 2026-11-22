@@ -1,4 +1,5 @@
 import "server-only";
+import "./quiet-google-auth";
 import { cert, getApps, initializeApp } from "firebase-admin/app";
 import { getAuth } from "firebase-admin/auth";
 import { env } from "./env";
