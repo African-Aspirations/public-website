@@ -1,10 +1,12 @@
 import { cookies } from "next/headers";
 import { AppSidebar } from "@/components/app-sidebar";
 import { PageTitle } from "@/components/page-title";
+import { PublishButton } from "@/components/publish-button";
 import { Separator } from "@/components/ui/separator";
 import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { requireStaff } from "@/lib/auth";
 import { newEnquiries } from "@/lib/counts";
+import { publishState } from "@/lib/publish";
 
 /**
  * Signed-in shell: collapsible sidebar (icon rail on desktop, drawer on phones)
@@ -13,7 +15,7 @@ import { newEnquiries } from "@/lib/counts";
 export default async function AppLayout({ children }: { children: React.ReactNode }) {
   const me = await requireStaff();
   const open = (await cookies()).get("sidebar_state")?.value !== "false";
-  const { total: unread } = await newEnquiries();
+  const [{ total: unread }, pub] = await Promise.all([newEnquiries(), publishState()]);
   return (
     <SidebarProvider defaultOpen={open}>
       <AppSidebar
@@ -25,6 +27,12 @@ export default async function AppLayout({ children }: { children: React.ReactNod
           <SidebarTrigger className="-ml-1 [&_svg]:size-4" />
           <Separator orientation="vertical" className="mr-2 data-[orientation=vertical]:h-4" />
           <PageTitle />
+          <PublishButton
+            state={{
+              ...pub,
+              last: pub.last ? { at: pub.last.at.toISOString(), by: pub.last.by } : null,
+            }}
+          />
         </header>
         <div className="p-4 md:p-8">{children}</div>
       </SidebarInset>
