@@ -1,13 +1,17 @@
 "use client";
 import { inputClass } from "@aa/ui/recipes";
-import { useActionState } from "react";
-import { useFormStatus } from "react-dom";
+import { startTransition, useActionState } from "react";
 import { Alert } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import type { FormState } from "@/lib/form-data";
 import { cn } from "@/lib/utils";
 
-/** A form bound to a server action: shows its error/saved message and a pending button. */
+/**
+ * A form bound to a server action: shows its error/saved message and a pending button.
+ * Submits through onSubmit rather than <form action>, because React resets a form's
+ * fields after an action runs, which would wipe what the user typed when the server
+ * returns a validation error.
+ */
 export function ActionForm({
   action,
   children,
@@ -21,26 +25,26 @@ export function ActionForm({
   className?: string;
   footer?: React.ReactNode;
 }) {
-  const [state, formAction] = useActionState(action, {});
+  const [state, formAction, pending] = useActionState(action, {});
   return (
-    <form action={formAction} className={cn("grid gap-5", className)}>
+    <form
+      onSubmit={(e) => {
+        e.preventDefault();
+        const data = new FormData(e.currentTarget);
+        startTransition(() => formAction(data));
+      }}
+      className={cn("grid gap-5", className)}
+    >
       {state.error && <Alert variant="destructive">{state.error}</Alert>}
       {state.saved && <Alert variant="success">Saved. It goes live on the next publish.</Alert>}
       {children}
       <div className="flex flex-wrap items-center gap-3 border-t pt-5">
-        <Submit label={submitLabel} />
+        <Button type="submit" disabled={pending}>
+          {pending ? "Saving…" : submitLabel}
+        </Button>
         {footer}
       </div>
     </form>
-  );
-}
-
-function Submit({ label }: { label: string }) {
-  const { pending } = useFormStatus();
-  return (
-    <Button type="submit" disabled={pending}>
-      {pending ? "Saving…" : label}
-    </Button>
   );
 }
 

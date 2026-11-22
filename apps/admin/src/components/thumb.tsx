@@ -17,7 +17,11 @@ export function Thumb({
   className?: string;
   style?: React.CSSProperties;
 }) {
-  const [step, setStep] = useState(0);
+  // Restart the fallback chain whenever a different image is shown.
+  const [state, setState] = useState({ src, step: 0 });
+  if (state.src !== src) setState({ src, step: 0 });
+  const step = state.src === src ? state.step : 0;
+  const setStep = (f: (n: number) => number) => setState((s) => ({ ...s, step: f(s.step) }));
   const url = step === 0 ? src : step === 1 ? fallback : undefined;
   if (!url)
     return (

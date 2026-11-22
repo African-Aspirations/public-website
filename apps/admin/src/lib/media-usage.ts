@@ -54,11 +54,11 @@ export async function mediaUsage(id: string): Promise<Usage[]> {
     ...team.map((r) => ({ label: `Team: ${r.name}`, href: `/team/${r.id}` })),
     ...partners.map((r) => ({ label: `Partner: ${r.name}`, href: `/partners/${r.id}` })),
     ...services.map((r) => ({ label: `Service: ${r.name}`, href: `/services/${r.id}` })),
-    ...listings.map((r) => ({ label: `Listing cover: ${r.name}`, href: "/listings" })),
-    ...gallery.map((r) => ({ label: `Listing gallery: ${r.name}`, href: "/listings" })),
-    ...posts.map((r) => ({ label: `Insight: ${r.name}`, href: "/insights" })),
-    ...pages.map((r) => ({ label: `Page share image: ${r.name}`, href: "/pages" })),
-    ...sections.map((r) => ({ label: `Page: ${r.name}`, href: "/pages" })),
+    ...listings.map((r) => ({ label: `Listing cover: ${r.name}`, href: `/listings/${r.id}` })),
+    ...gallery.map((r) => ({ label: `Listing gallery: ${r.name}`, href: `/listings/${r.id}` })),
+    ...posts.map((r) => ({ label: `Insight: ${r.name}`, href: `/insights/${r.id}` })),
+    ...pages.map((r) => ({ label: `Page share image: ${r.name}`, href: `/pages/${r.id}` })),
+    ...sections.map((r) => ({ label: `Page: ${r.name}`, href: `/pages/${r.id}` })),
     ...settings.map(() => ({ label: "Site settings (logo or share image)", href: "/settings" })),
   ];
 }

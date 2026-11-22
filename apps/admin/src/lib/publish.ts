@@ -15,6 +15,7 @@ export const SITE_ENTITIES = [
   "nav_menu",
   "media",
   "listing",
+  "listing_category",
   "post",
   "site_settings",
   "redirect",

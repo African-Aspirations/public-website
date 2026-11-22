@@ -72,7 +72,9 @@ export default async function MediaPage({
                   alt={m.alt}
                   className="aspect-square w-full rounded-lg bg-muted object-contain"
                 />
-                <span className="line-clamp-2 px-1 text-xs">{m.alt}</span>
+                <span className="line-clamp-2 px-1 text-xs">
+                  {m.alt || <em className="text-muted-foreground">Decorative (no alt text)</em>}
+                </span>
                 <span className="px-1 pb-1 text-[0.6875rem] text-muted-foreground">
                   {m.width}×{m.height} · {m.format.toUpperCase()}
                 </span>

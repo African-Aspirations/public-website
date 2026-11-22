@@ -124,7 +124,9 @@ export function MediaDialog({
                   alt={m.alt}
                   className="aspect-square w-full rounded bg-muted object-contain"
                 />
-                <span className="line-clamp-2 text-muted-foreground">{m.alt}</span>
+                <span className="line-clamp-2 text-muted-foreground">
+                  {m.alt || "Decorative image (no alt text)"}
+                </span>
               </button>
             </li>
           ))}
