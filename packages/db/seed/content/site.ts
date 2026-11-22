@@ -216,3 +216,16 @@ export const mainServices: SeedService[] = [
     pageSlug: "business-brokerage",
   },
 ];
+
+/**
+ * Listing sectors, in this order (the filter on /listings). Added by slug if missing and
+ * never overwritten or removed, so changes made in the admin survive a re-seed.
+ */
+export const listingCategories: { slug: string; label: string }[] = [
+  { slug: "real-property", label: "Real Property" },
+  { slug: "real-estate-development", label: "Real Estate Development" },
+  { slug: "hospitality", label: "Hospitality" },
+  { slug: "restaurants", label: "Restaurants" },
+  { slug: "manufacturing", label: "Manufacturing" },
+  { slug: "distribution-electronics", label: "Distribution & Electronics" },
+];

@@ -311,8 +311,19 @@ async function seed(url: string) {
       await insertNav(`footer:${column}`, items, null, c * 100);
     await insertNav("legal", content.nav.legal, null);
 
+    // Listing sectors belong with listings (admin-managed): add missing ones, keep the rest.
+    const [{ n: catCount } = { n: 0 }] = await tx
+      .select({ n: sql<number>`count(*)::int` })
+      .from(s.listingCategories);
+    for (const [i, c] of content.listingCategories.entries()) {
+      await tx
+        .insert(s.listingCategories)
+        .values({ slug: c.slug, label: c.label, sortOrder: catCount + i })
+        .onConflictDoNothing({ target: s.listingCategories.slug });
+    }
+
     console.log(
-      `Seeded ${content.pages.length} pages, ${content.services.length} services, ${content.teamMembers.length} team members, ${mediaIds.size} media.`,
+      `Seeded ${content.pages.length} pages, ${content.services.length} services, ${content.teamMembers.length} team members, ${content.listingCategories.length} listing categories, ${mediaIds.size} media.`,
     );
     if (notUploaded)
       console.warn(
