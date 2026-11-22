@@ -10,6 +10,10 @@ const schema = z.object({
   DATABASE_URL_ADMIN: z.string().startsWith("postgres"),
   // Public site, for "view listing" links. No trailing slash.
   SITE_URL: z.url().default("https://www.africanaspirations.com"),
+  // Media library uploads (optional until phase 4 is set up).
+  CLOUDINARY_CLOUD_NAME: z.string().optional(),
+  CLOUDINARY_API_KEY: z.string().optional(),
+  CLOUDINARY_API_SECRET: z.string().optional(),
 });
 
 let cached: z.infer<typeof schema> | undefined;

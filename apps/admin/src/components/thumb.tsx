@@ -9,11 +9,13 @@ export function Thumb({
   fallback,
   alt,
   className,
+  style,
 }: {
   src?: string;
   fallback?: string;
   alt: string;
   className?: string;
+  style?: React.CSSProperties;
 }) {
   const [step, setStep] = useState(0);
   const url = step === 0 ? src : step === 1 ? fallback : undefined;
@@ -21,6 +23,7 @@ export function Thumb({
     return (
       <span
         className={cn("grid place-items-center bg-muted text-muted-foreground", className)}
+        style={style}
         title={alt}
       >
         <ImageOff className="size-4" aria-hidden />
@@ -34,6 +37,7 @@ export function Thumb({
       loading="lazy"
       onError={() => setStep((n) => n + 1)}
       className={cn("object-cover", className)}
+      style={style}
     />
   );
 }
