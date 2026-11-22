@@ -13,7 +13,7 @@ import { publishState } from "@/lib/publish";
  * and a top bar. Every page below is staff-only.
  */
 export default async function AppLayout({ children }: { children: React.ReactNode }) {
-  const me = await requireStaff();
+  const me = await requireStaff(undefined, { allowWithoutMfa: true });
   const open = (await cookies()).get("sidebar_state")?.value !== "false";
   const [{ total: unread }, pub] = await Promise.all([newEnquiries(), publishState()]);
   return (

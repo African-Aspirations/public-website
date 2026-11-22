@@ -18,12 +18,15 @@ export function ActionForm({
   submitLabel = "Save",
   className,
   footer,
+  savedText = "Saved. It goes live on the next publish.",
 }: {
   action: (prev: FormState, form: FormData) => Promise<FormState>;
   children: React.ReactNode;
   submitLabel?: string;
   className?: string;
   footer?: React.ReactNode;
+  /** Message after a successful save; null to show only the action's own message. */
+  savedText?: string | null;
 }) {
   const [state, formAction, pending] = useActionState(action, {});
   return (
@@ -36,7 +39,13 @@ export function ActionForm({
       className={cn("grid gap-5", className)}
     >
       {state.error && <Alert variant="destructive">{state.error}</Alert>}
-      {state.saved && <Alert variant="success">Saved. It goes live on the next publish.</Alert>}
+      {state.saved && savedText && !state.message && <Alert variant="success">{savedText}</Alert>}
+      {state.message && (
+        <Alert variant="success">
+          {state.message}
+          {state.link && <CopyLink link={state.link} />}
+        </Alert>
+      )}
       {children}
       <div className="flex flex-wrap items-center gap-3 border-t pt-5">
         <Button type="submit" disabled={pending}>
@@ -82,5 +91,26 @@ export function StatusField({ value }: { value?: "draft" | "published" }) {
         <option value="draft">Draft</option>
       </Select>
     </Field>
+  );
+}
+
+function CopyLink({ link }: { link: string }) {
+  return (
+    <span className="mt-2 flex gap-2">
+      <input
+        readOnly
+        value={link}
+        className="min-w-0 flex-1 rounded border bg-background px-2 py-1 font-mono text-xs"
+        onFocus={(e) => e.target.select()}
+      />
+      <Button
+        type="button"
+        size="sm"
+        variant="outline"
+        onClick={() => navigator.clipboard.writeText(link)}
+      >
+        Copy
+      </Button>
+    </span>
   );
 }

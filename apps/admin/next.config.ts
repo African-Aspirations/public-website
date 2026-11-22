@@ -5,7 +5,7 @@ import type { NextConfig } from "next";
  */
 const config: NextConfig = {
   // Workspace packages ship TypeScript source.
-  transpilePackages: ["@aa/db", "@aa/ui"],
+  transpilePackages: ["@aa/db", "@aa/ui", "@aa/emails"],
   poweredByHeader: false,
   // Keep the dev badge away from the sidebar footer (user menu).
   devIndicators: { position: "bottom-right" },

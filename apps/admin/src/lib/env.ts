@@ -14,6 +14,11 @@ const schema = z.object({
   CLOUDINARY_CLOUD_NAME: z.string().optional(),
   CLOUDINARY_API_KEY: z.string().optional(),
   CLOUDINARY_API_SECRET: z.string().optional(),
+  // Staff emails (invites, password resets). Without a key, emails are logged instead.
+  RESEND_API_KEY: z.string().optional(),
+  RESEND_FROM: z.string().default("African Aspirations <admin@mail.africanaspirations.com>"),
+  // "true" once TOTP is enabled in Firebase: super admins must use an authenticator app.
+  ADMIN_REQUIRE_MFA: z.enum(["true", "false"]).default("false"),
 });
 
 let cached: z.infer<typeof schema> | undefined;

@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 /** Returned by every form action; shown by <ActionForm>. */
-export type FormState = { error?: string; saved?: boolean };
+export type FormState = { error?: string; saved?: boolean; message?: string; link?: string };
 
 /** Read a FormData field as a trimmed string ("" → undefined), for zod. */
 export function fields(form: FormData, names: string[]) {
