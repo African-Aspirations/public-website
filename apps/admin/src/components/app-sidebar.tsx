@@ -20,6 +20,7 @@ import {
   SidebarGroupLabel,
   SidebarHeader,
   SidebarMenu,
+  SidebarMenuBadge,
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarMenuSub,
@@ -36,7 +37,7 @@ import logoMark from "../../public/logo-mark.webp";
 
 const ROLE_LABEL: Record<StaffRole, string> = { super_admin: "Super admin", admin: "Admin" };
 
-function Item({ item, path }: { item: NavItem; path: string }) {
+function Item({ item, path, badge }: { item: NavItem; path: string; badge?: number }) {
   const { setOpenMobile } = useSidebar();
   return (
     <SidebarMenuItem>
@@ -46,6 +47,11 @@ function Item({ item, path }: { item: NavItem; path: string }) {
           <span>{item.label}</span>
         </Link>
       </SidebarMenuButton>
+      {!!badge && (
+        <SidebarMenuBadge className="bg-primary text-primary-foreground peer-hover/menu-button:text-primary-foreground peer-data-[active=true]/menu-button:text-primary-foreground">
+          {badge > 99 ? "99+" : badge}
+        </SidebarMenuBadge>
+      )}
     </SidebarMenuItem>
   );
 }
@@ -167,8 +173,11 @@ function UserMenu({ name, email, role }: { name: string | null; email: string; r
 
 export function AppSidebar({
   user,
+  badges = {},
 }: {
   user: { name: string | null; email: string; role: StaffRole };
+  /** Counts shown next to nav items, keyed by href (e.g. new enquiries). */
+  badges?: Record<string, number>;
 }) {
   const path = usePathname();
   return (
@@ -201,7 +210,7 @@ export function AppSidebar({
           <SidebarGroupLabel>Inbox</SidebarGroupLabel>
           <SidebarMenu>
             {INBOX.map((i) => (
-              <Item key={i.href} item={i} path={path} />
+              <Item key={i.href} item={i} path={path} badge={badges[i.href]} />
             ))}
           </SidebarMenu>
         </SidebarGroup>

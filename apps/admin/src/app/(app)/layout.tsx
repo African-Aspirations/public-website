@@ -4,6 +4,7 @@ import { PageTitle } from "@/components/page-title";
 import { Separator } from "@/components/ui/separator";
 import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { requireStaff } from "@/lib/auth";
+import { newEnquiries } from "@/lib/counts";
 
 /**
  * Signed-in shell: collapsible sidebar (icon rail on desktop, drawer on phones)
@@ -12,9 +13,13 @@ import { requireStaff } from "@/lib/auth";
 export default async function AppLayout({ children }: { children: React.ReactNode }) {
   const me = await requireStaff();
   const open = (await cookies()).get("sidebar_state")?.value !== "false";
+  const { total: unread } = await newEnquiries();
   return (
     <SidebarProvider defaultOpen={open}>
-      <AppSidebar user={{ name: me.name, email: me.email, role: me.role }} />
+      <AppSidebar
+        user={{ name: me.name, email: me.email, role: me.role }}
+        badges={{ "/enquiries": unread }}
+      />
       <SidebarInset className="bg-muted">
         <header className="sticky top-0 z-10 flex h-14 items-center gap-2 border-b bg-background px-4">
           <SidebarTrigger className="-ml-1 [&_svg]:size-4" />

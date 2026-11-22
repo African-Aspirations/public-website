@@ -8,6 +8,8 @@ const schema = z.object({
   FIREBASE_CLIENT_EMAIL: z.email(),
   FIREBASE_PRIVATE_KEY: z.string().includes("PRIVATE KEY"),
   DATABASE_URL_ADMIN: z.string().startsWith("postgres"),
+  // Public site, for "view listing" links. No trailing slash.
+  SITE_URL: z.url().default("https://www.africanaspirations.com"),
 });
 
 let cached: z.infer<typeof schema> | undefined;
