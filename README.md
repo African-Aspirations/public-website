@@ -32,7 +32,9 @@ bun --cwd apps/web run dev
 - Roles & grants: `packages/db/migrations/0001_roles_and_grants.sql`. Three login roles, one per use:
   `web_build` (read published content), `web_forms` (insert leads only), `admin_app` (CRUD, admin server only).
   After the first migration, set their passwords once in the Supabase SQL editor
-  (`ALTER ROLE web_build WITH LOGIN PASSWORD '…'`) and connect via the pooler as `<role>.<project-ref>`.
+  (`ALTER ROLE web_build WITH LOGIN PASSWORD '…'`) and connect through the **Session pooler
+  (port 5432)** as `<role>.<project-ref>`. Not the transaction pooler (6543): postgres.js pipelines
+  queries, and the transaction pooler hangs on pipelined queries.
 - In Supabase → Settings → Data API, **turn the Data API off**.
 - Permission tests (needs Docker):
 

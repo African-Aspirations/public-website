@@ -5,6 +5,7 @@ import tailwindcss from "@tailwindcss/vite";
 import { defineConfig } from "astro/config";
 import postgres from "postgres";
 import devMedia from "./integrations/dev-media";
+import pageCss from "./integrations/page-css";
 
 // The config runs before Astro loads .env, so read it here (Vercel sets real env vars instead).
 if (existsSync(".env")) process.loadEnvFile(".env");
@@ -31,6 +32,7 @@ export default defineConfig({
   adapter: vercel(),
   integrations: [
     devMedia(),
+    pageCss(),
     sitemap({
       filter: (page) => !/\/(404|privacy-policy|terms-of-use)\/?$/.test(page),
     }),

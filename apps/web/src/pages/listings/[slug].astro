@@ -58,7 +58,7 @@ const jsonLd = [
   title={l.name}
   description={l.summary ?? l.description.slice(0, 155)}
   ogImage={l.cover}
-  preload={l.cover && cloudinaryEnabled ? { srcset: responsive(l.cover, 4 / 3).srcset, sizes: SIZES } : null}
+  preload={l.cover && cloudinaryEnabled ? { srcset: responsive(l.cover, 4 / 3, SIZES).srcset, sizes: SIZES } : null}
   jsonLd={jsonLd}
 >
   <Section>

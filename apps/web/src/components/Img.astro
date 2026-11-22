@@ -18,7 +18,7 @@ interface Props {
   alt?: string;
 }
 const { media, sizes, aspect, priority = false, class: cls, alt } = Astro.props;
-const r = media && cloudinaryEnabled ? responsive(media, aspect) : null;
+const r = media && cloudinaryEnabled ? responsive(media, aspect, sizes) : null;
 const ratio = aspect ?? (media ? media.width / media.height : 16 / 9);
 ---
 {media && r ? (

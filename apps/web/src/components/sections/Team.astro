@@ -57,6 +57,7 @@ const c = await getContent();
 
 {c.team.length > 0 && (
   <dialog
+    data-css-from={LEADERSHIP_PATH}
     aria-label="Leader biography"
     class="team-bio m-auto max-h-[calc(100dvh-2rem)] w-[min(60rem,calc(100%-2rem))] max-w-none overflow-y-auto overscroll-contain rounded-xl border-0 bg-background p-0 text-foreground shadow-popover backdrop:bg-black-60 md:overflow-hidden"
   >
